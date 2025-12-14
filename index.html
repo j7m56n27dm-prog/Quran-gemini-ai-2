@@ -11,217 +11,129 @@
 
     <style>
         :root {
-            --primary: #1e7b4a;
-            --primary-light: #2a9f64;
-            --primary-dark: #0d5a2f;
-            --accent: #d4a574;
-            --accent-light: #e8c4a0;
-            --accent-dark: #8b6f47;
-            
+            --primary: #1a6b3d;
+            --primary-light: #28a05c;
+            --primary-dark: #0e4527;
+            --accent: #c9a055;
+            --accent-light: #e0c080;
+            --accent-dark: #8a6d3b;
             --success: #10b981;
             --error: #ef4444;
-            --warning: #f59e0b;
-            
-            --bg: #f8f6f3;
-            --bg-alt: #ede9e5;
+            --bg: #f7f5f2;
+            --bg-alt: #eceae6;
             --surface: #ffffff;
             --text: #1a1a1a;
-            --text-secondary: #555555;
-            --text-muted: #888888;
-            --border: #ddd7d1;
-            
+            --text-secondary: #5a5a5a;
+            --text-muted: #909090;
+            --border: #d8d4ce;
             --shadow: 0 4px 20px rgba(0,0,0,0.08);
-            --shadow-lg: 0 16px 50px rgba(0,0,0,0.12);
-            --shadow-xl: 0 25px 60px rgba(0,0,0,0.18);
-            --glow: 0 0 60px rgba(30,123,74,0.2);
-            --glow-gold: 0 0 60px rgba(212,165,116,0.25);
-            
-            --radius: 24px;
-            --radius-sm: 14px;
-            --radius-xs: 10px;
-            
-            --font: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --glow: 0 0 40px rgba(26,107,61,0.2);
+            --radius: 18px;
+            --radius-sm: 12px;
+            --font: 'Poppins', sans-serif;
             --font-ar: 'Noto Naskh Arabic', 'Amiri', serif;
             --font-quran: 'Amiri Quran', 'Amiri', serif;
-            
-            --transition: cubic-bezier(0.34, 1.56, 0.64, 1);
-            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         [data-theme="dark"] {
-            --bg: #0a0f14;
-            --bg-alt: #141c24;
-            --surface: #1c2630;
-            --text: #f5f5f5;
-            --text-secondary: #b8b8b8;
+            --bg: #0d1117;
+            --bg-alt: #161b22;
+            --surface: #21262d;
+            --text: #f0f0f0;
+            --text-secondary: #a0a0a0;
             --text-muted: #707070;
-            --border: #2a3642;
+            --border: #30363d;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
             font-family: var(--font);
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            transition: background 0.5s var(--transition-smooth), color 0.3s;
+            transition: background 0.3s, color 0.3s;
             -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
         }
-
-        /* === BACKGROUND EFFECTS === */
-        .bg-container {
+        .bg-effects {
             position: fixed;
             inset: 0;
             z-index: -1;
             overflow: hidden;
             pointer-events: none;
         }
-
-        .bg-orb {
+        .bg-effects::before {
+            content: '';
             position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: floatOrb 25s ease-in-out infinite;
+            top: -30%;
+            right: -20%;
+            width: 80%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(26,107,61,0.1) 0%, transparent 70%);
+            animation: float1 20s ease-in-out infinite;
         }
-
-        .bg-orb-1 {
-            top: -20%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(30,123,74,0.3) 0%, transparent 70%);
-            animation-delay: 0s;
-        }
-
-        .bg-orb-2 {
+        .bg-effects::after {
+            content: '';
+            position: absolute;
             bottom: -30%;
             left: -20%;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(212,165,116,0.25) 0%, transparent 70%);
-            animation-delay: -8s;
+            width: 80%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(201,160,85,0.08) 0%, transparent 70%);
+            animation: float2 25s ease-in-out infinite;
         }
-
-        .bg-orb-3 {
-            top: 40%;
-            left: 50%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(30,123,74,0.15) 0%, transparent 70%);
-            animation-delay: -15s;
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-30px, 30px) rotate(5deg); }
         }
-
-        @keyframes floatOrb {
-            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            25% { transform: translate(40px, -50px) scale(1.1) rotate(90deg); }
-            50% { transform: translate(-30px, 60px) scale(0.9) rotate(180deg); }
-            75% { transform: translate(50px, 30px) scale(1.05) rotate(270deg); }
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, -30px) rotate(-5deg); }
         }
-
-        .pattern-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            opacity: 0.015;
-            background-image: url("image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231e7b4a' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        /* === APP CONTAINER === */
         .app {
-            max-width: 520px;
+            max-width: 500px;
             margin: 0 auto;
             padding: 16px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-
-        /* === HEADER === */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0 28px;
-            position: relative;
-            z-index: 100;
+            padding: 16px 0 24px;
         }
-
         .logo {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             cursor: pointer;
-            transition: transform 0.4s var(--transition);
         }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo:active {
-            transform: scale(0.95);
-        }
-
         .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 18px;
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 35px rgba(30,123,74,0.35), var(--glow);
-            position: relative;
-            overflow: hidden;
-            font-size: 1.6rem;
-        }
-
-        .logo-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%);
-            transform: translateX(-100%);
-            animation: shimmer 3s ease-in-out infinite;
-        }
-
-        @keyframes shimmer {
-            0%, 60%, 100% { transform: translateX(-100%); }
-            30% { transform: translateX(100%); }
-        }
-
-        .logo-text {
             font-size: 1.5rem;
+            box-shadow: var(--shadow), var(--glow);
+        }
+        .logo-text {
+            font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.5px;
         }
-
-        .logo-text b {
-            font-weight: 900;
-        }
-
-        .header-actions {
+        .header-btns {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
-
-        .select-lang, .btn-theme {
-            padding: 10px 14px;
+        .lang-select, .theme-btn {
+            padding: 10px 12px;
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
             background: var(--surface);
@@ -229,403 +141,215 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.85rem;
-            font-family: var(--font);
-            transition: all 0.3s var(--transition);
-            box-shadow: var(--shadow);
+            transition: all 0.3s;
         }
-
-        .select-lang {
-            appearance: none;
-            background-image: url("image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            padding-right: 34px;
-        }
-
-        .select-lang:hover, .btn-theme:hover {
+        .lang-select:hover, .theme-btn:hover {
             border-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg), var(--glow);
+            transform: translateY(-2px);
         }
-
-        .select-lang:active, .btn-theme:active {
-            transform: translateY(-1px) scale(0.97);
-        }
-
-        .btn-theme {
-            width: 44px;
-            height: 44px;
+        .theme-btn {
+            width: 42px;
             padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
-
-        /* === PAGES === */
         .page {
             display: none;
             flex: 1;
+            animation: fadeIn 0.5s ease;
         }
-
-        .page.active {
-            display: flex;
-            flex-direction: column;
-            animation: pageSlideIn 0.7s var(--transition);
+        .page.active { display: flex; flex-direction: column; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes pageSlideIn {
-            0% {
-                opacity: 0;
-                transform: translateY(40px) scale(0.96);
-                filter: blur(8px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
-        }
-
-        /* === CARDS === */
         .card {
             background: var(--surface);
             border-radius: var(--radius);
-            padding: 32px 26px;
+            padding: 28px 24px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             position: relative;
             overflow: hidden;
-            transition: transform 0.4s var(--transition), box-shadow 0.4s;
         }
-
         .card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary-light), var(--accent-light), var(--primary));
-            background-size: 300% 100%;
-            animation: gradientFlow 5s ease infinite;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+            background-size: 200% 100%;
+            animation: gradientMove 3s linear infinite;
         }
-
-        @keyframes gradientFlow {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
-
-        /* === HERO SECTION === */
         .hero {
             text-align: center;
             padding: 16px 0;
         }
-
         .hero-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 24px;
-            background: linear-gradient(135deg, rgba(30,123,74,0.12) 0%, rgba(212,165,116,0.12) 100%);
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, rgba(26,107,61,0.15), rgba(201,160,85,0.15));
             border: 3px solid var(--primary-light);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
-            box-shadow: 0 20px 60px rgba(30,123,74,0.25), var(--glow), inset 0 0 50px rgba(30,123,74,0.08);
-            animation: heroFloat 4s ease-in-out infinite;
-            position: relative;
+            font-size: 2.8rem;
+            animation: heroFloat 3s ease-in-out infinite;
         }
-
-        .hero-icon::before {
-            content: '';
-            position: absolute;
-            inset: -10px;
-            border-radius: 50%;
-            border: 2px solid var(--primary-light);
-            opacity: 0;
-            animation: ringPulse 2s ease-out infinite;
-        }
-
-        .hero-icon::after {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            border-radius: 50%;
-            border: 1.5px solid var(--accent);
-            opacity: 0;
-            animation: ringPulse 2.5s ease-out infinite 0.3s;
-        }
-
         @keyframes heroFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-18px) scale(1.03); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
-
-        @keyframes ringPulse {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
         .hero-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: titleGlow 3s ease-in-out infinite;
+            color: var(--primary);
+            margin-bottom: 10px;
         }
-
-        @keyframes titleGlow {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.2); }
-        }
-
-        .hero-subtitle {
+        .hero-desc {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            max-width: 320px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            max-width: 300px;
             margin: 0 auto;
-            line-height: 1.7;
         }
-
-        /* === SCORE BOX === */
         .score-box {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             border-radius: var(--radius-sm);
-            padding: 28px;
-            margin: 28px 0;
+            padding: 24px;
+            margin: 24px 0;
             text-align: center;
-            border: 2px solid var(--primary-light);
-            box-shadow: 0 15px 50px rgba(30,123,74,0.35), inset 0 0 40px rgba(255,255,255,0.1);
+            color: white;
             position: relative;
             overflow: hidden;
-            color: white;
         }
-
-        .score-box::before {
+        .score-box::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-            animation: rotateBg 12s linear infinite;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            animation: shimmer 2s infinite;
         }
-
-        @keyframes rotateBg {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
-
         .score-label {
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             opacity: 0.9;
             margin-bottom: 8px;
-            position: relative;
-            z-index: 1;
         }
-
         .score-value {
-            font-size: 3.5rem;
+            font-size: 3rem;
             font-weight: 900;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
-
-        /* === BUTTONS === */
         .btn {
             width: 100%;
-            padding: 16px 24px;
+            padding: 16px 20px;
             border: none;
             border-radius: var(--radius-sm);
             font-size: 1rem;
             font-weight: 600;
             font-family: var(--font);
             cursor: pointer;
-            transition: all 0.4s var(--transition);
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             position: relative;
             overflow: hidden;
         }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255,255,255,0.4);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn:active::before {
-            width: 500px;
-            height: 500px;
-        }
-
-        .btn:active {
-            transform: scale(0.94);
-        }
-
-        .btn span {
-            position: relative;
-            z-index: 1;
-        }
-
+        .btn:active { transform: scale(0.96); }
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            box-shadow: 0 10px 35px rgba(30,123,74,0.4);
+            box-shadow: 0 8px 25px rgba(26,107,61,0.3);
         }
-
-        .btn-primary::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
-            transform: translateX(-100%);
-            animation: btnShimmer 2.5s ease-in-out infinite;
-        }
-
-        @keyframes btnShimmer {
-            0%, 60%, 100% { transform: translateX(-100%); }
-            30% { transform: translateX(100%); }
-        }
-
         .btn-primary:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 18px 50px rgba(30,123,74,0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(26,107,61,0.4);
         }
-
         .btn-gold {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
             color: white;
-            box-shadow: 0 10px 35px rgba(212,165,116,0.4);
+            box-shadow: 0 8px 25px rgba(201,160,85,0.3);
         }
-
-        .btn-gold::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
-            transform: translateX(-100%);
-            animation: btnShimmer 2.5s ease-in-out infinite;
-        }
-
         .btn-gold:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 18px 50px rgba(212,165,116,0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(201,160,85,0.4);
         }
-
         .btn-outline {
             background: var(--surface);
             color: var(--text);
             border: 2px solid var(--border);
-            box-shadow: var(--shadow);
         }
-
         .btn-outline:hover {
             border-color: var(--primary);
             color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
         }
-
         .btn-ghost {
             background: transparent;
             color: var(--text-secondary);
-            padding: 14px;
         }
-
         .btn-ghost:hover {
-            color: var(--primary);
             background: var(--bg-alt);
+            color: var(--primary);
         }
-
         .btn-group {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
-
-        .btn-icon {
-            font-size: 1.25rem;
-        }
-
-        /* === SECTION TITLES === */
         .section-title {
             text-align: center;
-            font-size: 1.4rem;
-            font-weight: 800;
+            font-size: 1.3rem;
+            font-weight: 700;
             color: var(--primary);
-            margin-bottom: 26px;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-        }
-
-        .section-title span:first-child {
-            font-size: 1.8rem;
-            animation: iconBounce 2s ease-in-out infinite;
-        }
-
-        @keyframes iconBounce {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.15) rotate(-8deg); }
-            75% { transform: scale(1.1) rotate(8deg); }
-        }
-
-        /* === SETTINGS === */
-        .setting-group {
-            margin-bottom: 26px;
-        }
-
-        .setting-label {
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-muted);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
             gap: 10px;
         }
-
+        .setting-group { margin-bottom: 24px; }
+        .setting-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .setting-label::before {
             content: '';
             width: 4px;
-            height: 18px;
+            height: 16px;
             background: linear-gradient(180deg, var(--primary), var(--accent));
-            border-radius: 4px;
+            border-radius: 2px;
         }
-
-        /* === PILLS === */
         .pills {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
-
         .pill {
             flex: 1;
-            padding: 14px 12px;
+            padding: 12px;
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
             background: var(--surface);
@@ -634,1859 +358,1480 @@
             font-size: 0.88rem;
             font-family: var(--font);
             cursor: pointer;
-            transition: all 0.35s var(--transition);
+            transition: all 0.3s;
             text-align: center;
         }
-
         .pill:hover {
             border-color: var(--primary-light);
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
-
-        .pill:active {
-            transform: translateY(-2px) scale(0.97);
-        }
-
         .pill.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 8px 30px rgba(30,123,74,0.4);
-            transform: scale(1.03);
-            animation: pillPop 0.5s var(--transition);
         }
-
-        @keyframes pillPop {
-            0% { transform: scale(1); }
-            40% { transform: scale(1.12) rotate(-3deg); }
-            100% { transform: scale(1.03) rotate(0deg); }
-        }
-
-        /* === TYPE CARDS === */
         .type-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 12px;
         }
-
         .type-card {
-            padding: 22px 16px;
+            padding: 18px 14px;
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
             background: var(--surface);
             cursor: pointer;
-            transition: all 0.4s var(--transition);
+            transition: all 0.3s;
             text-align: center;
         }
-
         .type-card:hover {
             border-color: var(--primary-light);
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-4px);
         }
-
-        .type-card:active {
-            transform: translateY(-3px) scale(0.98);
-        }
-
         .type-card.active {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(30,123,74,0.08) 0%, rgba(212,165,116,0.05) 100%);
-            box-shadow: var(--shadow-lg), var(--glow);
-            animation: cardActivate 0.6s var(--transition);
+            background: linear-gradient(135deg, rgba(26,107,61,0.08), rgba(201,160,85,0.04));
         }
-
-        @keyframes cardActivate {
-            0% { transform: scale(1) rotate(0deg); }
-            30% { transform: scale(1.08) rotate(-4deg); }
-            60% { transform: scale(1.04) rotate(2deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        .type-icon {
-            font-size: 2.2rem;
-            margin-bottom: 12px;
-            transition: transform 0.4s var(--transition);
-        }
-
-        .type-card:hover .type-icon,
-        .type-card.active .type-icon {
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        .type-name {
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: var(--text);
-            margin-bottom: 6px;
-        }
-
-        .type-desc {
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        /* === JUZ GRID === */
-        .juz-grid {
+        .type-icon { font-size: 2rem; margin-bottom: 10px; }
+        .type-name { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 4px; }
+        .type-desc { font-size: 0.75rem; color: var(--text-muted); }
+        .para-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-            max-height: 250px;
+            gap: 8px;
+            max-height: 220px;
             overflow-y: auto;
-            padding: 6px;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary-light) var(--bg-alt);
+            padding: 4px;
         }
-
-        .juz-item {
+        .para-item {
             aspect-ratio: 1;
             border: 2px solid var(--border);
-            border-radius: 12px;
+            border-radius: 10px;
             background: var(--surface);
             color: var(--text);
             font-weight: 700;
             font-size: 0.9rem;
             font-family: var(--font);
             cursor: pointer;
-            transition: all 0.35s var(--transition);
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
-        .juz-item:hover {
+        .para-item:hover {
             border-color: var(--primary);
-            transform: scale(1.12) rotate(5deg);
-            box-shadow: 0 10px 30px rgba(30,123,74,0.3);
-            z-index: 2;
+            transform: scale(1.1);
         }
-
-        .juz-item:active {
-            transform: scale(1.05) rotate(0deg);
-        }
-
-        .juz-item.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        .para-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border-color: var(--primary);
-            box-shadow: 0 10px 35px rgba(30,123,74,0.45);
-            animation: juzPop 0.6s var(--transition);
         }
-
-        @keyframes juzPop {
-            0% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.25) rotate(-10deg); }
-            50% { transform: scale(1.15) rotate(10deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        /* === SHEIKH GRID === */
-        .sheikh-grid {
+        .qari-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 10px;
         }
-
-        .sheikh-card {
-            padding: 18px 12px;
+        .qari-card {
+            padding: 16px 10px;
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
             background: var(--surface);
             cursor: pointer;
-            transition: all 0.4s var(--transition);
+            transition: all 0.3s;
             text-align: center;
         }
-
-        .sheikh-card:hover {
+        .qari-card:hover {
             border-color: var(--primary-light);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
         }
-
-        .sheikh-card:active {
-            transform: translateY(-2px) scale(0.97);
-        }
-
-        .sheikh-card.active {
+        .qari-card.active {
             border-color: var(--primary);
-            background: linear-gradient(135deg, rgba(30,123,74,0.08) 0%, rgba(212,165,116,0.05) 100%);
-            box-shadow: var(--shadow-lg), var(--glow);
-            animation: sheikhActivate 0.5s var(--transition);
+            background: linear-gradient(135deg, rgba(26,107,61,0.08), rgba(201,160,85,0.04));
         }
-
-        @keyframes sheikhActivate {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08) rotate(-3deg); }
-            100% { transform: scale(1); }
-        }
-
-        .sheikh-avatar {
-            width: 50px;
-            height: 50px;
+        .qari-avatar {
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             background: var(--bg-alt);
             margin: 0 auto 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            transition: all 0.4s var(--transition);
+            font-size: 1.3rem;
+            transition: all 0.3s;
         }
-
-        .sheikh-card.active .sheikh-avatar {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            transform: scale(1.15) rotate(10deg);
-            box-shadow: 0 8px 25px rgba(30,123,74,0.35);
+        .qari-card.active .qari-avatar {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: scale(1.1);
         }
-
-        .sheikh-name {
-            font-weight: 600;
-            font-size: 0.82rem;
-            color: var(--text);
-        }
-
-        /* === DIVIDER === */
+        .qari-name { font-weight: 600; font-size: 0.8rem; color: var(--text); }
         .divider {
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin: 20px 0;
+            gap: 12px;
+            margin: 18px 0;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.82rem;
         }
-
         .divider::before, .divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            background: var(--border);
         }
-
-        /* === QUIZ PAGE === */
-        .quiz-top {
+        .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
-
-        .quiz-counter {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-        }
-
+        .quiz-count { font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); }
         .quiz-badge {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 10px 16px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            letter-spacing: 1px;
+            padding: 8px 14px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            border-radius: 25px;
-            box-shadow: 0 6px 20px rgba(30,123,74,0.3);
+            border-radius: 20px;
         }
-
-        /* === PROGRESS BAR === */
-        .progress {
-            height: 10px;
-            background: var(--bg-alt);
-            border-radius: 10px;
-            margin-bottom: 22px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
-        }
-
         .progress-bar {
+            height: 8px;
+            background: var(--bg-alt);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary-light));
-            background-size: 200% 100%;
-            border-radius: 10px;
-            transition: width 0.6s var(--transition);
-            animation: progressShimmer 2s ease infinite;
-            position: relative;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            transition: width 0.5s;
         }
-
-        @keyframes progressShimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* === QUESTION === */
-        .question {
-            text-align: center;
-            margin-bottom: 18px;
-        }
-
         .question-text {
-            font-size: 1.08rem;
+            text-align: center;
+            font-size: 1.05rem;
             font-weight: 600;
             color: var(--text);
-            line-height: 1.7;
+            margin-bottom: 16px;
+            line-height: 1.6;
         }
-
-        /* === AYAH BOX === */
-        .ayah-box {
-            margin: 22px 0;
-            padding: 28px 20px;
-            background: linear-gradient(135deg, rgba(30,123,74,0.06) 0%, rgba(212,165,116,0.04) 100%);
+        .ayah-display {
+            margin: 20px 0;
+            padding: 24px 18px;
+            background: linear-gradient(135deg, rgba(26,107,61,0.06), rgba(201,160,85,0.04));
             border-radius: var(--radius);
-            border: 2px solid rgba(30,123,74,0.15);
-            position: relative;
-            overflow: hidden;
+            border: 2px solid rgba(26,107,61,0.1);
         }
-
-        .ayah-box::before {
-            content: '✦';
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 1.5rem;
-            color: var(--primary-light);
-            opacity: 0.35;
-            animation: starRotate 20s linear infinite;
-        }
-
-        .ayah-box::after {
-            content: '✦';
-            position: absolute;
-            bottom: 12px;
-            left: 16px;
-            font-size: 1.2rem;
-            color: var(--accent);
-            opacity: 0.35;
-            animation: starRotate 25s linear infinite reverse;
-        }
-
-        @keyframes starRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .ayah-text {
+        .ayah-arabic {
             font-family: var(--font-quran);
-            font-size: 2rem;
-            line-height: 2.6;
+            font-size: 1.9rem;
+            line-height: 2.4;
             text-align: center;
             color: var(--text);
             direction: rtl;
-            position: relative;
-            z-index: 1;
         }
-
-        .ayah-ref {
+        .ayah-info {
             text-align: center;
-            margin-top: 14px;
-            font-size: 0.88rem;
+            margin-top: 12px;
+            font-size: 0.85rem;
             color: var(--text-muted);
             font-weight: 600;
-            position: relative;
-            z-index: 1;
         }
-
-        /* === AUDIO BOX === */
-        .audio-box {
+        .audio-player {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
-            padding: 32px;
-            margin: 22px 0;
-            background: linear-gradient(135deg, var(--bg-alt) 0%, var(--bg) 100%);
+            gap: 14px;
+            padding: 28px;
+            margin: 20px 0;
+            background: var(--bg-alt);
             border-radius: var(--radius);
             border: 2px solid var(--border);
-            position: relative;
-            overflow: hidden;
         }
-
-        .audio-box::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(30,123,74,0.08) 0%, transparent 70%);
-            animation: audioPulse 4s ease-in-out infinite;
-        }
-
-        @keyframes audioPulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-
-        .play-btn {
-            width: 100px;
-            height: 100px;
+        .play-button {
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            font-size: 2.2rem;
+            font-size: 2rem;
             cursor: pointer;
-            box-shadow: 0 15px 50px rgba(30,123,74,0.45), var(--glow);
-            transition: all 0.4s var(--transition);
+            box-shadow: 0 10px 35px rgba(26,107,61,0.4);
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 1;
         }
-
-        .play-btn::before {
-            content: '';
-            position: absolute;
-            inset: -8px;
-            border-radius: 50%;
-            border: 3px solid var(--primary-light);
-            opacity: 0;
-            animation: playRing 1.5s ease-out infinite;
-        }
-
-        .play-btn::after {
-            content: '';
-            position: absolute;
-            inset: -16px;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            opacity: 0;
-            animation: playRing 1.8s ease-out infinite 0.2s;
-        }
-
-        @keyframes playRing {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.4); opacity: 0; }
-        }
-
-        .play-btn:hover {
-            transform: scale(1.12);
-            box-shadow: 0 20px 60px rgba(30,123,74,0.55), 0 0 80px rgba(30,123,74,0.3);
-        }
-
-        .play-btn:active {
-            transform: scale(1);
-        }
-
-        .play-btn:disabled {
-            background: var(--text-muted);
-            cursor: not-allowed;
-            box-shadow: var(--shadow);
-        }
-
-        .play-btn.loading {
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .play-btn.playing {
-            animation: playPulse 1s ease-in-out infinite;
-        }
-
-        @keyframes playPulse {
+        .play-button:hover { transform: scale(1.08); }
+        .play-button:active { transform: scale(0.95); }
+        .play-button.playing { animation: pulse 1s infinite; }
+        @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+            50% { transform: scale(1.05); }
         }
-
-        .audio-status {
-            font-size: 0.92rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* === OPTIONS === */
-        .options {
+        .audio-text { font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; }
+        .options-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
-
-        .option {
+        .option-item {
             padding: 16px;
             border: 2px solid var(--border);
             border-radius: var(--radius-sm);
             background: var(--surface);
             cursor: pointer;
-            transition: all 0.35s var(--transition);
+            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
-
-        .option:hover:not(.disabled) {
+        .option-item:hover:not(.disabled) {
             border-color: var(--primary-light);
-            transform: translateX(8px) scale(1.02);
-            box-shadow: var(--shadow-lg);
+            transform: translateX(6px);
         }
-
-        .option:active:not(.disabled) {
-            transform: translateX(4px) scale(0.99);
-        }
-
         .option-letter {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--bg-alt) 0%, var(--bg) 100%);
+            background: var(--bg-alt);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             flex-shrink: 0;
-            transition: all 0.35s var(--transition);
         }
-
-        .option-text {
+        .option-content {
             flex: 1;
             font-weight: 500;
-            font-size: 0.98rem;
+            font-size: 0.95rem;
             color: var(--text);
         }
-
-        .option.arabic .option-text {
+        .option-item.arabic .option-content {
             font-family: var(--font-ar);
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             text-align: right;
             direction: rtl;
-            line-height: 2;
-        }
-
-        .option.correct {
-            background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0.08) 100%);
-            border-color: var(--success);
-            animation: correctBounce 0.6s var(--transition);
-        }
-
-        .option.correct .option-letter {
-            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-            color: white;
-            box-shadow: 0 6px 20px rgba(16,185,129,0.4);
-            animation: letterPop 0.5s var(--transition);
-        }
-
-        @keyframes correctBounce {
-            0% { transform: scale(1); }
-            30% { transform: scale(1.04) translateX(5px); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes letterPop {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.3) rotate(15deg); }
-            100% { transform: scale(1) rotate(0deg); }
-        }
-
-        .option.wrong {
-            background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(239,68,68,0.08) 100%);
-            border-color: var(--error);
-            animation: wrongShake 0.5s ease-out;
-        }
-
-        .option.wrong .option-letter {
-            background: linear-gradient(135deg, var(--error) 0%, #dc2626 100%);
-            color: white;
-            box-shadow: 0 6px 20px rgba(239,68,68,0.4);
-        }
-
-        @keyframes wrongShake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-12px); }
-            40% { transform: translateX(10px); }
-            60% { transform: translateX(-8px); }
-            80% { transform: translateX(6px); }
-        }
-
-        .option.disabled {
-            pointer-events: none;
-            opacity: 0.55;
-        }
-
-        /* === HIKMAT BOX === */
-        .hikmat {
-            margin-top: 24px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(212,165,116,0.15) 0%, rgba(212,165,116,0.08) 100%);
-            border-radius: var(--radius-sm);
-            border: 2px solid rgba(212,165,116,0.3);
-            display: none;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hikmat::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: hikmatGlow 5s ease-in-out infinite;
-        }
-
-        @keyframes hikmatGlow {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.1) rotate(180deg); }
-        }
-
-        .hikmat.show {
-            display: block;
-            animation: hikmatReveal 0.7s var(--transition);
-        }
-
-        @keyframes hikmatReveal {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-            50% {
-                transform: translateY(-5px) scale(1.02);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .hikmat-title {
-            font-weight: 700;
-            font-size: 0.85rem;
-            color: var(--accent-dark);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hikmat-text {
-            font-size: 0.95rem;
             line-height: 1.8;
-            color: var(--text-secondary);
-            position: relative;
-            z-index: 1;
         }
-
-        .hikmat-source {
-            margin-top: 10px;
-            font-size: 0.78rem;
-            color: var(--text-muted);
-            font-style: italic;
-            position: relative;
-            z-index: 1;
+        .option-item.correct {
+            background: rgba(16,185,129,0.12);
+            border-color: var(--success);
         }
-
-        /* === QUIZ ACTIONS === */
-        .quiz-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
+        .option-item.correct .option-letter {
+            background: var(--success);
+            color: white;
         }
-
-        .quiz-actions .btn {
-            flex: 1;
+        .option-item.wrong {
+            background: rgba(239,68,68,0.12);
+            border-color: var(--error);
+            animation: shake 0.4s;
         }
-
-        .btn-next {
+        .option-item.wrong .option-letter {
+            background: var(--error);
+            color: white;
+        }
+        .option-item.disabled { pointer-events: none; opacity: 0.6; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+        .wisdom-box {
+            margin-top: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(201,160,85,0.12), rgba(201,160,85,0.06));
+            border-radius: var(--radius-sm);
+            border: 2px solid rgba(201,160,85,0.2);
             display: none;
         }
-
-        .btn-next.show {
+        .wisdom-box.show { display: block; animation: slideUp 0.5s; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .wisdom-title {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--accent-dark);
+            margin-bottom: 8px;
+        }
+        .wisdom-text { font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary); }
+        .wisdom-source { margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); font-style: italic; }
+        .quiz-footer {
             display: flex;
-            animation: btnSlideIn 0.5s var(--transition);
+            gap: 10px;
+            margin-top: 20px;
         }
-
-        @keyframes btnSlideIn {
-            0% {
-                opacity: 0;
-                transform: translateX(30px) scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
-        /* === RESULT PAGE === */
-        .result {
-            text-align: center;
-            padding: 16px 0;
-        }
-
-        .result-circle {
-            width: 180px;
-            height: 180px;
+        .quiz-footer .btn { flex: 1; }
+        .btn-next { display: none; }
+        .btn-next.show { display: flex; animation: fadeIn 0.4s; }
+        .result-section { text-align: center; padding: 16px 0; }
+        .result-ring {
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            margin: 0 auto 28px;
+            margin: 0 auto 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            animation: resultAppear 1s var(--transition), resultFloat 4s ease-in-out infinite 1s;
+            animation: resultIn 0.8s ease-out;
         }
-
-        @keyframes resultAppear {
-            0% {
-                transform: scale(0) rotate(-270deg);
-                opacity: 0;
-            }
-            60% {
-                transform: scale(1.1) rotate(20deg);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
+        @keyframes resultIn {
+            from { transform: scale(0) rotate(-180deg); opacity: 0; }
+            to { transform: scale(1) rotate(0); opacity: 1; }
         }
-
-        @keyframes resultFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-15px) scale(1.03); }
-        }
-
-        .result-circle::before {
-            content: '';
-            position: absolute;
-            inset: -10px;
-            border-radius: 50%;
-            border: 3px dashed currentColor;
-            opacity: 0.6;
-            animation: rotateDash 10s linear infinite;
-        }
-
-        .result-circle::after {
-            content: '';
-            position: absolute;
-            inset: -20px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-            opacity: 0.3;
-            animation: rotateDash 12s linear infinite reverse;
-        }
-
-        @keyframes rotateDash {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .result-circle.excellent {
-            background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(16,185,129,0.08) 100%);
-            color: var(--success);
+        .result-ring.excellent {
+            background: rgba(16,185,129,0.12);
             border: 4px solid var(--success);
-            box-shadow: 0 0 60px rgba(16,185,129,0.4);
+            color: var(--success);
         }
-
-        .result-circle.good {
-            background: linear-gradient(135deg, rgba(212,165,116,0.15) 0%, rgba(212,165,116,0.08) 100%);
-            color: var(--accent);
+        .result-ring.good {
+            background: rgba(201,160,85,0.12);
             border: 4px solid var(--accent);
-            box-shadow: 0 0 60px rgba(212,165,116,0.4);
+            color: var(--accent);
         }
-
-        .result-circle.poor {
-            background: linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(239,68,68,0.08) 100%);
-            color: var(--error);
+        .result-ring.poor {
+            background: rgba(239,68,68,0.12);
             border: 4px solid var(--error);
-            box-shadow: 0 0 60px rgba(239,68,68,0.4);
+            color: var(--error);
         }
-
-        .result-score {
-            font-size: 3.2rem;
-            font-weight: 900;
-        }
-
-        .result-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text);
-            margin-bottom: 22px;
-        }
-
-        .result-stats {
+        .result-percent { font-size: 2.8rem; font-weight: 900; }
+        .result-heading { font-size: 1.4rem; font-weight: 800; color: var(--text); margin-bottom: 20px; }
+        .stats-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 22px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
-
-        .stat {
-            padding: 18px;
+        .stat-box {
+            padding: 16px;
             border-radius: var(--radius-sm);
             text-align: center;
             border: 2px solid var(--border);
-            transition: all 0.4s var(--transition);
-            animation: statAppear 0.6s var(--transition) backwards;
         }
-
-        .stat:nth-child(1) { animation-delay: 0.2s; }
-        .stat:nth-child(2) { animation-delay: 0.35s; }
-
-        @keyframes statAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(20px) scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        .stat.success {
-            background: linear-gradient(135deg, rgba(16,185,129,0.12) 0%, rgba(16,185,129,0.06) 100%);
-            border-color: var(--success);
-        }
-
-        .stat.error {
-            background: linear-gradient(135deg, rgba(239,68,68,0.12) 0%, rgba(239,68,68,0.06) 100%);
-            border-color: var(--error);
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .stat.success .stat-value { color: var(--success); }
-        .stat.error .stat-value { color: var(--error); }
-
-        .stat-label {
-            font-size: 0.82rem;
-            font-weight: 600;
+        .stat-box.success { background: rgba(16,185,129,0.1); border-color: var(--success); }
+        .stat-box.error { background: rgba(239,68,68,0.1); border-color: var(--error); }
+        .stat-num { font-size: 1.8rem; font-weight: 800; }
+        .stat-box.success .stat-num { color: var(--success); }
+        .stat-box.error .stat-num { color: var(--error); }
+        .stat-text { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-top: 4px; }
+        .result-message {
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: var(--text-secondary);
-            margin-top: 6px;
-        }
-
-        .result-msg {
-            font-size: 0.98rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            padding: 18px;
+            margin-bottom: 20px;
+            padding: 16px;
             background: var(--bg-alt);
             border-radius: var(--radius-sm);
             border-left: 4px solid var(--primary);
-            animation: msgSlide 0.7s var(--transition) 0.5s backwards;
         }
-
-        @keyframes msgSlide {
-            0% {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* === ADVICE PAGE === */
-        .advice-list {
-            list-style: none;
-        }
-
+        .advice-list { list-style: none; }
         .advice-item {
-            padding: 18px 0;
+            padding: 16px 0;
             border-bottom: 1px solid var(--border);
             display: flex;
-            gap: 16px;
+            gap: 14px;
             align-items: flex-start;
-            animation: adviceSlide 0.6s var(--transition) backwards;
         }
-
-        .advice-item:nth-child(1) { animation-delay: 0.1s; }
-        .advice-item:nth-child(2) { animation-delay: 0.18s; }
-        .advice-item:nth-child(3) { animation-delay: 0.26s; }
-        .advice-item:nth-child(4) { animation-delay: 0.34s; }
-        .advice-item:nth-child(5) { animation-delay: 0.42s; }
-
-        @keyframes adviceSlide {
-            0% {
-                opacity: 0;
-                transform: translateX(-25px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .advice-item:last-child {
-            border-bottom: none;
-        }
-
+        .advice-item:last-child { border-bottom: none; }
         .advice-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, rgba(30,123,74,0.12) 0%, rgba(212,165,116,0.12) 100%);
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(26,107,61,0.1), rgba(201,160,85,0.1));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             flex-shrink: 0;
-            border: 2px solid var(--primary-light);
-            animation: iconFloat 3s ease-in-out infinite;
         }
-
-        .advice-item:nth-child(2) .advice-icon { animation-delay: 0.5s; }
-        .advice-item:nth-child(3) .advice-icon { animation-delay: 1s; }
-        .advice-item:nth-child(4) .advice-icon { animation-delay: 1.5s; }
-        .advice-item:nth-child(5) .advice-icon { animation-delay: 2s; }
-
-        @keyframes iconFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-6px) scale(1.08); }
-        }
-
-        .advice-content {
-            flex: 1;
-        }
-
-        .advice-title {
-            font-weight: 700;
-            font-size: 0.98rem;
-            color: var(--text);
-            margin-bottom: 5px;
-        }
-
-        .advice-desc {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* === FOOTER === */
+        .advice-content { flex: 1; }
+        .advice-title { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 4px; }
+        .advice-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
         .footer {
             margin-top: auto;
-            padding: 24px 0;
+            padding: 20px 0;
             text-align: center;
         }
-
         .footer-text {
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            flex-wrap: wrap;
         }
-
-        .footer-text b {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        /* === LOADER === */
-        .loader-overlay {
+        .footer-text b { color: var(--primary); }
+        .loader {
             position: fixed;
             inset: 0;
             background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             display: none;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             z-index: 1000;
         }
-
-        [data-theme="dark"] .loader-overlay {
-            background: rgba(10,15,20,0.95);
-        }
-
-        .loader-overlay.show {
-            display: flex;
-            animation: loaderFadeIn 0.3s ease;
-        }
-
-        @keyframes loaderFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .loader-spinner {
-            width: 60px;
-            height: 60px;
+        [data-theme="dark"] .loader { background: rgba(13,17,23,0.95); }
+        .loader.show { display: flex; }
+        .spinner {
+            width: 50px;
+            height: 50px;
             border: 4px solid var(--border);
             border-top-color: var(--primary);
             border-radius: 50%;
-            animation: spin 0.9s linear infinite;
+            animation: spin 0.8s linear infinite;
         }
-
-        .loader-text {
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* === UTILITIES === */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-text { font-weight: 600; color: var(--text-secondary); }
         .hidden { display: none !important; }
-        .mt-14 { margin-top: 14px; }
-        .mt-18 { margin-top: 18px; }
-
-        /* === RESPONSIVE === */
+        .mt-12 { margin-top: 12px; }
+        .mt-16 { margin-top: 16px; }
         @media (max-width: 400px) {
-            .logo-text { font-size: 1.3rem; }
-            .hero-title { font-size: 1.7rem; }
-            .ayah-text { font-size: 1.7rem; }
-            .option.arabic .option-text { font-size: 1.2rem; }
-            .juz-grid { grid-template-columns: repeat(5, 1fr); }
-            .result-circle { width: 150px; height: 150px; }
-            .result-score { font-size: 2.6rem; }
+            .hero-title { font-size: 1.5rem; }
+            .ayah-arabic { font-size: 1.6rem; }
+            .option-item.arabic .option-content { font-size: 1.15rem; }
+            .para-grid { grid-template-columns: repeat(5, 1fr); }
         }
     </style>
 </head>
 <body data-theme="light">
-    <!-- Background Effects -->
-    <div class="bg-container">
-        <div class="bg-orb bg-orb-1"></div>
-        <div class="bg-orb bg-orb-2"></div>
-        <div class="bg-orb bg-orb-3"></div>
-    </div>
-    <div class="pattern-overlay"></div>
-
-    <!-- Loader -->
-    <div class="loader-overlay" id="loader">
-        <div class="loader-spinner"></div>
+    <div class="bg-effects"></div>
+    
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
         <div class="loader-text" id="loaderText">Yuklanmoqda...</div>
     </div>
 
-    <!-- App Container -->
     <div class="app">
-        <!-- Header -->
         <header class="header">
-            <div class="logo" onclick="App.go('home')">
+            <div class="logo" onclick="App.goTo('home')">
                 <div class="logo-icon">📖</div>
-                <div class="logo-text">Qur'on<b>IQ</b></div>
+                <div class="logo-text">Qur'onIQ</div>
             </div>
-            <div class="header-actions">
-                <select class="select-lang" id="langSelect" onchange="App.setLanguage(this.value)">
+            <div class="header-btns">
+                <select class="lang-select" id="langSelect" onchange="App.changeLang(this.value)">
                     <option value="uz">O'zbek</option>
                     <option value="ar">العربية</option>
                     <option value="ru">Русский</option>
                     <option value="en">English</option>
                 </select>
-                <button class="btn-theme" id="themeBtn" onclick="App.toggleTheme()">🌙</button>
+                <button class="theme-btn" id="themeBtn" onclick="App.toggleTheme()">🌙</button>
             </div>
         </header>
 
-        <!-- HOME PAGE -->
+        <!-- HOME -->
         <main id="pageHome" class="page active">
             <div class="card">
                 <div class="hero">
                     <div class="hero-icon">📖</div>
-                    <h1 class="hero-title" id="heroTitle">Xush kelibsiz!</h1>
-                    <p class="hero-subtitle" id="heroSubtitle">Qur'on hifzini mustahkamlash va bilimingizni sinash uchun mukammal platforma</p>
+                    <h1 class="hero-title" data-t="heroTitle">Xush kelibsiz!</h1>
+                    <p class="hero-desc" data-t="heroDesc">Qur'on hifzini mustahkamlang va bilimingizni sinang</p>
                     <div class="score-box">
-                        <div class="score-label" id="scoreLabel">Eng yuqori natija</div>
-                        <div class="score-value" id="highScore">0%</div>
+                        <div class="score-label" data-t="highScore">Eng yuqori natija</div>
+                        <div class="score-value" id="bestScore">0%</div>
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-primary" onclick="App.go('textSettings')">
-                        <span class="btn-icon">📝</span>
-                        <span id="btnText">Matnli test</span>
+                    <button class="btn btn-primary" onclick="App.goTo('textSetup')">
+                        <span>📝</span>
+                        <span data-t="btnTextTest">Matnli test</span>
                     </button>
-                    <button class="btn btn-gold" onclick="App.go('audioSettings')">
-                        <span class="btn-icon">🎧</span>
-                        <span id="btnAudio">Audio test</span>
+                    <button class="btn btn-gold" onclick="App.goTo('audioSetup')">
+                        <span>🎧</span>
+                        <span data-t="btnAudioTest">Audio test</span>
                     </button>
-                    <button class="btn btn-outline" onclick="App.go('advice')">
-                        <span class="btn-icon">💡</span>
-                        <span id="btnAdvice">Maslahatlar</span>
+                    <button class="btn btn-outline" onclick="App.goTo('tips')">
+                        <span>💡</span>
+                        <span data-t="btnTips">Maslahatlar</span>
                     </button>
                 </div>
             </div>
         </main>
 
-        <!-- TEXT SETTINGS PAGE -->
-        <section id="pageTextSettings" class="page">
+        <!-- TEXT SETUP -->
+        <section id="pageTextSetup" class="page">
             <div class="card">
-                <h2 class="section-title"><span>📝</span> <span id="textSettingsTitle">Matnli test</span></h2>
-
+                <h2 class="section-title"><span>📝</span> <span data-t="textTestTitle">Matnli test</span></h2>
+                
                 <div class="setting-group">
-                    <div class="setting-label" id="labelType">Test turi</div>
+                    <div class="setting-label" data-t="testType">Test turi</div>
                     <div class="type-grid">
-                        <div class="type-card active" data-type="continue" onclick="App.setTextType('continue')">
+                        <div class="type-card active" data-ttype="continue" onclick="App.setTestType('continue')">
                             <div class="type-icon">➡️</div>
-                            <div class="type-name" id="typeContinue">Oyat davomi</div>
-                            <div class="type-desc" id="typeContinueDesc">Keyingi oyatni toping</div>
+                            <div class="type-name" data-t="typeContinue">Davomini toping</div>
+                            <div class="type-desc" data-t="typeContinueDesc">Keyingi oyat</div>
                         </div>
-                        <div class="type-card" data-type="surah" onclick="App.setTextType('surah')">
+                        <div class="type-card" data-ttype="surah" onclick="App.setTestType('surah')">
                             <div class="type-icon">🔍</div>
-                            <div class="type-name" id="typeSurah">Surani toping</div>
-                            <div class="type-desc" id="typeSurahDesc">Qaysi suradan?</div>
+                            <div class="type-name" data-t="typeSurah">Surani toping</div>
+                            <div class="type-desc" data-t="typeSurahDesc">Qaysi sura?</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="setting-group">
-                    <div class="setting-label" id="labelDiff">Qiyinchilik darajasi</div>
+                    <div class="setting-label" data-t="difficulty">Qiyinchilik</div>
                     <div class="pills">
-                        <button class="pill" data-d="easy" onclick="App.setDiff('easy')" id="diffEasy">Oson</button>
-                        <button class="pill active" data-d="medium" onclick="App.setDiff('medium')" id="diffMedium">O'rta</button>
-                        <button class="pill" data-d="hard" onclick="App.setDiff('hard')" id="diffHard">Qiyin</button>
+                        <button class="pill" data-diff="easy" onclick="App.setDiff('easy')" data-t="easy">Oson</button>
+                        <button class="pill active" data-diff="medium" onclick="App.setDiff('medium')" data-t="medium">O'rta</button>
+                        <button class="pill" data-diff="hard" onclick="App.setDiff('hard')" data-t="hard">Qiyin</button>
                     </div>
                 </div>
 
                 <div class="setting-group">
-                    <div class="setting-label" id="labelSource">Manba tanlang</div>
-                    <button class="btn btn-primary" onclick="App.startQuiz('text')">
+                    <div class="setting-label" data-t="selectPara">Para tanlang</div>
+                    <button class="btn btn-primary" onclick="App.beginTest('text')">
                         <span>📚</span>
-                        <span id="btnFullQuran">30-juzdan boshlash</span>
+                        <span data-t="allSurahs">Barcha suralardan</span>
                     </button>
-                    <div class="divider" id="dividerOr">yoki juz tanlang</div>
-                    <div class="juz-grid" id="juzGrid"></div>
+                    <div class="divider" data-t="orSelectPara">yoki para tanlang</div>
+                    <div class="para-grid" id="paraGrid"></div>
                 </div>
 
-                <button class="btn btn-ghost mt-14" onclick="App.go('home')">
+                <button class="btn btn-ghost mt-12" onclick="App.goTo('home')">
                     <span>←</span>
-                    <span id="btnBack">Ortga qaytish</span>
+                    <span data-t="back">Ortga</span>
                 </button>
             </div>
         </section>
 
-        <!-- AUDIO SETTINGS PAGE -->
-        <section id="pageAudioSettings" class="page">
+        <!-- AUDIO SETUP -->
+        <section id="pageAudioSetup" class="page">
             <div class="card">
-                <h2 class="section-title"><span>🎧</span> <span id="audioSettingsTitle">Audio test</span></h2>
+                <h2 class="section-title"><span>🎧</span> <span data-t="audioTestTitle">Audio test</span></h2>
 
                 <div class="setting-group">
-                    <div class="setting-label" id="labelSheikh">Qorini tanlang</div>
-                    <div class="sheikh-grid" id="sheikhGrid"></div>
+                    <div class="setting-label" data-t="selectQari">Qori tanlang</div>
+                    <div class="qari-grid" id="qariGrid"></div>
                 </div>
 
                 <div class="setting-group">
-                    <div class="setting-label" id="labelAudioType">Test turi</div>
+                    <div class="setting-label" data-t="testType">Test turi</div>
                     <div class="type-grid">
                         <div class="type-card active" data-atype="surah" onclick="App.setAudioType('surah')">
                             <div class="type-icon">🔍</div>
-                            <div class="type-name" id="audioTypeSurah">Surani toping</div>
-                            <div class="type-desc" id="audioTypeSurahDesc">Eshitib aniqlang</div>
+                            <div class="type-name" data-t="audioSurah">Surani toping</div>
+                            <div class="type-desc" data-t="audioSurahDesc">Eshiting va toping</div>
                         </div>
                         <div class="type-card" data-atype="continue" onclick="App.setAudioType('continue')">
                             <div class="type-icon">➡️</div>
-                            <div class="type-name" id="audioTypeContinue">Oyat davomi</div>
-                            <div class="type-desc" id="audioTypeContinueDesc">Keyingisini toping</div>
+                            <div class="type-name" data-t="audioContinue">Davomi</div>
+                            <div class="type-desc" data-t="audioContinueDesc">Keyingisi nima?</div>
                         </div>
                     </div>
                 </div>
 
-                <button class="btn btn-gold mt-18" onclick="App.startQuiz('audio')">
+                <button class="btn btn-gold mt-16" onclick="App.beginTest('audio')">
                     <span>🎵</span>
-                    <span id="btnStartAudio">Testni boshlash</span>
+                    <span data-t="startTest">Testni boshlash</span>
                 </button>
 
-                <button class="btn btn-ghost mt-14" onclick="App.go('home')">
+                <button class="btn btn-ghost mt-12" onclick="App.goTo('home')">
                     <span>←</span>
-                    <span id="btnBack2">Ortga qaytish</span>
+                    <span data-t="back">Ortga</span>
                 </button>
             </div>
         </section>
 
-        <!-- QUIZ PAGE -->
+        <!-- QUIZ -->
         <section id="pageQuiz" class="page">
             <div class="card">
-                <div class="quiz-top">
-                    <span class="quiz-counter" id="quizCounter">1 / 10</span>
+                <div class="quiz-header">
+                    <span class="quiz-count" id="quizCount">1 / 10</span>
                     <span class="quiz-badge" id="quizBadge">TEST</span>
                 </div>
 
-                <div class="progress">
-                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
 
-                <div class="question">
-                    <p class="question-text" id="questionText">Savol...</p>
+                <p class="question-text" id="questionText">Savol yuklanmoqda...</p>
+
+                <div class="ayah-display hidden" id="ayahDisplay">
+                    <div class="ayah-arabic" id="ayahArabic"></div>
+                    <div class="ayah-info" id="ayahInfo"></div>
                 </div>
 
-                <div class="ayah-box hidden" id="ayahBox">
-                    <div class="ayah-text" id="ayahText"></div>
-                    <div class="ayah-ref" id="ayahRef"></div>
+                <div class="audio-player hidden" id="audioPlayer">
+                    <button class="play-button" id="playButton" onclick="App.togglePlay()">▶️</button>
+                    <span class="audio-text" id="audioText">Tinglash uchun bosing</span>
                 </div>
 
-                <div class="audio-box hidden" id="audioBox">
-                    <button class="play-btn" id="playBtn" onclick="App.playAudio()">▶️</button>
-                    <span class="audio-status" id="audioStatus">Tinglash uchun bosing</span>
+                <div class="options-list" id="optionsList"></div>
+
+                <div class="wisdom-box" id="wisdomBox">
+                    <div class="wisdom-title">✨ <span data-t="wisdom">Hikmat</span></div>
+                    <p class="wisdom-text" id="wisdomText"></p>
+                    <p class="wisdom-source" id="wisdomSource"></p>
                 </div>
 
-                <div class="options" id="optionsList"></div>
-
-                <div class="hikmat" id="hikmat">
-                    <div class="hikmat-title">✨ <span id="hikmatLabel">Qur'oniy hikmat</span></div>
-                    <p class="hikmat-text" id="hikmatText"></p>
-                    <p class="hikmat-source" id="hikmatSource"></p>
-                </div>
-
-                <div class="quiz-actions">
-                    <button class="btn btn-outline" onclick="App.exitQuiz()" style="flex:0.45">
-                        <span id="btnExit">Chiqish</span>
+                <div class="quiz-footer">
+                    <button class="btn btn-outline" onclick="App.quitQuiz()" style="flex:0.4">
+                        <span data-t="exit">Chiqish</span>
                     </button>
-                    <button class="btn btn-primary btn-next" id="btnNext" onclick="App.nextQuestion()">
-                        <span id="btnNextText">Keyingisi</span>
+                    <button class="btn btn-primary btn-next" id="nextBtn" onclick="App.nextQ()">
+                        <span data-t="next">Keyingi</span>
                         <span>→</span>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- RESULT PAGE -->
+        <!-- RESULT -->
         <section id="pageResult" class="page">
             <div class="card">
-                <div class="result">
-                    <div class="result-circle" id="resultCircle">
-                        <span class="result-score" id="resultScore">0%</span>
+                <div class="result-section">
+                    <div class="result-ring" id="resultRing">
+                        <span class="result-percent" id="resultPercent">0%</span>
                     </div>
-                    <h2 class="result-title" id="resultTitle">Natija</h2>
-                    <div class="result-stats">
-                        <div class="stat success">
-                            <div class="stat-value" id="resultCorrect">0</div>
-                            <div class="stat-label" id="labelCorrect">To'g'ri</div>
+                    <h2 class="result-heading" data-t="resultTitle">Natija</h2>
+                    <div class="stats-row">
+                        <div class="stat-box success">
+                            <div class="stat-num" id="correctCount">0</div>
+                            <div class="stat-text" data-t="correct">To'g'ri</div>
                         </div>
-                        <div class="stat error">
-                            <div class="stat-value" id="resultWrong">0</div>
-                            <div class="stat-label" id="labelWrong">Xato</div>
+                        <div class="stat-box error">
+                            <div class="stat-num" id="wrongCount">0</div>
+                            <div class="stat-text" data-t="wrong">Xato</div>
                         </div>
                     </div>
-                    <p class="result-msg" id="resultMsg"></p>
+                    <p class="result-message" id="resultMessage"></p>
                     <div class="btn-group">
-                        <button class="btn btn-primary" onclick="App.restart()">
+                        <button class="btn btn-primary" onclick="App.retryTest()">
                             <span>🔄</span>
-                            <span id="btnRetry">Qayta urinish</span>
+                            <span data-t="retry">Qayta urinish</span>
                         </button>
-                        <button class="btn btn-outline" onclick="App.go('home')">
+                        <button class="btn btn-outline" onclick="App.goTo('home')">
                             <span>🏠</span>
-                            <span id="btnHome">Bosh sahifa</span>
+                            <span data-t="home">Bosh sahifa</span>
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ADVICE PAGE -->
-        <section id="pageAdvice" class="page">
+        <!-- TIPS -->
+        <section id="pageTips" class="page">
             <div class="card">
-                <h2 class="section-title"><span>💡</span> <span id="adviceTitle">Foydali maslahatlar</span></h2>
+                <h2 class="section-title"><span>💡</span> <span data-t="tipsTitle">Maslahatlar</span></h2>
                 <ul class="advice-list" id="adviceList"></ul>
-                <button class="btn btn-ghost mt-18" onclick="App.go('home')">
+                <button class="btn btn-ghost mt-16" onclick="App.goTo('home')">
                     <span>←</span>
-                    <span id="btnBack3">Ortga qaytish</span>
+                    <span data-t="back">Ortga</span>
                 </button>
             </div>
         </section>
 
-        <!-- Footer -->
         <footer class="footer">
             <p class="footer-text">©️ <b>Muhammad Daler Qori</b> tomonidan yasalgan</p>
         </footer>
     </div>
 
-    <script>
-        // === TRANSLATIONS ===
-        const T = {
-            uz: {
-                heroTitle: "Xush kelibsiz!",
-                heroSubtitle: "Qur'on hifzini mustahkamlash va bilimingizni sinash uchun mukammal platforma",
-                scoreLabel: "Eng yuqori natija",
-                btnText: "Matnli test",
-                btnAudio: "Audio test",
-                btnAdvice: "Maslahatlar",
-                textSettingsTitle: "Matnli test",
-                audioSettingsTitle: "Audio test",
-                labelType: "Test turi",
-                labelAudioType: "Test turi",
-                labelDiff: "Qiyinchilik darajasi",
-                labelSource: "Manba tanlang",
-                labelSheikh: "Qorini tanlang",
-                typeContinue: "Oyat davomi",
-                typeContinueDesc: "Keyingi oyatni toping",
-                typeSurah: "Surani toping",
-                typeSurahDesc: "Qaysi suradan?",
-                audioTypeSurah: "Surani toping",
-                audioTypeSurahDesc: "Eshitib aniqlang",
-                audioTypeContinue: "Oyat davomi",
-                audioTypeContinueDesc: "Keyingisini toping",
-                diffEasy: "Oson",
-                diffMedium: "O'rta",
-                diffHard: "Qiyin",
-                btnFullQuran: "30-juzdan boshlash",
-                dividerOr: "yoki juz tanlang",
-                btnStartAudio: "Testni boshlash",
-                btnBack: "Ortga qaytish",
-                btnExit: "Chiqish",
-                btnNextText: "Keyingisi",
-                btnRetry: "Qayta urinish",
-                btnHome: "Bosh sahifa",
-                adviceTitle: "Foydali maslahatlar",
-                hikmatLabel: "Qur'oniy hikmat",
-                resultTitle: "Natija",
-                labelCorrect: "To'g'ri",
-                labelWrong: "Xato",
-                loading: "Yuklanmoqda...",
-                tapToPlay: "Tinglash uchun bosing",
-                playing: "Ijro etilmoqda...",
-                loadingAudio: "Audio yuklanmoqda...",
-                audioError: "Audio yuklanmadi",
-                questionContinue: "Quyidagi oyatdan keyin qaysi oyat keladi?",
-                questionSurah: "Bu oyat qaysi suradan olingan?",
-                questionAudioSurah: "Bu qaysi sura?",
-                questionAudioContinue: "Eshitgan oyatdan keyin qaysi oyat keladi?",
-                modeContinue: "OYAT DAVOMI",
-                modeSurah: "SURANI TOPING",
-                modeAudioSurah: "AUDIO SURA",
-                modeAudioContinue: "AUDIO DAVOM",
-                resultPerfect: "🌟 MashaAlloh! Mukammal natija! Siz haqiqatan ham Qur'on ahlidasiz!",
-                resultGreat: "✨ Barakalloh! Juda yaxshi natija! Biroz ko'proq takrorlash bilan mukammallikka erishasiz!",
-                resultGood: "👍 Yaxshi harakat! Har kuni takrorlash orqali yuqorilarga ko'tarilasiz!",
-                resultFail: "💪 G'ayrat qiling! Sabr bilan davom eting. Alloh sabrlilarni sevadi.",
-                advice: [
-                    {icon:"🎯", title:"Ixlos", desc:"Qur'onni faqat Allohning roziligi uchun yodlang, dunyo va shuhrat uchun emas."},
-                    {icon:"📝", title:"Mutashabihlar", desc:"O'xshash oyatlarni yaxshi bilib oling, ularning farqlarini eslab qoling."},
-                    {icon:"🐢", title:"Tartil", desc:"Tez yodlashdan ko'ra, sifatli yodlang. Sabr bilan o'qing, xato qilmang."},
-                    {icon:"🔄", title:"Takror", desc:"Har kuni namozdan keyin Qur'onni takrorlang. Amalda mustahkamlanadi."},
-                    {icon:"🤲", title:"Istig'for", desc:"Gunohlardan tavba qiling, ular Qur'onni xotiradan o'chiradi."}
-                ]
-            },
-            ar: {
-                heroTitle: "أهلاً وسهلاً!",
-                heroSubtitle: "منصة لتعزيز حفظ القرآن واختبار معرفتك",
-                scoreLabel: "أعلى نتيجة",
-                btnText: "اختبار نصي",
-                btnAudio: "اختبار صوتي",
-                btnAdvice: "نصائح",
-                textSettingsTitle: "اختبار نصي",
-                audioSettingsTitle: "اختبار صوتي",
-                labelType: "نوع الاختبار",
-                labelAudioType: "نوع الاختبار",
-                labelDiff: "مستوى الصعوبة",
-                labelSource: "المصدر",
-                labelSheikh: "اختر القارئ",
-                typeContinue: "إكمال الآية",
-                typeContinueDesc: "ابحث عن التالية",
-                typeSurah: "حدد السورة",
-                typeSurahDesc: "من أي سورة؟",
-                audioTypeSurah: "حدد السورة",
-                audioTypeSurahDesc: "استمع وحدد",
-                audioTypeContinue: "إكمال الآية",
-                audioTypeContinueDesc: "ابحث عن التالية",
-                diffEasy: "سهل",
-                diffMedium: "متوسط",
-                diffHard: "صعب",
-                btnFullQuran: "ابدأ من الجزء ٣٠",
-                dividerOr: "أو اختر جزءاً",
-                btnStartAudio: "ابدأ الاختبار",
-                btnBack: "رجوع",
-                btnExit: "خروج",
-                btnNextText: "التالي",
-                btnRetry: "حاول مرة أخرى",
-                btnHome: "الرئيسية",
-                adviceTitle: "نصائح مفيدة",
-                hikmatLabel: "حكمة قرآنية",
-                resultTitle: "النتيجة",
-                labelCorrect: "صحيح",
-                labelWrong: "خطأ",
-                loading: "جاري التحميل...",
-                tapToPlay: "اضغط للاستماع",
-                playing: "يتم التشغيل...",
-                loadingAudio: "جاري تحميل الصوت...",
-                audioError: "فشل تحميل الصوت",
-                questionContinue: "ما الآية التالية؟",
-                questionSurah: "من أي سورة هذه الآية؟",
-                questionAudioSurah: "ما هذه السورة؟",
-                questionAudioContinue: "ما الآية التالية؟",
-                modeContinue: "إكمال الآية",
-                modeSurah: "تحديد السورة",
-                modeAudioSurah: "صوتي - سورة",
-                modeAudioContinue: "صوتي - إكمال",
-                resultPerfect: "🌟 ما شاء الله! نتيجة مثالية! أنت من أهل القرآن!",
-                resultGreat: "✨ بارك الله فيك! نتيجة ممتازة!",
-                resultGood: "👍 جيد! المراجعة اليومية سترفع مستواك!",
-                resultFail: "💪 اجتهد! استمر بصبر. الله مع الصابرين.",
-                advice: [
-                    {icon:"🎯", title:"الإخلاص", desc:"احفظ القرآن خالصاً لله، لا للدنيا ولا للسمعة."},
-                    {icon:"📝", title:"المتشابهات", desc:"اعرف الآيات المتشابهة وفروقاتها جيداً."},
-                    {icon:"🐢", title:"الترتيل", desc:"الحفظ المتقن خير من السرعة مع الخطأ."},
-                    {icon:"🔄", title:"التكرار", desc:"راجع حفظك يومياً بعد الصلوات."},
-                    {icon:"🤲", title:"الاستغفار", desc:"استغفر من الذنوب فإنها تُنسي القرآن."}
-                ]
-            },
-            ru: {
-                heroTitle: "Добро пожаловать!",
-                heroSubtitle: "Платформа для укрепления хифза и проверки знаний",
-                scoreLabel: "Лучший результат",
-                btnText: "Текстовый тест",
-                btnAudio: "Аудио тест",
-                btnAdvice: "Советы",
-                textSettingsTitle: "Текстовый тест",
-                audioSettingsTitle: "Аудио тест",
-                labelType: "Тип теста",
-                labelAudioType: "Тип теста",
-                labelDiff: "Сложность",
-                labelSource: "Источник",
-                labelSheikh: "Выберите чтеца",
-                typeContinue: "Продолжение аята",
-                typeContinueDesc: "Найдите следующий",
-                typeSurah: "Определить суру",
-                typeSurahDesc: "Из какой суры?",
-                audioTypeSurah: "Определить суру",
-                audioTypeSurahDesc: "Слушайте и определите",
-                audioTypeContinue: "Продолжение аята",
-                audioTypeContinueDesc: "Найдите следующий",
-                diffEasy: "Легкий",
-                diffMedium: "Средний",
-                diffHard: "Сложный",
-                btnFullQuran: "Начать с Джуза 30",
-                dividerOr: "или выберите джуз",
-                btnStartAudio: "Начать тест",
-                btnBack: "Назад",
-                btnExit: "Выход",
-                btnNextText: "Далее",
-                btnRetry: "Попробовать снова",
-                btnHome: "Главная",
-                adviceTitle: "Полезные советы",
-                hikmatLabel: "Коранический совет",
-                resultTitle: "Результат",
-                labelCorrect: "Правильно",
-                labelWrong: "Ошибки",
-                loading: "Загрузка...",
-                tapToPlay: "Нажмите для прослушивания",
-                playing: "Воспроизводится...",
-                loadingAudio: "Загрузка аудио...",
-                audioError: "Ошибка загрузки",
-                questionContinue: "Какой аят следует после этого?",
-                questionSurah: "Из какой суры этот аят?",
-                questionAudioSurah: "Какая это сура?",
-                questionAudioContinue: "Какой аят следует после?",
-                modeContinue: "ПРОДОЛЖЕНИЕ",
-                modeSurah: "ОПРЕДЕЛИТЬ СУРУ",
-                modeAudioSurah: "АУДИО - СУРА",
-                modeAudioContinue: "АУДИО - ПРОДОЛЖ.",
-                resultPerfect: "🌟 МашаАллах! Идеально! Вы истинный знаток Корана!",
-                resultGreat: "✨ БаракаЛлах! Отлично!",
-                resultGood: "👍 Хорошо! Ежедневный обзор поднимет вас выше!",
-                resultFail: "💪 Старайтесь! Продолжайте с терпением.",
-                advice: [
-                    {icon:"🎯", title:"Ихлас", desc:"Учите Коран только ради Аллаха, не для славы."},
-                    {icon:"📝", title:"Муташабихат", desc:"Знайте похожие аяты и их различия."},
-                    {icon:"🐢", title:"Тартиль", desc:"Качественное заучивание лучше быстрого."},
-                    {icon:"🔄", title:"Повторение", desc:"Повторяйте Коран ежедневно после молитв."},
-                    {icon:"🤲", title:"Истигфар", desc:"Просите прощения, грехи стирают память."}
-                ]
-            },
-            en: {
-                heroTitle: "Welcome!",
-                heroSubtitle: "Platform to strengthen Quran memorization and test your knowledge",
-                scoreLabel: "High Score",
-                btnText: "Text Test",
-                btnAudio: "Audio Test",
-                btnAdvice: "Advice",
-                textSettingsTitle: "Text Test",
-                audioSettingsTitle: "Audio Test",
-                labelType: "Test Type",
-                labelAudioType: "Test Type",
-                labelDiff: "Difficulty",
-                labelSource: "Source",
-                labelSheikh: "Select Reciter",
-                typeContinue: "Continue Ayah",
-                typeContinueDesc: "Find the next one",
-                typeSurah: "Identify Surah",
-                typeSurahDesc: "Which surah?",
-                audioTypeSurah: "Identify Surah",
-                audioTypeSurahDesc: "Listen and identify",
-                audioTypeContinue: "Continue Ayah",
-                audioTypeContinueDesc: "Find the next one",
-                diffEasy: "Easy",
-                diffMedium: "Medium",
-                diffHard: "Hard",
-                btnFullQuran: "Start from Juz 30",
-                dividerOr: "or select a juz",
-                btnStartAudio: "Start Test",
-                btnBack: "Go Back",
-                btnExit: "Exit",
-                btnNextText: "Next",
-                btnRetry: "Try Again",
-                btnHome: "Home",
-                adviceTitle: "Helpful Advice",
-                hikmatLabel: "Quranic Wisdom",
-                resultTitle: "Result",
-                labelCorrect: "Correct",
-                labelWrong: "Wrong",
-                loading: "Loading...",
-                tapToPlay: "Tap to play",
-                playing: "Playing...",
-                loadingAudio: "Loading audio...",
-                audioError: "Audio failed to load",
-                questionContinue: "Which verse comes after this?",
-                questionSurah: "Which surah is this verse from?",
-                questionAudioSurah: "Which surah is this?",
-                questionAudioContinue: "Which verse follows?",
-                modeContinue: "CONTINUE AYAH",
-                modeSurah: "IDENTIFY SURAH",
-                modeAudioSurah: "AUDIO - SURAH",
-                modeAudioContinue: "AUDIO - CONTINUE",
-                resultPerfect: "🌟 MashaAllah! Perfect! You are truly among the people of Quran!",
-                resultGreat: "✨ BarakAllah! Excellent!",
-                resultGood: "👍 Good! Daily review will elevate you!",
-                resultFail: "💪 Keep trying! Continue with patience.",
-                advice: [
-                    {icon:"🎯", title:"Ikhlas", desc:"Memorize Quran solely for Allah, not for fame."},
-                    {icon:"📝", title:"Mutashabihat", desc:"Know similar verses and their differences well."},
-                    {icon:"🐢", title:"Tartil", desc:"Quality memorization is better than speed."},
-                    {icon:"🔄", title:"Repetition", desc:"Review your Quran daily after prayers."},
-                    {icon:"🤲", title:"Istighfar", desc:"Ask forgiveness, sins erase memory."}
-                ]
+<script>
+// ========== FULL QURAN DATA - 114 SURAHS ==========
+const SURAHS = [
+    {n:1,name:"Al-Fatiha",ar:"الفاتحة",a:7,s:1},
+    {n:2,name:"Al-Baqarah",ar:"البقرة",a:286,s:8},
+    {n:3,name:"Ali 'Imran",ar:"آل عمران",a:200,s:294},
+    {n:4,name:"An-Nisa",ar:"النساء",a:176,s:494},
+    {n:5,name:"Al-Ma'idah",ar:"المائدة",a:120,s:670},
+    {n:6,name:"Al-An'am",ar:"الأنعام",a:165,s:790},
+    {n:7,name:"Al-A'raf",ar:"الأعراف",a:206,s:955},
+    {n:8,name:"Al-Anfal",ar:"الأنفال",a:75,s:1161},
+    {n:9,name:"At-Tawbah",ar:"التوبة",a:129,s:1236},
+    {n:10,name:"Yunus",ar:"يونس",a:109,s:1365},
+    {n:11,name:"Hud",ar:"هود",a:123,s:1474},
+    {n:12,name:"Yusuf",ar:"يوسف",a:111,s:1597},
+    {n:13,name:"Ar-Ra'd",ar:"الرعد",a:43,s:1708},
+    {n:14,name:"Ibrahim",ar:"إبراهيم",a:52,s:1751},
+    {n:15,name:"Al-Hijr",ar:"الحجر",a:99,s:1803},
+    {n:16,name:"An-Nahl",ar:"النحل",a:128,s:1902},
+    {n:17,name:"Al-Isra",ar:"الإسراء",a:111,s:2030},
+    {n:18,name:"Al-Kahf",ar:"الكهف",a:110,s:2141},
+    {n:19,name:"Maryam",ar:"مريم",a:98,s:2251},
+    {n:20,name:"Taha",ar:"طه",a:135,s:2349},
+    {n:21,name:"Al-Anbya",ar:"الأنبياء",a:112,s:2484},
+    {n:22,name:"Al-Hajj",ar:"الحج",a:78,s:2596},
+    {n:23,name:"Al-Mu'minun",ar:"المؤمنون",a:118,s:2674},
+    {n:24,name:"An-Nur",ar:"النور",a:64,s:2792},
+    {n:25,name:"Al-Furqan",ar:"الفرقان",a:77,s:2856},
+    {n:26,name:"Ash-Shu'ara",ar:"الشعراء",a:227,s:2933},
+    {n:27,name:"An-Naml",ar:"النمل",a:93,s:3160},
+    {n:28,name:"Al-Qasas",ar:"القصص",a:88,s:3253},
+    {n:29,name:"Al-Ankabut",ar:"العنكبوت",a:69,s:3341},
+    {n:30,name:"Ar-Rum",ar:"الروم",a:60,s:3410},
+    {n:31,name:"Luqman",ar:"لقمان",a:34,s:3470},
+    {n:32,name:"As-Sajdah",ar:"السجدة",a:30,s:3504},
+    {n:33,name:"Al-Ahzab",ar:"الأحزاب",a:73,s:3534},
+    {n:34,name:"Saba",ar:"سبأ",a:54,s:3607},
+    {n:35,name:"Fatir",ar:"فاطر",a:45,s:3661},
+    {n:36,name:"Ya-Sin",ar:"يس",a:83,s:3706},
+    {n:37,name:"As-Saffat",ar:"الصافات",a:182,s:3789},
+    {n:38,name:"Sad",ar:"ص",a:88,s:3971},
+    {n:39,name:"Az-Zumar",ar:"الزمر",a:75,s:4059},
+    {n:40,name:"Ghafir",ar:"غافر",a:85,s:4134},
+    {n:41,name:"Fussilat",ar:"فصلت",a:54,s:4219},
+    {n:42,name:"Ash-Shuraa",ar:"الشورى",a:53,s:4273},
+    {n:43,name:"Az-Zukhruf",ar:"الزخرف",a:89,s:4326},
+    {n:44,name:"Ad-Dukhan",ar:"الدخان",a:59,s:4415},
+    {n:45,name:"Al-Jathiyah",ar:"الجاثية",a:37,s:4474},
+    {n:46,name:"Al-Ahqaf",ar:"الأحقاف",a:35,s:4511},
+    {n:47,name:"Muhammad",ar:"محمد",a:38,s:4546},
+    {n:48,name:"Al-Fath",ar:"الفتح",a:29,s:4584},
+    {n:49,name:"Al-Hujurat",ar:"الحجرات",a:18,s:4613},
+    {n:50,name:"Qaf",ar:"ق",a:45,s:4631},
+    {n:51,name:"Adh-Dhariyat",ar:"الذاريات",a:60,s:4676},
+    {n:52,name:"At-Tur",ar:"الطور",a:49,s:4736},
+    {n:53,name:"An-Najm",ar:"النجم",a:62,s:4785},
+    {n:54,name:"Al-Qamar",ar:"القمر",a:55,s:4847},
+    {n:55,name:"Ar-Rahman",ar:"الرحمن",a:78,s:4902},
+    {n:56,name:"Al-Waqi'ah",ar:"الواقعة",a:96,s:4980},
+    {n:57,name:"Al-Hadid",ar:"الحديد",a:29,s:5076},
+    {n:58,name:"Al-Mujadila",ar:"المجادلة",a:22,s:5105},
+    {n:59,name:"Al-Hashr",ar:"الحشر",a:24,s:5127},
+    {n:60,name:"Al-Mumtahanah",ar:"الممتحنة",a:13,s:5151},
+    {n:61,name:"As-Saf",ar:"الصف",a:14,s:5164},
+    {n:62,name:"Al-Jumu'ah",ar:"الجمعة",a:11,s:5178},
+    {n:63,name:"Al-Munafiqun",ar:"المنافقون",a:11,s:5189},
+    {n:64,name:"At-Taghabun",ar:"التغابن",a:18,s:5200},
+    {n:65,name:"At-Talaq",ar:"الطلاق",a:12,s:5218},
+    {n:66,name:"At-Tahrim",ar:"التحريم",a:12,s:5230},
+    {n:67,name:"Al-Mulk",ar:"الملك",a:30,s:5242},
+    {n:68,name:"Al-Qalam",ar:"القلم",a:52,s:5272},
+    {n:69,name:"Al-Haqqah",ar:"الحاقة",a:52,s:5324},
+    {n:70,name:"Al-Ma'arij",ar:"المعارج",a:44,s:5376},
+    {n:71,name:"Nuh",ar:"نوح",a:28,s:5420},
+    {n:72,name:"Al-Jinn",ar:"الجن",a:28,s:5448},
+    {n:73,name:"Al-Muzzammil",ar:"المزمل",a:20,s:5476},
+    {n:74,name:"Al-Muddaththir",ar:"المدثر",a:56,s:5496},
+    {n:75,name:"Al-Qiyamah",ar:"القيامة",a:40,s:5552},
+    {n:76,name:"Al-Insan",ar:"الإنسان",a:31,s:5592},
+    {n:77,name:"Al-Mursalat",ar:"المرسلات",a:50,s:5623},
+    {n:78,name:"An-Naba",ar:"النبأ",a:40,s:5673},
+    {n:79,name:"An-Nazi'at",ar:"النازعات",a:46,s:5713},
+    {n:80,name:"Abasa",ar:"عبس",a:42,s:5759},
+    {n:81,name:"At-Takwir",ar:"التكوير",a:29,s:5801},
+    {n:82,name:"Al-Infitar",ar:"الانفطار",a:19,s:5830},
+    {n:83,name:"Al-Mutaffifin",ar:"المطففين",a:36,s:5849},
+    {n:84,name:"Al-Inshiqaq",ar:"الانشقاق",a:25,s:5885},
+    {n:85,name:"Al-Buruj",ar:"البروج",a:22,s:5910},
+    {n:86,name:"At-Tariq",ar:"الطارق",a:17,s:5932},
+    {n:87,name:"Al-A'la",ar:"الأعلى",a:19,s:5949},
+    {n:88,name:"Al-Ghashiyah",ar:"الغاشية",a:26,s:5968},
+    {n:89,name:"Al-Fajr",ar:"الفجر",a:30,s:5994},
+    {n:90,name:"Al-Balad",ar:"البلد",a:20,s:6024},
+    {n:91,name:"Ash-Shams",ar:"الشمس",a:15,s:6044},
+    {n:92,name:"Al-Layl",ar:"الليل",a:21,s:6059},
+    {n:93,name:"Ad-Duhaa",ar:"الضحى",a:11,s:6080},
+    {n:94,name:"Ash-Sharh",ar:"الشرح",a:8,s:6091},
+    {n:95,name:"At-Tin",ar:"التين",a:8,s:6099},
+    {n:96,name:"Al-Alaq",ar:"العلق",a:19,s:6107},
+    {n:97,name:"Al-Qadr",ar:"القدر",a:5,s:6126},
+    {n:98,name:"Al-Bayyinah",ar:"البينة",a:8,s:6131},
+    {n:99,name:"Az-Zalzalah",ar:"الزلزلة",a:8,s:6139},
+    {n:100,name:"Al-Adiyat",ar:"العاديات",a:11,s:6147},
+    {n:101,name:"Al-Qari'ah",ar:"القارعة",a:11,s:6158},
+    {n:102,name:"At-Takathur",ar:"التكاثر",a:8,s:6169},
+    {n:103,name:"Al-Asr",ar:"العصر",a:3,s:6177},
+    {n:104,name:"Al-Humazah",ar:"الهمزة",a:9,s:6180},
+    {n:105,name:"Al-Fil",ar:"الفيل",a:5,s:6189},
+    {n:106,name:"Quraysh",ar:"قريش",a:4,s:6194},
+    {n:107,name:"Al-Ma'un",ar:"الماعون",a:7,s:6198},
+    {n:108,name:"Al-Kawthar",ar:"الكوثر",a:3,s:6205},
+    {n:109,name:"Al-Kafirun",ar:"الكافرون",a:6,s:6208},
+    {n:110,name:"An-Nasr",ar:"النصر",a:3,s:6214},
+    {n:111,name:"Al-Masad",ar:"المسد",a:5,s:6217},
+    {n:112,name:"Al-Ikhlas",ar:"الإخلاص",a:4,s:6222},
+    {n:113,name:"Al-Falaq",ar:"الفلق",a:5,s:6226},
+    {n:114,name:"An-Nas",ar:"الناس",a:6,s:6231}
+];
+
+// Para (Juz) to Surah mapping
+const PARAS = {
+    1: [1,2], 2: [2], 3: [2,3], 4: [3,4], 5: [4], 6: [4,5], 7: [5,6], 8: [6,7], 9: [7,8], 10: [8,9],
+    11: [9,10,11], 12: [11,12], 13: [12,13,14], 14: [15,16], 15: [17,18], 16: [18,19,20], 17: [21,22], 18: [23,24,25],
+    19: [25,26,27], 20: [27,28,29], 21: [29,30,31,32,33], 22: [33,34,35,36], 23: [36,37,38,39], 24: [39,40,41],
+    25: [41,42,43,44,45], 26: [46,47,48,49,50,51], 27: [51,52,53,54,55,56,57], 28: [58,59,60,61,62,63,64,65,66],
+    29: [67,68,69,70,71,72,73,74,75,76,77], 30: [78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114]
+};
+
+const QARIS = [
+    {id:"alafasy", name:"Mishary Alafasy", emoji:"🎙️"},
+    {id:"husary", name:"Mahmoud Al-Husary", emoji:"📿"},
+    {id:"minshawi", name:"Mohamed Al-Minshawi", emoji:"🌙"}
+];
+
+const LANG = {
+    uz: {
+        heroTitle: "Xush kelibsiz!",
+        heroDesc: "Qur'on hifzini mustahkamlang va bilimingizni sinang",
+        highScore: "Eng yuqori natija",
+        btnTextTest: "Matnli test",
+        btnAudioTest: "Audio test",
+        btnTips: "Maslahatlar",
+        textTestTitle: "Matnli test",
+        audioTestTitle: "Audio test",
+        testType: "Test turi",
+        typeContinue: "Davomini toping",
+        typeContinueDesc: "Keyingi oyat",
+        typeSurah: "Surani toping",
+        typeSurahDesc: "Qaysi sura?",
+        audioSurah: "Surani toping",
+        audioSurahDesc: "Eshiting va toping",
+        audioContinue: "Davomi",
+        audioContinueDesc: "Keyingisi nima?",
+        difficulty: "Qiyinchilik",
+        easy: "Oson",
+        medium: "O'rta",
+        hard: "Qiyin",
+        selectPara: "Para tanlang",
+        allSurahs: "Barcha suralardan",
+        orSelectPara: "yoki para tanlang",
+        selectQari: "Qori tanlang",
+        startTest: "Testni boshlash",
+        back: "Ortga",
+        exit: "Chiqish",
+        next: "Keyingi",
+        wisdom: "Hikmat",
+        resultTitle: "Natija",
+        correct: "To'g'ri",
+        wrong: "Xato",
+        retry: "Qayta urinish",
+        home: "Bosh sahifa",
+        tipsTitle: "Maslahatlar",
+        loading: "Yuklanmoqda...",
+        tapToPlay: "Tinglash uchun bosing",
+        playing: "Ijro etilmoqda...",
+        questionContinue: "Ushbu oyatdan keyin qaysi oyat keladi?",
+        questionSurah: "Bu oyat qaysi suradan?",
+        questionAudioSurah: "Bu qaysi sura?",
+        questionAudioCont: "Eshitgan oyatdan keyin nima keladi?",
+        modeContinue: "DAVOMI",
+        modeSurah: "SURANI TOP",
+        modeAudioSurah: "AUDIO SURA",
+        modeAudioCont: "AUDIO DAVOM",
+        perfect: "🌟 MashaAlloh! Mukammal natija!",
+        great: "✨ Barakalloh! Juda yaxshi!",
+        good: "👍 Yaxshi! Davom eting!",
+        fail: "💪 G'ayrat qiling! Sabr bilan!",
+        tips: [
+            {icon:"🎯", title:"Ixlos", desc:"Qur'onni faqat Alloh uchun o'rganing"},
+            {icon:"📝", title:"Yozish", desc:"O'rgangan oyatlarni yozib boring"},
+            {icon:"🔄", title:"Takror", desc:"Har kuni takrorlang"},
+            {icon:"🎧", title:"Tinglash", desc:"Qoridan ko'p tinglang"},
+            {icon:"🤲", title:"Duo", desc:"Allohdan yordam so'rang"}
+        ],
+        wisdoms: [
+            {t:"Qur'on ahli - Allohning yaqinlari", s:"Hadis"},
+            {t:"Eng yaxshilaringiz Qur'on o'rganuvchilar", s:"Buxoriy"},
+            {t:"Qur'onni takrorlang, u tez ketadi", s:"Hadis"}
+        ]
+    },
+    ar: {
+        heroTitle: "أهلاً وسهلاً!",
+        heroDesc: "عزز حفظك واختبر معلوماتك",
+        highScore: "أعلى نتيجة",
+        btnTextTest: "اختبار نصي",
+        btnAudioTest: "اختبار صوتي",
+        btnTips: "نصائح",
+        textTestTitle: "اختبار نصي",
+        audioTestTitle: "اختبار صوتي",
+        testType: "نوع الاختبار",
+        typeContinue: "أكمل الآية",
+        typeContinueDesc: "الآية التالية",
+        typeSurah: "حدد السورة",
+        typeSurahDesc: "أي سورة؟",
+        audioSurah: "حدد السورة",
+        audioSurahDesc: "استمع وحدد",
+        audioContinue: "الإكمال",
+        audioContinueDesc: "ما التالي؟",
+        difficulty: "المستوى",
+        easy: "سهل",
+        medium: "متوسط",
+        hard: "صعب",
+        selectPara: "اختر الجزء",
+        allSurahs: "كل السور",
+        orSelectPara: "أو اختر جزءاً",
+        selectQari: "اختر القارئ",
+        startTest: "ابدأ الاختبار",
+        back: "رجوع",
+        exit: "خروج",
+        next: "التالي",
+        wisdom: "حكمة",
+        resultTitle: "النتيجة",
+        correct: "صحيح",
+        wrong: "خطأ",
+        retry: "إعادة",
+        home: "الرئيسية",
+        tipsTitle: "نصائح",
+        loading: "جاري التحميل...",
+        tapToPlay: "اضغط للاستماع",
+        playing: "يتم التشغيل...",
+        questionContinue: "ما الآية التالية؟",
+        questionSurah: "من أي سورة؟",
+        questionAudioSurah: "ما هذه السورة؟",
+        questionAudioCont: "ما بعد هذه الآية؟",
+        modeContinue: "الإكمال",
+        modeSurah: "السورة",
+        modeAudioSurah: "صوتي",
+        modeAudioCont: "صوتي",
+        perfect: "🌟 ما شاء الله! ممتاز!",
+        great: "✨ بارك الله فيك!",
+        good: "👍 جيد! استمر!",
+        fail: "💪 اجتهد أكثر!",
+        tips: [
+            {icon:"🎯", title:"الإخلاص", desc:"احفظ لله فقط"},
+            {icon:"📝", title:"الكتابة", desc:"اكتب ما تحفظ"},
+            {icon:"🔄", title:"التكرار", desc:"راجع يومياً"},
+            {icon:"🎧", title:"الاستماع", desc:"استمع كثيراً"},
+            {icon:"🤲", title:"الدعاء", desc:"ادع الله"}
+        ],
+        wisdoms: [
+            {t:"أهل القرآن أهل الله", s:"حديث"},
+            {t:"خيركم من تعلم القرآن", s:"البخاري"},
+            {t:"تعاهدوا القرآن", s:"حديث"}
+        ]
+    },
+    ru: {
+        heroTitle: "Добро пожаловать!",
+        heroDesc: "Укрепите хифз и проверьте знания",
+        highScore: "Лучший результат",
+        btnTextTest: "Текстовый тест",
+        btnAudioTest: "Аудио тест",
+        btnTips: "Советы",
+        textTestTitle: "Текстовый тест",
+        audioTestTitle: "Аудио тест",
+        testType: "Тип теста",
+        typeContinue: "Продолжение",
+        typeContinueDesc: "Следующий аят",
+        typeSurah: "Найти суру",
+        typeSurahDesc: "Какая сура?",
+        audioSurah: "Найти суру",
+        audioSurahDesc: "Слушайте",
+        audioContinue: "Продолжение",
+        audioContinueDesc: "Что дальше?",
+        difficulty: "Сложность",
+        easy: "Легко",
+        medium: "Средне",
+        hard: "Сложно",
+        selectPara: "Выберите джуз",
+        allSurahs: "Все суры",
+        orSelectPara: "или выберите джуз",
+        selectQari: "Выберите чтеца",
+        startTest: "Начать тест",
+        back: "Назад",
+        exit: "Выход",
+        next: "Далее",
+        wisdom: "Мудрость",
+        resultTitle: "Результат",
+        correct: "Верно",
+        wrong: "Ошибки",
+        retry: "Повторить",
+        home: "Главная",
+        tipsTitle: "Советы",
+        loading: "Загрузка...",
+        tapToPlay: "Нажмите",
+        playing: "Играет...",
+        questionContinue: "Какой аят следует?",
+        questionSurah: "Из какой суры?",
+        questionAudioSurah: "Какая это сура?",
+        questionAudioCont: "Что после?",
+        modeContinue: "ПРОДОЛЖ.",
+        modeSurah: "СУРА",
+        modeAudioSurah: "АУДИО",
+        modeAudioCont: "АУДИО",
+        perfect: "🌟 МашаАллах! Идеально!",
+        great: "✨ БаракаЛлах!",
+        good: "👍 Хорошо!",
+        fail: "💪 Старайтесь!",
+        tips: [
+            {icon:"🎯", title:"Ихлас", desc:"Учите ради Аллаха"},
+            {icon:"📝", title:"Запись", desc:"Записывайте"},
+            {icon:"🔄", title:"Повтор", desc:"Повторяйте"},
+            {icon:"🎧", title:"Слушание", desc:"Слушайте"},
+            {icon:"🤲", title:"Дуа", desc:"Просите Аллаха"}
+        ],
+        wisdoms: [
+            {t:"Люди Корана - люди Аллаха", s:"Хадис"},
+            {t:"Лучшие - учащие Коран", s:"Бухари"},
+            {t:"Повторяйте Коран", s:"Хадис"}
+        ]
+    },
+    en: {
+        heroTitle: "Welcome!",
+        heroDesc: "Strengthen your Quran memorization",
+        highScore: "High Score",
+        btnTextTest: "Text Test",
+        btnAudioTest: "Audio Test",
+        btnTips: "Tips",
+        textTestTitle: "Text Test",
+        audioTestTitle: "Audio Test",
+        testType: "Test Type",
+        typeContinue: "Continue",
+        typeContinueDesc: "Next ayah",
+        typeSurah: "Find Surah",
+        typeSurahDesc: "Which surah?",
+        audioSurah: "Find Surah",
+        audioSurahDesc: "Listen & find",
+        audioContinue: "Continue",
+        audioContinueDesc: "What's next?",
+        difficulty: "Difficulty",
+        easy: "Easy",
+        medium: "Medium",
+        hard: "Hard",
+        selectPara: "Select Juz",
+        allSurahs: "All Surahs",
+        orSelectPara: "or select juz",
+        selectQari: "Select Reciter",
+        startTest: "Start Test",
+        back: "Back",
+        exit: "Exit",
+        next: "Next",
+        wisdom: "Wisdom",
+        resultTitle: "Result",
+        correct: "Correct",
+        wrong: "Wrong",
+        retry: "Retry",
+        home: "Home",
+        tipsTitle: "Tips",
+        loading: "Loading...",
+        tapToPlay: "Tap to play",
+        playing: "Playing...",
+        questionContinue: "Which ayah comes next?",
+        questionSurah: "Which surah is this?",
+        questionAudioSurah: "Which surah?",
+        questionAudioCont: "What follows?",
+        modeContinue: "CONTINUE",
+        modeSurah: "SURAH",
+        modeAudioSurah: "AUDIO",
+        modeAudioCont: "AUDIO",
+        perfect: "🌟 MashaAllah! Perfect!",
+        great: "✨ BarakAllah! Great!",
+        good: "👍 Good! Keep going!",
+        fail: "💪 Keep trying!",
+        tips: [
+            {icon:"🎯", title:"Ikhlas", desc:"Learn for Allah only"},
+            {icon:"📝", title:"Writing", desc:"Write what you learn"},
+            {icon:"🔄", title:"Review", desc:"Review daily"},
+            {icon:"🎧", title:"Listen", desc:"Listen often"},
+            {icon:"🤲", title:"Dua", desc:"Ask Allah"}
+        ],
+        wisdoms: [
+            {t:"People of Quran are Allah's people", s:"Hadith"},
+            {t:"Best are those who learn Quran", s:"Bukhari"},
+            {t:"Review the Quran regularly", s:"Hadith"}
+        ]
+    }
+};
+
+// ========== APP ==========
+const App = {
+    lang: 'uz',
+    theme: 'light',
+    testType: 'continue',
+    audioType: 'surah',
+    diff: 'medium',
+    qari: QARIS[0],
+    selectedPara: null,
+    questions: [],
+    current: 0,
+    score: 0,
+    total: 10,
+    answered: false,
+    audio: null,
+    mode: null,
+    cache: {},
+
+    init() {
+        this.lang = localStorage.getItem('qiq_lang') || 'uz';
+        this.theme = localStorage.getItem('qiq_theme') || 'light';
+        const hs = localStorage.getItem('qiq_best') || '0';
+        
+        document.body.dataset.theme = this.theme;
+        document.getElementById('langSelect').value = this.lang;
+        document.getElementById('themeBtn').textContent = this.theme === 'dark' ? '☀️' : '🌙';
+        document.getElementById('bestScore').textContent = hs + '%';
+        
+        if (this.lang === 'ar') document.body.style.direction = 'rtl';
+        
+        this.updateTexts();
+        this.renderParas();
+        this.renderQaris();
+        this.renderTips();
+    },
+
+    t(key) { return LANG[this.lang][key] || key; },
+
+    updateTexts() {
+        document.querySelectorAll('[data-t]').forEach(el => {
+            const key = el.dataset.t;
+            if (LANG[this.lang][key]) el.textContent = LANG[this.lang][key];
+        });
+    },
+
+    changeLang(lang) {
+        this.lang = lang;
+        localStorage.setItem('qiq_lang', lang);
+        document.body.style.direction = lang === 'ar' ? 'rtl' : 'ltr';
+        this.updateTexts();
+        this.renderTips();
+    },
+
+    toggleTheme() {
+        this.theme = this.theme === 'light' ? 'dark' : 'light';
+        document.body.dataset.theme = this.theme;
+        document.getElementById('themeBtn').textContent = this.theme === 'dark' ? '☀️' : '🌙';
+        localStorage.setItem('qiq_theme', this.theme);
+    },
+
+    goTo(page) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        const pages = {home:'pageHome', textSetup:'pageTextSetup', audioSetup:'pageAudioSetup', quiz:'pageQuiz', result:'pageResult', tips:'pageTips'};
+        document.getElementById(pages[page]).classList.add('active');
+        window.scrollTo({top:0, behavior:'smooth'});
+    },
+
+    setTestType(type) {
+        this.testType = type;
+        document.querySelectorAll('[data-ttype]').forEach(c => c.classList.toggle('active', c.dataset.ttype === type));
+    },
+
+    setAudioType(type) {
+        this.audioType = type;
+        document.querySelectorAll('[data-atype]').forEach(c => c.classList.toggle('active', c.dataset.atype === type));
+    },
+
+    setDiff(d) {
+        this.diff = d;
+        document.querySelectorAll('[data-diff]').forEach(p => p.classList.toggle('active', p.dataset.diff === d));
+    },
+
+    selectQari(id) {
+        this.qari = QARIS.find(q => q.id === id);
+        document.querySelectorAll('.qari-card').forEach(c => c.classList.toggle('active', c.dataset.qid === id));
+    },
+
+    renderParas() {
+        const grid = document.getElementById('paraGrid');
+        grid.innerHTML = '';
+        for (let i = 1; i <= 30; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'para-item';
+            btn.textContent = i;
+            btn.onclick = () => {
+                document.querySelectorAll('.para-item').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                this.selectedPara = i;
+                setTimeout(() => this.beginTest('text'), 300);
+            };
+            grid.appendChild(btn);
+        }
+    },
+
+    renderQaris() {
+        const grid = document.getElementById('qariGrid');
+        grid.innerHTML = '';
+        QARIS.forEach((q, i) => {
+            const card = document.createElement('div');
+            card.className = 'qari-card' + (i === 0 ? ' active' : '');
+            card.dataset.qid = q.id;
+            card.innerHTML = `<div class="qari-avatar">${q.emoji}</div><div class="qari-name">${q.name}</div>`;
+            card.onclick = () => this.selectQari(q.id);
+            grid.appendChild(card);
+        });
+    },
+
+    renderTips() {
+        const list = document.getElementById('adviceList');
+        const tips = LANG[this.lang].tips;
+        list.innerHTML = tips.map(t => `
+            <li class="advice-item">
+                <div class="advice-icon">${t.icon}</div>
+                <div class="advice-content">
+                    <div class="advice-title">${t.title}</div>
+                    <div class="advice-desc">${t.desc}</div>
+                </div>
+            </li>
+        `).join('');
+    },
+
+    shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    },
+
+    async fetchAyah(surah, ayah) {
+        const key = `${surah}:${ayah}`;
+        if (this.cache[key]) return this.cache[key];
+        try {
+            const res = await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}`);
+            const data = await res.json();
+            if (data.code === 200) {
+                this.cache[key] = data.data;
+                return data.data;
             }
-        };
+        } catch(e) { console.error(e); }
+        return null;
+    },
 
-        // === HIKMAT (WISDOM) ===
-        const HIKMAT = {
-            uz: [
-                {text:"Qur'on ahli - Allohning xos bandalari va yaqinlaridur.", source:"Hadis"},
-                {text:"Eng yaxshilaringiz Qur'onni o'rganib, o'rgatganlardir.", source:"Hadis"},
-                {text:"Qur'onni qayta-qayta takrorlang, u tuyadan tezroq unutiladi.", source:"Hadis"},
-                {text:"Kim Qur'on o'qisa va unga amal qilsa, ota-onasiga toj kiydiriladi.", source:"Hadis"},
-                {text:"Qalblar zanglanadi, uni tozalash Qur'on tilovatidadir.", source:"Hadis"},
-                {text:"Qur'on sizning foyda yoki ziyoningizga hujjat bo'ladi.", source:"Hadis"},
-                {text:"Meni eslanglar, Men ham sizlarni eslayman.", source:"Qur'on, 2:152"},
-                {text:"Sabr qilganlarga cheksiz ajr beriladi.", source:"Qur'on, 39:10"}
-            ],
-            ar: [
-                {text:"أهل القرآن هم أهل الله وخاصته.", source:"حديث"},
-                {text:"خيركم من تعلم القرآن وعلمه.", source:"حديث"},
-                {text:"تعاهدوا القرآن فإنه أشد تفصياً من الإبل.", source:"حديث"},
-                {text:"من قرأ القرآن وعمل به ألبس والداه تاجاً.", source:"حديث"},
-                {text:"القلوب تصدأ وجلاؤها تلاوة القرآن.", source:"حديث"},
-                {text:"القرآن حجة لك أو عليك.", source:"حديث"},
-                {text:"فاذكروني أذكركم.", source:"القرآن ٢:١٥٢"},
-                {text:"إنما يوفى الصابرون أجرهم بغير حساب.", source:"القرآن ٣٩:١٠"}
-            ],
-            ru: [
-                {text:"Люди Корана - люди Аллаха и Его приближенные.", source:"Хадис"},
-                {text:"Лучшие из вас - те, кто учит Коран и обучает ему.", source:"Хадис"},
-                {text:"Повторяйте Коран, он забывается быстрее верблюда.", source:"Хадис"},
-                {text:"Кто читает Коран и действует по нему, его родителям наденут корону.", source:"Хадис"},
-                {text:"Сердца ржавеют, их полирует чтение Корана.", source:"Хадис"},
-                {text:"Коран - довод за тебя или против тебя.", source:"Хадис"},
-                {text:"Поминайте Меня, и Я буду помнить о вас.", source:"Коран 2:152"},
-                {text:"Терпеливым воздаётся без счёта.", source:"Коран 39:10"}
-            ],
-            en: [
-                {text:"People of Quran are people of Allah and His special servants.", source:"Hadith"},
-                {text:"The best of you are those who learn and teach the Quran.", source:"Hadith"},
-                {text:"Review the Quran regularly, it escapes faster than a camel.", source:"Hadith"},
-                {text:"Who reads and acts upon the Quran, his parents will be crowned.", source:"Hadith"},
-                {text:"Hearts rust, and the Quran polishes them.", source:"Hadith"},
-                {text:"The Quran is a proof for you or against you.", source:"Hadith"},
-                {text:"Remember Me, I will remember you.", source:"Quran 2:152"},
-                {text:"The patient will be given their reward without account.", source:"Quran 39:10"}
-            ]
-        };
+    getAudioUrl(num) {
+        const base = 'https://cdn.islamic.network/quran/audio/128/ar.alafasy/';
+        return base + num + '.mp3';
+    },
 
-        // === SURAHS DATA (Juz 30) ===
-        const SURAHS = [
-            {num:78, name:"An-Naba", ar:"النبأ", ayahs:40, start:5672},
-            {num:79, name:"An-Naziat", ar:"النازعات", ayahs:46, start:5712},
-            {num:80, name:"Abasa", ar:"عبس", ayahs:42, start:5758},
-            {num:81, name:"At-Takwir", ar:"التكوير", ayahs:29, start:5800},
-            {num:82, name:"Al-Infitar", ar:"الانفطار", ayahs:19, start:5829},
-            {num:83, name:"Al-Mutaffifin", ar:"المطففين", ayahs:36, start:5848},
-            {num:84, name:"Al-Inshiqaq", ar:"الانشقاق", ayahs:25, start:5884},
-            {num:85, name:"Al-Buruj", ar:"البروج", ayahs:22, start:5909},
-            {num:86, name:"At-Tariq", ar:"الطارق", ayahs:17, start:5931},
-            {num:87, name:"Al-Ala", ar:"الأعلى", ayahs:19, start:5948},
-            {num:88, name:"Al-Ghashiyah", ar:"الغاشية", ayahs:26, start:5967},
-            {num:89, name:"Al-Fajr", ar:"الفجر", ayahs:30, start:5993},
-            {num:90, name:"Al-Balad", ar:"البلد", ayahs:20, start:6023},
-            {num:91, name:"Ash-Shams", ar:"الشمس", ayahs:15, start:6043},
-            {num:92, name:"Al-Layl", ar:"الليل", ayahs:21, start:6058},
-            {num:93, name:"Ad-Duha", ar:"الضحى", ayahs:11, start:6079},
-            {num:94, name:"Ash-Sharh", ar:"الشرح", ayahs:8, start:6090},
-            {num:95, name:"At-Tin", ar:"التين", ayahs:8, start:6098},
-            {num:96, name:"Al-Alaq", ar:"العلق", ayahs:19, start:6106},
-            {num:97, name:"Al-Qadr", ar:"القدر", ayahs:5, start:6125},
-            {num:98, name:"Al-Bayyinah", ar:"البينة", ayahs:8, start:6130},
-            {num:99, name:"Az-Zalzalah", ar:"الزلزلة", ayahs:8, start:6138},
-            {num:100, name:"Al-Adiyat", ar:"العاديات", ayahs:11, start:6146},
-            {num:101, name:"Al-Qariah", ar:"القارعة", ayahs:11, start:6157},
-            {num:102, name:"At-Takathur", ar:"التكاثر", ayahs:8, start:6168},
-            {num:103, name:"Al-Asr", ar:"العصر", ayahs:3, start:6176},
-            {num:104, name:"Al-Humazah", ar:"الهمزة", ayahs:9, start:6179},
-            {num:105, name:"Al-Fil", ar:"الفيل", ayahs:5, start:6188},
-            {num:106, name:"Quraysh", ar:"قريش", ayahs:4, start:6193},
-            {num:107, name:"Al-Maun", ar:"الماعون", ayahs:7, start:6197},
-            {num:108, name:"Al-Kawthar", ar:"الكوثر", ayahs:3, start:6204},
-            {num:109, name:"Al-Kafirun", ar:"الكافرون", ayahs:6, start:6207},
-            {num:110, name:"An-Nasr", ar:"النصر", ayahs:3, start:6213},
-            {num:111, name:"Al-Masad", ar:"المسد", ayahs:5, start:6216},
-            {num:112, name:"Al-Ikhlas", ar:"الإخلاص", ayahs:4, start:6221},
-            {num:113, name:"Al-Falaq", ar:"الفلق", ayahs:5, start:6225},
-            {num:114, name:"An-Nas", ar:"الناس", ayahs:6, start:6230}
-        ];
+    getSurahsForTest() {
+        if (this.selectedPara && PARAS[this.selectedPara]) {
+            return PARAS[this.selectedPara].map(n => SURAHS.find(s => s.n === n)).filter(Boolean);
+        }
+        return SURAHS;
+    },
 
-        // === SHEIKHS DATA ===
-        const SHEIKHS = [
-            {id:"alafasy", name:"Al-Afasy", api:"ar.alafasy", emoji:"🎙️"},
-            {id:"husary", name:"Al-Husary", api:"ar.husary", emoji:"📿"},
-            {id:"minshawi", name:"Al-Minshawi", api:"ar.minshawi", emoji:"🌙"}
-        ];
+    async generateQuestions(type) {
+        const questions = [];
+        const pool = this.getSurahsForTest();
+        const count = this.diff === 'easy' ? 5 : this.diff === 'hard' ? 15 : 10;
+        const selected = this.shuffle(pool).slice(0, count + 5);
 
-        // === MAIN APP ===
-        const App = {
-            lang: "uz",
-            theme: "light",
-            diff: "medium",
-            textType: "continue",
-            audioType: "surah",
-            sheikh: SHEIKHS[0],
-            questions: [],
-            index: 0,
-            score: 0,
-            total: 10,
-            answered: false,
-            highScore: 0,
-            audio: null,
-            mode: null,
-            cache: {},
+        for (const surah of selected) {
+            if (questions.length >= count) break;
+            
+            const maxA = type === 'continue' ? surah.a - 1 : surah.a;
+            if (maxA < 1) continue;
+            
+            const ayahNum = Math.floor(Math.random() * maxA) + 1;
+            const globalNum = surah.s + ayahNum - 1;
 
-            // Initialize App
-            init() {
-                this.lang = localStorage.getItem("qiq_lang") || "uz";
-                this.theme = localStorage.getItem("qiq_theme") || "light";
-                this.highScore = parseInt(localStorage.getItem("qiq_high") || "0");
+            try {
+                const current = await this.fetchAyah(surah.n, ayahNum);
+                if (!current) continue;
 
-                document.body.dataset.theme = this.theme;
-                document.getElementById("langSelect").value = this.lang;
-                document.getElementById("themeBtn").textContent = this.theme === "dark" ? "☀️" : "🌙";
-                document.getElementById("highScore").textContent = this.highScore + "%";
+                if (type === 'continue') {
+                    const next = await this.fetchAyah(surah.n, ayahNum + 1);
+                    if (!next) continue;
 
-                if (this.lang === "ar") document.body.style.direction = "rtl";
-
-                this.translate();
-                this.renderJuz();
-                this.renderSheikhs();
-                this.renderAdvice();
-
-                console.log("✅ Qur'onIQ Premium initialized!");
-            },
-
-            // Get translation
-            t(key) {
-                return T[this.lang]?.[key] || key;
-            },
-
-            // Apply translations
-            translate() {
-                const keys = Object.keys(T[this.lang]);
-                keys.forEach(k => {
-                    const el = document.getElementById(k);
-                    if (el && typeof T[this.lang][k] === 'string') {
-                        el.textContent = T[this.lang][k];
+                    const wrongs = [];
+                    const others = this.shuffle(SURAHS.filter(s => s.n !== surah.n)).slice(0, 5);
+                    for (const o of others) {
+                        if (wrongs.length >= 3) break;
+                        const wA = Math.floor(Math.random() * o.a) + 1;
+                        const w = await this.fetchAyah(o.n, wA);
+                        if (w) wrongs.push(w.text);
                     }
-                });
-            },
 
-            // Set language
-            setLanguage(lang) {
-                this.lang = lang;
-                localStorage.setItem("qiq_lang", lang);
-                document.body.style.direction = lang === "ar" ? "rtl" : "ltr";
-                this.translate();
-                this.renderAdvice();
-            },
-
-            // Toggle theme
-            toggleTheme() {
-                this.theme = this.theme === "light" ? "dark" : "light";
-                document.body.dataset.theme = this.theme;
-                document.getElementById("themeBtn").textContent = this.theme === "dark" ? "☀️" : "🌙";
-                localStorage.setItem("qiq_theme", this.theme);
-            },
-
-            // Navigate to page
-            go(page) {
-                document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-                const map = {
-                    home: "pageHome",
-                    textSettings: "pageTextSettings",
-                    audioSettings: "pageAudioSettings",
-                    quiz: "pageQuiz",
-                    result: "pageResult",
-                    advice: "pageAdvice"
-                };
-                document.getElementById(map[page])?.classList.add("active");
-                window.scrollTo({top: 0, behavior: "smooth"});
-            },
-
-            // Set text type
-            setTextType(type) {
-                this.textType = type;
-                document.querySelectorAll("[data-type]").forEach(c => {
-                    c.classList.toggle("active", c.dataset.type === type);
-                });
-            },
-
-            // Set audio type
-            setAudioType(type) {
-                this.audioType = type;
-                document.querySelectorAll("[data-atype]").forEach(c => {
-                    c.classList.toggle("active", c.dataset.atype === type);
-                });
-            },
-
-            // Set difficulty
-            setDiff(d) {
-                this.diff = d;
-                document.querySelectorAll("[data-d]").forEach(p => {
-                    p.classList.toggle("active", p.dataset.d === d);
-                });
-            },
-
-            // Select sheikh
-            selectSheikh(id) {
-                this.sheikh = SHEIKHS.find(s => s.id === id) || SHEIKHS[0];
-                document.querySelectorAll(".sheikh-card").forEach(c => {
-                    c.classList.toggle("active", c.dataset.sid === id);
-                });
-            },
-
-            // Render Juz buttons
-            renderJuz() {
-                const grid = document.getElementById("juzGrid");
-                grid.innerHTML = "";
-                for (let i = 1; i <= 30; i++) {
-                    const btn = document.createElement("button");
-                    btn.className = "juz-item";
-                    btn.textContent = i;
-                    btn.onclick = () => {
-                        document.querySelectorAll(".juz-item").forEach(j => j.classList.remove("active"));
-                        btn.classList.add("active");
-                        setTimeout(() => this.startQuiz("text", i), 300);
-                    };
-                    grid.appendChild(btn);
-                }
-            },
-
-            // Render Sheikh cards
-            renderSheikhs() {
-                const grid = document.getElementById("sheikhGrid");
-                grid.innerHTML = "";
-                SHEIKHS.forEach((s, i) => {
-                    const card = document.createElement("div");
-                    card.className = "sheikh-card" + (i === 0 ? " active" : "");
-                    card.dataset.sid = s.id;
-                    card.innerHTML = `<div class="sheikh-avatar">${s.emoji}</div><div class="sheikh-name">${s.name}</div>`;
-                    card.onclick = () => this.selectSheikh(s.id);
-                    grid.appendChild(card);
-                });
-            },
-
-            // Render advice
-            renderAdvice() {
-                const list = document.getElementById("adviceList");
-                const advice = T[this.lang]?.advice || T.uz.advice;
-                list.innerHTML = advice.map(a => `
-                    <li class="advice-item">
-                        <div class="advice-icon">${a.icon}</div>
-                        <div class="advice-content">
-                            <div class="advice-title">${a.title}</div>
-                            <div class="advice-desc">${a.desc}</div>
-                        </div>
-                    </li>
-                `).join("");
-            },
-
-            // Fetch Ayah from API
-            async fetchAyah(surah, ayah) {
-                const key = `${surah}:${ayah}`;
-                if (this.cache[key]) return this.cache[key];
-                
-                try {
-                    const res = await fetch(`https://api.alquran.cloud/v1/ayah/${surah}:${ayah}`);
-                    const data = await res.json();
-                    if (data.code === 200) {
-                        this.cache[key] = data.data;
-                        return data.data;
+                    if (wrongs.length >= 3) {
+                        const opts = this.shuffle([next.text, ...wrongs.slice(0,3)]);
+                        questions.push({
+                            type: 'continue',
+                            surah, ayahNum, globalNum,
+                            text: current.text,
+                            answer: next.text,
+                            options: opts,
+                            correctIdx: opts.indexOf(next.text)
+                        });
                     }
-                } catch (e) {
-                    console.error("API Error:", e);
+                } else {
+                    const others = this.shuffle(SURAHS.filter(s => s.n !== surah.n)).slice(0, 3);
+                    const opts = this.shuffle([surah, ...others]);
+                    questions.push({
+                        type: 'surah',
+                        surah, ayahNum, globalNum,
+                        text: current.text,
+                        answer: surah.name,
+                        options: opts,
+                        correctIdx: opts.findIndex(o => o.n === surah.n)
+                    });
                 }
-                return null;
-            },
+            } catch(e) { console.error(e); }
+        }
+        return questions;
+    },
 
-            // Get audio URL
-            getAudioUrl(globalNum) {
-                return `https://cdn.islamic.network/quran/audio/128/${this.sheikh.api}/${globalNum}.mp3`;
-            },
+    showLoader(show) {
+        document.getElementById('loader').classList.toggle('show', show);
+        document.getElementById('loaderText').textContent = this.t('loading');
+    },
 
-            // Shuffle array
-            shuffle(arr) {
-                const a = [...arr];
-                for (let i = a.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [a[i], a[j]] = [a[j], a[i]];
-                }
-                return a;
-            },
+    async beginTest(mode) {
+        this.showLoader(true);
+        this.current = 0;
+        this.score = 0;
+        this.answered = false;
 
-            // Generate questions
-            async generateQuestions(mode) {
-                const questions = [];
-                const surahs = this.shuffle(SURAHS).slice(0, this.total + 5);
+        const type = mode === 'text' ? this.testType : this.audioType;
+        this.mode = mode + '_' + type;
+        this.questions = await this.generateQuestions(type);
 
-                for (const surah of surahs) {
-                    if (questions.length >= this.total) break;
+        this.showLoader(false);
 
-                    const maxAyah = mode === "continue" ? surah.ayahs - 1 : surah.ayahs;
-                    if (maxAyah < 1) continue;
-                    
-                    const ayahNum = Math.floor(Math.random() * maxAyah) + 1;
+        if (!this.questions.length) {
+            alert('Xatolik! Qaytadan urinib ko\'ring.');
+            return;
+        }
 
-                    try {
-                        const current = await this.fetchAyah(surah.num, ayahNum);
-                        if (!current) continue;
+        this.total = this.questions.length;
+        this.goTo('quiz');
+        this.showQ();
+    },
 
-                        if (mode === "continue") {
-                            const next = await this.fetchAyah(surah.num, ayahNum + 1);
-                            if (!next) continue;
+    showQ() {
+        const q = this.questions[this.current];
+        this.answered = false;
 
-                            const wrongs = [];
-                            const others = this.shuffle(SURAHS.filter(s => s.num !== surah.num)).slice(0, 5);
-                            
-                            for (const o of others) {
-                                if (wrongs.length >= 3) break;
-                                const wAyah = Math.floor(Math.random() * o.ayahs) + 1;
-                                const w = await this.fetchAyah(o.num, wAyah);
-                                if (w && w.text !== next.text) wrongs.push(w.text);
-                            }
+        document.getElementById('progressFill').style.width = (this.current / this.total * 100) + '%';
+        document.getElementById('quizCount').textContent = `${this.current + 1} / ${this.total}`;
 
-                            if (wrongs.length >= 3) {
-                                const opts = this.shuffle([next.text, ...wrongs.slice(0, 3)]);
-                                questions.push({
-                                    type: "continue",
-                                    surah: surah,
-                                    ayahNum: ayahNum,
-                                    ayahText: current.text,
-                                    globalNum: current.number,
-                                    correct: next.text,
-                                    options: opts,
-                                    correctIdx: opts.indexOf(next.text)
-                                });
-                            }
-                        } else {
-                            const others = this.shuffle(SURAHS.filter(s => s.num !== surah.num)).slice(0, 3);
-                            const opts = this.shuffle([
-                                {name: surah.name, ar: surah.ar},
-                                ...others.map(s => ({name: s.name, ar: s.ar}))
-                            ]);
-                            questions.push({
-                                type: "surah",
-                                surah: surah,
-                                ayahNum: ayahNum,
+        let badge = this.mode.includes('continue') ? 
+            (this.mode.includes('audio') ? this.t('modeAudioCont') : this.t('modeContinue')) :
+            (this.mode.includes('audio') ? this.t('modeAudioSurah') : this.t('modeSurah'));
+        document.getElementById('quizBadge').textContent = badge;
+
+        let qText = this.mode.includes('continue') ?
+            (this.mode.includes('audio') ? this.t('questionAudioCont') : this.t('questionContinue')) :
+            (this.mode.includes('audio') ? this.t('questionAudioSurah') : this.t('questionSurah'));
+        document.getElementById('questionText').textContent = qText;
+
+        const ayahEl = document.getElementById('ayahDisplay');
+        const audioEl = document.getElementById('audioPlayer');
+
+        if (this.mode.includes('text')) {
+            ayahEl.classList.remove('hidden');
+            audioEl.classList.add('hidden');
+            document.getElementById('ayahArabic').textContent = q.text;
+            document.getElementById('ayahInfo').textContent = `${q.surah.name} (${q.surah.ar}) - ${q.ayahNum}`;
+        } else {
+            ayahEl.classList.add('hidden');
+            audioEl.classList.remove('hidden');
+            this.setupAudio(q.globalNum);
+        }
+
+        const optList = document.getElementById('optionsList');
+        optList.innerHTML = '';
+        const letters = ['A', 'B', 'C', 'D'];
+
+        q.options.forEach((opt, i) => {
+            const div = document.createElement('div');
+            div.className = 'option-item';
+            
+            if (q.type === 'continue') {
+                div.classList.add('arabic');
+                div.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-content">${opt}</span>`;
+            } else {
+                const name = this.lang === 'ar' ? opt.ar : opt.name;
+                div.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-content">${name}</span>`;
+            }
+
+            div.onclick = () => this.answer(i);
+            optList.appendChild(div);
+        });
+
+        document.getElementById('wisdomBox').classList.remove('show');
+        document.getElementById('nextBtn').classList.remove('show');
+    },
+
+    setupAudio(num) {
+        if (this.audio) { this.audio.pause(); this.audio = null; }
+        
+        const btn = document.getElementById('playButton');
+        const txt = document.getElementById('audioText');
+        
+        btn.textContent = '▶️';
+        btn.classList.remove('playing');
+        txt.textContent = this.t('tapToPlay');
+
+        this.audio = new Audio(this.getAudioUrl(num));
+        this.audio.onplay = () => { btn.textContent = '⏸️'; btn.classList.add('playing'); txt.textContent = this.t('playing'); };
+        this.audio.onpause = () => { btn.textContent = '▶️'; btn.classList.remove('playing'); };
+        this.audio.onended = () => { btn.textContent = '▶️'; btn.classList.remove('playing'); txt.textContent = this.t('tapToPlay'); };
+        this.audio.onerror = () => { txt.textContent = '⚠️ Audio xato'; };
+    },
+
+    togglePlay() {
+        if (!this.audio) return;
+        if (this.audio.paused) this.audio.play().catch(e => console.error(e));
+        else this.audio.pause();
+    },
+
+    answer(idx) {
+        if (this.answered) return;
+        this.answered = true;
+
+        const q = this.questions[this.current];
+        const opts = document.querySelectorAll('.option-item');
+
+        opts.forEach(o => o.classList.add('disabled'));
+
+        if (idx === q.correctIdx) {
+            opts[idx].classList.add('correct');
+            this.score++;
+        } else {
+            opts[idx].classList.add('wrong');
+            opts[q.correctIdx].classList.add('correct');
+        }
+
+        const wisdoms = LANG[this.lang].wisdoms;
+        const w = wisdoms[Math.floor(Math.random() * wisdoms.length)];
+        document.getElementById('wisdomText').textContent = w.t;
+        document.getElementById('wisdomSource').textContent = '— ' + w.s;
+        document.getElementById('wisdomBox').classList.add('show');
+
+        document.getElementById('nextBtn').classList.add('show');
+    },
+
+    nextQ() {
+        this.current++;
+        if (this.current >= this.total) this.showResult();
+        else this.showQ();
+    },
+
+    showResult() {
+        if (this.audio) { this.audio.pause(); this.audio = null; }
+
+        const pct = Math.round(this.score / this.total * 100);
+        const best = parseInt(localStorage.getItem('qiq_best') || '0');
+        if (pct > best) {
+            localStorage.setItem('qiq_best', pct);
+            document.getElementById('bestScore').textContent = pct + '%';
+        }
+
+        this.goTo('result');
+
+        document.getElementById('resultPercent').textContent = pct + '%';
+        document.getElementById('correctCount').textContent = this.score;
+        document.getElementById('wrongCount').textContent = this.total - this.score;
+
+        const ring = document.getElementById('resultRing');
+        ring.classList.remove('excellent', 'good', 'poor');
+
+        let msg = '';
+        if (pct >= 90) { ring.classList.add('excellent'); msg = this.t('perfect'); }
+        else if (pct >= 60) { ring.classList.add('good'); msg = this.t('great'); }
+        else if (pct >= 40) { ring.classList.add('good'); msg = this.t('good'); }
+        else { ring.classList.add('poor'); msg = this.t('fail'); }
+
+        document.getElementById('resultMessage').textContent = msg;
+    },
+
+    quitQuiz() {
+        if (this.audio) { this.audio.pause(); this.audio = null; }
+        this.goTo('home');
+    },
+
+    retryTest() {
+        this.beginTest(this.mode.includes('text') ? 'text' : 'audio');
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => App.init());
+</script>
+</body>
+</html>
