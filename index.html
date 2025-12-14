@@ -3,706 +3,2172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Qur'oniy Zukkolik | Professional Hifz Tizimi</title>
-    <meta name="description" content="Jiddiy o'rganuvchilar uchun Oliy darajadagi Qur'on test platformasi.">
-    <meta name="author" content="Muhammad Daler">
-
-    <!-- FONTS: 'Outfit' (Zamonaviy O'zbekcha) va 'Amiri' (Qur'oniy Arabcha) -->
+    <title>Qur'onIQ Premium - Qur'on Hifzi Platformasi</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
-        /* * -----------------------------------------------------------
-         * 1. DIZAYN TIZIMI (DESIGN SYSTEM) - ISLAMIC MINIMAL
-         * -----------------------------------------------------------
-         */
         :root {
-            /* Ranglar Palitrasi */
-            --color-primary: #064e3b;       /* To'q Zumrad (Emerald 900) */
-            --color-primary-light: #10b981; /* Yorqin Zumrad */
-            --color-gold: #d97706;          /* Oltin (Amber 600) */
-            --color-gold-light: #fcd34d;    /* Ochiq Oltin */
-            --color-bg: #f8fafc;            /* Ochiq Fon */
-            --color-surface: #ffffff;       /* Kartalar foni */
-            --color-text: #1e293b;          /* Asosiy Matn */
-            --color-text-muted: #64748b;    /* Yordamchi Matn */
-            --color-error: #ef4444;
-            --color-success: #059669;
-
-            /* O'lchamlar va Radius */
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
-
-            /* Shriftlar */
-            --font-uz: 'Outfit', sans-serif;
-            --font-ar: 'Amiri', serif;
+            --primary: #1e7b4a;
+            --primary-light: #2a9f64;
+            --primary-dark: #0d5a2f;
+            --accent: #d4a574;
+            --accent-light: #e8c4a0;
+            --accent-dark: #8b6f47;
+            
+            --success: #10b981;
+            --error: #ef4444;
+            
+            --bg: #f5f3f0;
+            --bg-alt: #ede9e5;
+            --surface: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #555555;
+            --text-muted: #888888;
+            --border: #ddd7d1;
+            
+            --shadow: 0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+            --glow: 0 0 50px rgba(30,123,74,0.15);
+            
+            --radius: 20px;
+            --radius-sm: 12px;
+            
+            --font: 'Poppins', sans-serif;
+            --font-ar: 'Noto Naskh Arabic', 'Amiri', serif;
+            --font-quran: 'Amiri Quran', 'Amiri', serif;
         }
 
-        /* Dark Mode */
         [data-theme="dark"] {
-            --color-bg: #0f172a;
-            --color-surface: #1e293b;
-            --color-text: #f1f5f9;
-            --color-text-muted: #94a3b8;
-            --color-primary: #34d399;
-            --color-primary-light: #6ee7b7;
+            --bg: #0f1419;
+            --bg-alt: #1a2028;
+            --surface: #242d38;
+            --text: #f0f0f0;
+            --text-secondary: #b0b0b0;
+            --text-muted: #808080;
+            --border: #3a4450;
         }
 
-        /* -----------------------------------------------------------
-         * 2. RESET & GLOBAL STYLES
-         * -----------------------------------------------------------
-         */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: var(--font-uz);
-            background-color: var(--color-bg);
-            color: var(--color-text);
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -30%;
+            width: 120%;
+            height: 160%;
+            background: radial-gradient(ellipse 800px 600px at 70% 40%, rgba(30,123,74,0.12) 0%, transparent 70%);
+            animation: floatOrb 20s ease-in-out infinite;
+        }
+
+        .bg::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -40%;
+            width: 130%;
+            height: 150%;
+            background: radial-gradient(ellipse 700px 700px at 20% 60%, rgba(212,165,116,0.1) 0%, transparent 70%);
+            animation: floatOrb 25s ease-in-out infinite 2s;
+        }
+
+        @keyframes floatOrb {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(30px, -30px) scale(1.05); }
+            50% { transform: translate(-20px, 40px) scale(0.95); }
+            75% { transform: translate(40px, 20px) scale(1.08); }
+        }
+
+        .pattern {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.02;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(30,123,74,0.2) 0%, transparent 2%),
+                radial-gradient(circle at 60% 70%, rgba(212,165,116,0.2) 0%, transparent 2%);
+            background-size: 100px 100px;
+            animation: patternShift 40s linear infinite;
+        }
+
+        @keyframes patternShift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100px, 100px); }
+        }
+
+        .app {
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 16px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Container */
-        .app-shell {
-            width: 100%;
-            max-width: 650px; /* Kengroq ekranlar uchun */
-            margin: 0 auto;
-            padding: 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        /* -----------------------------------------------------------
-         * 3. UI KOMPONENTLARI
-         * -----------------------------------------------------------
-         */
-        
-        /* Tugmalar */
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 15px;
-        }
-        
-        .btn:active { transform: scale(0.98); }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--color-primary), #047857);
-            color: white;
-            box-shadow: 0 4px 15px rgba(6, 78, 59, 0.3);
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--color-text-muted);
-            color: var(--color-text);
-        }
-        
-        .btn-gold {
-            background: linear-gradient(135deg, var(--color-gold), #b45309);
-            color: white;
-        }
-
-        /* Kartalar va Panellar */
-        .card {
-            background: var(--color-surface);
-            border-radius: var(--radius-lg);
-            padding: 30px 25px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            animation: slideUp 0.4s ease-out;
-        }
-
-        /* Navigatsiya Header */
-        header {
+        .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0 25px;
-        }
-
-        /* Arabic Text Display */
-        .ayah-display {
-            font-family: var(--font-ar);
-            font-size: 2rem;
-            line-height: 2.4;
-            text-align: center;
-            color: var(--color-text);
-            margin: 25px 0;
-            direction: rtl;
-            padding: 20px;
-            background: var(--color-bg);
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        /* Options List */
-        .options-list { display: flex; flex-direction: column; gap: 12px; }
-        
-        .option-item {
-            background: var(--color-surface);
-            padding: 18px;
-            border-radius: var(--radius-md);
-            border: 2px solid var(--color-text-muted);
-            cursor: pointer;
-            transition: 0.2s;
-            font-weight: 500;
+            padding: 20px 0 32px;
             position: relative;
-            overflow: hidden;
-            text-align: right;
-            direction: rtl; /* Faqat arabcha javoblar uchun */
+            z-index: 10;
+            animation: slideDown 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* O'zbekcha javoblar uchun alohida stil */
-        .option-item.uzbek-answer {
-             text-align: left;
-             direction: ltr;
-             font-family: var(--font-uz);
-             font-size: 1.1rem;
-        }
-        
-        .option-item:hover { border-color: var(--color-primary); }
-        .option-item.correct { background: #dcfce7; border-color: #16a34a; color: #14532d; }
-        .option-item.wrong { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
-
-        /* Hikmat Box */
-        .hikmat-container {
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(217, 119, 6, 0.1);
-            border-left: 4px solid var(--color-gold);
-            border-radius: var(--radius-sm);
-            display: none;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Juz Grid */
-        .juz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
-            gap: 10px;
-            margin: 20px 0;
-            max-height: 300px;
-            overflow-y: auto;
-            padding-right: 5px;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
-        .juz-box {
-            aspect-ratio: 1;
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--color-bg);
-            border-radius: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            border: 2px solid transparent;
+            box-shadow: 0 12px 40px rgba(30,123,74,0.3), var(--glow);
+            position: relative;
+            overflow: hidden;
+            font-size: 2rem;
+            color: white;
+            font-family: var(--font-ar);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .juz-box:hover { border-color: var(--color-primary); color: var(--color-primary); }
-        .juz-box.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
 
-        /* Utility Classes */
-        .hidden { display: none !important; }
-        .text-center { text-align: center; }
-        .mt-20 { margin-top: 20px; }
-        
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .logo:hover .logo-icon {
+            transform: rotate(360deg) scale(1.1);
+            box-shadow: 0 16px 50px rgba(30,123,74,0.5), var(--glow);
+        }
 
-        /* Difficulty Selector */
-        .difficulty-selector button { flex: 1; margin-top: 0; }
-        .difficulty-selector { display: flex; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.3) 40%, transparent 100%);
+            animation: shimmerIcon 3s ease-in-out infinite;
+        }
 
-        .active-level {
-            background: var(--color-gold) !important;
-            color: white !important;
-            border-color: var(--color-gold) !important;
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 20px;
+            border: 2px solid var(--primary-light);
+            opacity: 0;
+            animation: pulseBorder 2s ease-out infinite;
+        }
+
+        @keyframes shimmerIcon {
+            0%, 100% { transform: translateX(-100%) skewX(-20deg); }
+            35% { transform: translateX(100%) skewX(-20deg); }
+            100% { transform: translateX(100%) skewX(-20deg); }
+        }
+
+        @keyframes pulseBorder {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.3); }
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .select-lang, .btn-theme {
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .select-lang::before, .btn-theme::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(30,123,74,0.2), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .select-lang:active::before, .btn-theme:active::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        .select-lang {
+            appearance: none;
+            background-image: url("image/svg+xml,%3Csvg width='12' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23555' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 32px;
+        }
+
+        .select-lang:hover, .btn-theme:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 24px rgba(30,123,74,0.3);
+        }
+
+        .select-lang:active, .btn-theme:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        .btn-theme {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .btn-theme:active {
+            animation: rotateClick 0.6s ease-out;
+        }
+
+        @keyframes rotateClick {
+            0% { transform: rotate(0deg) scale(0.95); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .page {
+            display: none;
+            flex: 1;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            animation: pageSlideIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes pageSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateX(100px) scale(0.9);
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            animation: cardFloat 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes cardFloat {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary-light), var(--primary));
+            background-size: 400% 100%;
+            animation: gradientSlide 4s ease infinite;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, rgba(30,123,74,0.03) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        @keyframes gradientSlide {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .hero-icon {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 28px;
+            background: linear-gradient(135deg, rgba(30,123,74,0.15), rgba(212,165,116,0.15));
+            border: 4px solid var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            box-shadow: 0 16px 52px rgba(30,123,74,0.25), 0 0 70px rgba(30,123,74,0.15), inset 0 0 40px rgba(30,123,74,0.1);
+            animation: floatHero 2.8s ease-in-out infinite;
+            position: relative;
+        }
+
+        .hero-icon::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-light);
+            opacity: 0;
+            animation: pulseRing 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .hero-icon::after {
+            content: '';
+            position: absolute;
+            inset: -24px;
+            border-radius: 50%;
+            border: 1.5px solid var(--accent);
+            opacity: 0;
+            animation: pulseRing 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.2s;
+        }
+
+        @keyframes floatHero {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-15px) scale(1.02); }
+            50% { transform: translateY(-22px) scale(1.04); }
+            75% { transform: translateY(-12px) scale(1.02); }
+        }
+
+        @keyframes pulseRing {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.4; }
+            100% { transform: scale(1.7); opacity: 0; }
+        }
+
+        .hero-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            animation: titleBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+        }
+
+        @keyframes titleBounce {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .hero-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            max-width: 340px;
+            margin: 0 auto;
+            line-height: 1.7;
+            animation: titleBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+        }
+
+        .score-box {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            border-radius: var(--radius-sm);
+            padding: 32px;
+            margin: 32px 0;
+            text-align: center;
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 12px 40px rgba(30,123,74,0.25), inset 0 0 30px rgba(30,123,74,0.1);
+            position: relative;
+            overflow: hidden;
+            color: white;
+            animation: titleBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s backwards;
+        }
+
+        .score-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+            animation: slideGradient 3s infinite;
+        }
+
+        .score-box::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes slideGradient {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .score-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .score-value {
+            font-size: 3.8rem;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            animation: scoreCounter 1.5s ease-out 0.6s backwards;
+        }
+
+        @keyframes scoreCounter {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: var(--font);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            z-index: 0;
+        }
+
+        .btn:active::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 10px 32px rgba(30,123,74,0.35);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+            animation: shimmerBtn 2s infinite;
+        }
+
+        @keyframes shimmerBtn {
+            0% { transform: translateX(-150%); }
+            100% { transform: translateX(150%); }
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 42px rgba(30,123,74,0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 6px 20px rgba(30,123,74,0.3);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            box-shadow: 0 10px 32px rgba(212,165,116,0.35);
+        }
+
+        .btn-gold::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%);
+            animation: shimmerBtn 2s infinite;
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 14px 42px rgba(212,165,116,0.5);
+        }
+
+        .btn-gold:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-outline {
+            background: var(--surface);
+            color: var(--text);
+            border: 2px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 24px rgba(30,123,74,0.2);
+        }
+
+        .btn-outline:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            padding: 12px;
+        }
+
+        .btn-ghost:hover {
+            color: var(--primary);
+            background: var(--bg-alt);
+            border-radius: var(--radius-sm);
+            transform: translateX(-4px);
+        }
+
+        .btn-ghost:active {
+            transform: translateX(0) scale(0.98);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .btn-group .btn {
+            animation: btnAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .btn-group .btn:nth-child(1) { animation-delay: 0.5s; }
+        .btn-group .btn:nth-child(2) { animation-delay: 0.6s; }
+        .btn-group .btn:nth-child(3) { animation-delay: 0.7s; }
+
+        @keyframes btnAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .btn-icon {
+            font-size: 1.3rem;
+            animation: iconSpin 2s ease-in-out infinite;
+        }
+
+        @keyframes iconSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.1); }
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            animation: titleBounce 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .section-title span:first-child {
+            font-size: 2rem;
+            animation: iconBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(10deg); }
+        }
+
+        .setting-group {
+            margin-bottom: 28px;
+            animation: settingSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .setting-group:nth-child(2) { animation-delay: 0.1s; }
+        .setting-group:nth-child(3) { animation-delay: 0.2s; }
+        .setting-group:nth-child(4) { animation-delay: 0.3s; }
+
+        @keyframes settingSlide {
+            0% {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .setting-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setting-label::before {
+            content: '';
+            width: 5px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 3px;
+            animation: barGrow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes barGrow {
+            0% {
+                height: 0;
+                opacity: 0;
+            }
+            100% {
+                height: 20px;
+                opacity: 1;
+            }
+        }
+
+        .pills {
+            display: flex;
+            gap: 10px;
+        }
+
+        .pill {
+            flex: 1;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pill::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(30,123,74,0.3), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .pill:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .pill:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(30,123,74,0.2);
+        }
+
+        .pill.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 8px 28px rgba(30,123,74,0.4);
+            transform: scale(1.05);
+            animation: pillSelect 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes pillSelect {
+            0% { transform: scale(1) rotate(0deg); }
+            40% { transform: scale(1.15) rotate(-5deg); }
+            100% { transform: scale(1.05) rotate(0deg); }
+        }
+
+        .type-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .type-card {
+            padding: 20px 16px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(30,123,74,0.2), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .type-card:active::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .type-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 12px 32px rgba(30,123,74,0.25);
+        }
+
+        .type-card.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(30,123,74,0.08), rgba(212,165,116,0.04));
+            box-shadow: 0 8px 28px rgba(30,123,74,0.3);
+            animation: typeSelect 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes typeSelect {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(-4deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .type-icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            display: inline-block;
+            animation: typeIconFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes typeIconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .type-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .type-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .juz-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 6px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-light) var(--bg-alt);
+        }
+
+        .juz-item {
+            aspect-ratio: 1;
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface);
+            color: var(--text);
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .juz-item:hover {
+            border-color: var(--primary);
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 8px 24px rgba(30,123,74,0.3);
+            z-index: 10;
+        }
+
+        .juz-item.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 10px 32px rgba(30,123,74,0.45);
+            animation: juzSelect 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes juzSelect {
+            0% { transform: scale(1) rotate(0deg); }
+            40% { transform: scale(1.3) rotate(-10deg); }
+            70% { transform: scale(1.15) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        .sheikh-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .sheikh-card {
+            padding: 18px 14px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sheikh-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(30,123,74,0.2), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .sheikh-card:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .sheikh-card:hover {
+            border-color: var(--primary-light);
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(30,123,74,0.2);
+        }
+
+        .sheikh-card.active {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(30,123,74,0.08), rgba(212,165,116,0.04));
+            box-shadow: 0 8px 28px rgba(30,123,74,0.3);
+            animation: sheikhSelect 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes sheikhSelect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .sheikh-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--bg-alt);
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .sheikh-card.active .sheikh-avatar {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: scale(1.2) rotate(15deg);
+            box-shadow: 0 6px 20px rgba(30,123,74,0.4);
+        }
+
+        .sheikh-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 22px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .quiz-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            animation: quizTopSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes quizTopSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quiz-counter {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        .quiz-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 25px;
+            box-shadow: 0 6px 16px rgba(30,123,74,0.25);
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .progress {
+            height: 10px;
+            background: var(--bg-alt);
+            border-radius: 10px;
+            margin-bottom: 24px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+            animation: progressAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s backwards;
+        }
+
+        @keyframes progressAppear {
+            0% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary-light));
+            border-radius: 10px;
+            transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmerProgress 2.5s infinite;
+        }
+
+        @keyframes shimmerProgress {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .question {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: questionSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s backwards;
+        }
+
+        @keyframes questionSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .question-text {
+            font-size: 1.12rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        .ayah-box {
+            margin: 24px 0;
+            padding: 30px 22px;
+            background: linear-gradient(135deg, rgba(30,123,74,0.08), rgba(212,165,116,0.04));
+            border-radius: var(--radius);
+            border: 2px solid rgba(30,123,74,0.12);
+            position: relative;
+            overflow: hidden;
+            animation: ayahAppear 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+        }
+
+        @keyframes ayahAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .ayah-box::before {
+            content: '✦';
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            font-size: 1.6rem;
+            color: var(--primary-light);
+            opacity: 0.4;
+            animation: rotate 25s linear infinite;
+        }
+
+        .ayah-box::after {
+            content: '✦';
+            position: absolute;
+            bottom: 14px;
+            left: 18px;
+            font-size: 1.4rem;
+            color: var(--accent);
+            opacity: 0.4;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .ayah-text {
+            font-family: var(--font-quran);
+            font-size: 2.1rem;
+            line-height: 2.8;
+            text-align: center;
+            color: var(--text);
+            direction: rtl;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ayah-ref {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .audio-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            padding: 36px;
+            margin: 24px 0;
+            background: var(--bg-alt);
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            animation: audioAppear 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+        }
+
+        @keyframes audioAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .audio-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(30,123,74,0.06) 0%, transparent 70%);
+            animation: pulseBg 4.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseBg {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        .play-btn {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            font-size: 2.4rem;
+            cursor: pointer;
+            box-shadow: 0 14px 48px rgba(30,123,74,0.45), 0 0 80px rgba(30,123,74,0.2);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .play-btn::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            border: 3px solid var(--primary-light);
+            opacity: 0;
+            animation: ringPulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .play-btn::after {
+            content: '';
+            position: absolute;
+            inset: -16px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            opacity: 0;
+            animation: ringPulse 1.3s cubic-bezier(0.4, 0, 0.6, 1) infinite 0.15s;
+        }
+
+        @keyframes ringPulse {
+            0% { transform: scale(1); opacity: 1; }
+            40% { transform: scale(1.2); opacity: 0.6; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 18px 60px rgba(30,123,74,0.6), 0 0 100px rgba(30,123,74,0.3);
+        }
+
+        .play-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 8px 24px rgba(30,123,74,0.4);
+        }
+
+        .play-btn:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: var(--shadow);
+        }
+
+        .play-btn.loading {
+            animation: rotateSpin 1s linear infinite;
+        }
+
+        @keyframes rotateSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .audio-status {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 18px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+            animation: optionSlide 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .option:nth-child(1) { animation-delay: 0.4s; }
+        .option:nth-child(2) { animation-delay: 0.5s; }
+        .option:nth-child(3) { animation-delay: 0.6s; }
+        .option:nth-child(4) { animation-delay: 0.7s; }
+
+        @keyframes optionSlide {
+            0% {
+                opacity: 0;
+                transform: translateX(-60px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(30,123,74,0.2), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .option:active::before {
+            width: 500px;
+            height: 500px;
+        }
+
+        .option:hover:not(.disabled) {
+            border-color: var(--primary-light);
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(30,123,74,0.2);
+        }
+
+        .option-letter {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bg-alt), var(--bg));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .option-text {
+            flex: 1;
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .option.arabic .option-text {
+            font-family: var(--font-ar);
+            font-size: 1.45rem;
+            text-align: right;
+            direction: rtl;
+            line-height: 2;
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.08));
+            border-color: var(--success);
+            animation: correctBounce 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .option.correct .option-letter {
+            background: linear-gradient(135deg, var(--success), var(--primary));
+            color: white;
+            box-shadow: 0 6px 20px rgba(16,185,129,0.4);
+            animation: correctSpin 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes correctBounce {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.08) translateX(5px); }
+            60% { transform: scale(1.05) translateX(-3px); }
+            100% { transform: scale(1) translateX(0); }
+        }
+
+        @keyframes correctSpin {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .option.wrong {
+            background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.08));
+            border-color: var(--error);
+            animation: wrongShake 0.6s;
+        }
+
+        .option.wrong .option-letter {
+            background: linear-gradient(135deg, var(--error), #dc2626);
+            color: white;
+            box-shadow: 0 6px 20px rgba(239,68,68,0.4);
+        }
+
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            10% { transform: translateX(-10px) rotate(-2deg); }
+            20% { transform: translateX(10px) rotate(2deg); }
+            30% { transform: translateX(-10px) rotate(-2deg); }
+            40% { transform: translateX(10px) rotate(2deg); }
+            50% { transform: translateX(-8px) rotate(-1deg); }
+            60% { transform: translateX(8px) rotate(1deg); }
+            70% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+            90% { transform: translateX(-2px); }
+        }
+
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .hikmat {
+            margin-top: 28px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(212,165,116,0.15), rgba(212,165,116,0.08));
+            border-radius: var(--radius-sm);
+            border: 2px solid rgba(212,165,116,0.25);
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hikmat::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .hikmat.show {
+            display: block;
+            animation: hikmatExpand 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes hikmatExpand {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.85);
+                max-height: 0;
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                max-height: 500px;
+            }
+        }
+
+        .hikmat-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--accent-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hikmat-text {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hikmat-source {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .quiz-actions .btn {
+            flex: 1;
+        }
+
+        .btn-next {
+            display: none;
+        }
+
+        .btn-next.show {
+            display: flex;
+            animation: nextBtnPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes nextBtnPop {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                transform: scale(1.15) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .result {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .result-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: resultScale 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), floatResult 3.5s ease-in-out infinite 1.2s;
+            box-shadow: var(--shadow-lg), var(--glow), 0 0 120px currentColor;
+        }
+
+        @keyframes resultScale {
+            0% {
+                transform: scale(0) rotate(-360deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.25) rotate(-180deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatResult {
+            0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+            35% { transform: translateY(-20px) scale(1.05) rotate(3deg); }
+            50% { transform: translateY(-25px) scale(1.08) rotate(-3deg); }
+            65% { transform: translateY(-18px) scale(1.04) rotate(2deg); }
+        }
+
+        .result-circle::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            border: 3px dashed currentColor;
+            opacity: 0.7;
+            animation: rotateBorder 8s linear infinite;
+        }
+
+        .result-circle::after {
+            content: '';
+            position: absolute;
+            inset: -24px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            opacity: 0.35;
+            animation: rotateBorder 10s linear infinite reverse;
+        }
+
+        @keyframes rotateBorder {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.05); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .result-circle.excellent {
+            background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(16,185,129,0.06));
+            color: var(--success);
+            border: 5px solid var(--success);
+        }
+
+        .result-circle.good {
+            background: linear-gradient(135deg, rgba(212,165,116,0.12), rgba(212,165,116,0.06));
+            color: var(--accent);
+            border: 5px solid var(--accent);
+        }
+
+        .result-circle.poor {
+            background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(239,68,68,0.06));
+            color: var(--error);
+            border: 5px solid var(--error);
+        }
+
+        .result-score {
+            font-size: 3.6rem;
+            font-weight: 900;
+            animation: scoreAppear 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+        }
+
+        @keyframes scoreAppear {
+            0% {
+                transform: scale(0) rotate(-180deg);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .result-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 24px;
+            animation: resultTitleSlide 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s backwards;
+        }
+
+        @keyframes resultTitleSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 26px;
+        }
+
+        .stat {
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            border: 2px solid var(--border);
+            animation: statPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .stat:nth-child(1) { animation-delay: 0.7s; }
+        .stat:nth-child(2) { animation-delay: 0.8s; }
+
+        @keyframes statPop {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(180deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .stat.success {
+            background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(16,185,129,0.06));
+            border-color: var(--success);
+        }
+
+        .stat.error {
+            background: linear-gradient(135deg, rgba(239,68,68,0.12), rgba(239,68,68,0.06));
+            border-color: var(--error);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            animation: statValueCount 1.5s ease-out 0.9s backwards;
+        }
+
+        @keyframes statValueCount {
+            0% {
+                opacity: 0;
+                transform: scale(2);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .stat.success .stat-value {
+            color: var(--success);
+        }
+
+        .stat.error .stat-value {
+            color: var(--error);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        .result-msg {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            padding: 20px;
+            background: var(--bg-alt);
+            border-radius: var(--radius-sm);
+            border-left: 5px solid var(--primary);
+            animation: msgSlide 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s backwards;
+        }
+
+        @keyframes msgSlide {
+            0% {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .advice-list {
+            list-style: none;
+        }
+
+        .advice-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            animation: adviceSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+        }
+
+        .advice-item:nth-child(1) { animation-delay: 0.1s; }
+        .advice-item:nth-child(2) { animation-delay: 0.2s; }
+        .advice-item:nth-child(3) { animation-delay: 0.3s; }
+        .advice-item:nth-child(4) { animation-delay: 0.4s; }
+        .advice-item:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes adviceSlide {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
+        .advice-item:last-child {
+            border-bottom: none;
+        }
+
+        .advice-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, rgba(30,123,74,0.12), rgba(212,165,116,0.12));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+            border: 2px solid var(--primary-light);
+            animation: iconBounceAdvice 2s ease-in-out infinite;
+        }
+
+        @keyframes iconBounceAdvice {
+            0%, 100% { transform: scale(1) translateY(0) rotate(0deg); }
+            50% { transform: scale(1.15) translateY(-8px) rotate(10deg); }
+        }
+
+        .advice-content {
+            flex: 1;
+        }
+
+        .advice-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .advice-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 28px 0;
+            text-align: center;
+            animation: footerFade 1s ease-out 0.5s backwards;
+        }
+
+        @keyframes footerFade {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer-text b {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
+            z-index: 1000;
+        }
+
+        [data-theme="dark"] .loader-overlay {
+            background: rgba(15,20,25,0.96);
+        }
+
+        .loader-overlay.show {
+            display: flex;
+            animation: loaderFade 0.3s ease-out;
+        }
+
+        @keyframes loaderFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .loader-spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loader-text {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            animation: loaderPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loaderPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .mt-16 {
+            margin-top: 16px;
+        }
+
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 400px) {
+            .logo-text {
+                font-size: 1.3rem;
+            }
+
+            .hero-title {
+                font-size: 1.8rem;
+            }
+
+            .ayah-text {
+                font-size: 1.8rem;
+            }
+
+            .option.arabic .option-text {
+                font-size: 1.25rem;
+            }
+
+            .juz-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .result-circle {
+                width: 160px;
+                height: 160px;
+            }
+
+            .result-score {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
 <body data-theme="light">
+    <div class="bg"></div>
+    <div class="pattern"></div>
 
-    <div class="app-shell">
-        
-        <!-- HEADER -->
-        <header>
-            <div class="brand" style="font-weight: 800; font-size: 1.4rem; color: var(--color-primary);">
-                <span>۞</span> QUR'ONIY ZUKKOLIK
-            </div>
-            <button class="btn-outline" style="width: auto; padding: 8px 12px; border-radius: 50%;" onclick="App.toggleTheme()">
-                🌙
-            </button>
-        </header>
-
-        <!-- 1. HOME PAGE -->
-        <section id="page-home" class="card active">
-            <div class="text-center">
-                <h1 style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;">Assalomu Alaykum!</h1>
-                <p style="color: var(--color-text-muted); margin-bottom: 25px;">
-                    Ushbu platforma Qur'on hifzingizni mutashabihlar va aniq o'rinlar bo'yicha yuqori IQ darajasida sinovdan o'tkazish uchun yaratilgan.
-                </p>
-                
-                <div style="background: var(--color-bg); padding: 15px; border-radius: var(--radius-md); margin-bottom: 25px;">
-                    <span style="font-size: 0.9rem; text-transform: uppercase; color: var(--color-text-muted);">Eng Yuqori Natija</span>
-                    <div style="font-size: 2.5rem; font-weight: 800; color: var(--color-gold);" id="display-highscore">0%</div>
-                </div>
-
-                <button class="btn btn-primary" onclick="App.navigate('select_type')">
-                    IMTIHONNI BOSHLASH
-                </button>
-                <button class="btn btn-outline mt-20" onclick="App.navigate('advice')">
-                    Maslahatlar Va Tavsiyalar
-                </button>
-            </div>
-        </section>
-
-        <!-- 2. TEST TURI TANLASH -->
-        <section id="page-select_type" class="card hidden">
-            <h2 class="text-center" style="color: var(--color-primary); margin-bottom: 20px;">1. Imtihon Turini Tanlang</h2>
-            
-            <button class="btn btn-gold" onclick="App.setTestType('surah_id', 'surah_id')">
-                QUR'ONDAN SURANI TOPISH
-                <span style="font-size: 0.8rem; opacity: 0.8; margin-top: 5px;">(IQ Test: Oyatni o'qib, qaysi sura ekanligini aniqlash)</span>
-            </button>
-            
-            <button class="btn btn-primary" onclick="App.setTestType('continuation', 'continuation')">
-                OYATNI DAVOM ETTIRISH
-                <span style="font-size: 0.8rem; opacity: 0.8; margin-top: 5px;">(Mutashabih va o'rinlarga e'tibor berish)</span>
-            </button>
-
-            <button class="btn btn-outline mt-20" onclick="App.navigate('home')">← Ortga Qaytish</button>
-        </section>
-
-        <!-- 3. SOHA VA DARAJA TANLASH -->
-        <section id="page-selection" class="card hidden">
-            <h2 class="text-center" style="color: var(--color-primary);">2. Soha va Darajani Tanlash</h2>
-            
-            <div class="mt-20">
-                <label style="font-weight: 600; font-size: 0.9rem;">Daraja: <span id="current-level-display" style="color: var(--color-gold);">O'rta</span></label>
-                <div class="difficulty-selector">
-                    <button class="btn btn-outline" id="diff-easy" onclick="App.setDifficulty('easy')">OSON</button>
-                    <button class="btn btn-outline active-level" id="diff-medium" onclick="App.setDifficulty('medium')">O'RTA</button>
-                    <button class="btn btn-outline" id="diff-hard" onclick="App.setDifficulty('hard')">QIYIN</button>
-                </div>
-            </div>
-
-            <div class="mt-20">
-                <label style="font-weight: 600; font-size: 0.9rem;">Soha Tanlovi:</label>
-                <button class="btn btn-gold" onclick="App.prepareQuestions('full')">BUTUN QUR'ON (Aralash)</button>
-                
-                <p style="text-align: center; margin: 15px 0; font-size: 0.8rem; opacity: 0.7;">— YOKI JUZNI TANLANG —</p>
-                
-                <div class="juz-grid" id="juz-container">
-                    <!-- JS fills this -->
-                </div>
-            </div>
-
-            <button class="btn btn-outline mt-20" onclick="App.navigate('select_type')">← Avvalgi Qadam</button>
-        </section>
-
-        <!-- 4. QUIZ PAGE (CORE) -->
-        <section id="page-quiz" class="card hidden">
-            <!-- Progress Bar -->
-            <div style="height: 6px; background: var(--color-bg); border-radius: 10px; overflow: hidden; margin-bottom: 15px;">
-                <div id="quiz-progress" style="height: 100%; width: 0%; background: var(--color-primary); transition: width 0.3s;"></div>
-            </div>
-            
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted);">
-                <span id="quiz-counter">1 / 10</span>
-                <span id="quiz-mode-label">JUZ 30 • QIYIN</span>
-            </div>
-
-            <h3 id="question-text" class="text-center mt-20" style="font-weight: 600; font-size: 1.1rem;">Savol matni yuklanmoqda...</h3>
-            
-            <div id="ayah-box" class="ayah-display">
-                <!-- Arabic Ayah -->
-            </div>
-
-            <div id="options-box" class="options-list">
-                <!-- Options -->
-            </div>
-
-            <!-- Hikmat (Feedback) -->
-            <div id="hikmat-panel" class="hikmat-container">
-                <span class="hikmat-title" style="color: var(--color-gold); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 5px;">🌟 Qur'oniy Hikmat</span>
-                <p id="hikmat-content" style="font-style: italic; font-weight: 500; line-height: 1.6;"></p>
-            </div>
-
-            <div class="mt-20" style="display: flex; gap: 10px;">
-                <button class="btn btn-outline" style="flex: 1; border-color: var(--color-error); color: var(--color-error); margin-top: 0;" onclick="App.navigate('home')">Chiqish</button>
-                <button id="btn-next" class="btn btn-primary hidden" style="flex: 2; margin-top: 0;" onclick="App.nextQuestion()">Keyingi Savol →</button>
-            </div>
-        </section>
-
-        <!-- 5. RESULTS PAGE -->
-        <section id="page-result" class="card hidden text-center">
-            <h2 style="color: var(--color-primary);">Natijalar Tahlili</h2>
-            
-            <div style="width: 150px; height: 150px; border-radius: 50%; border: 8px solid var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 30px auto; font-size: 3rem; font-weight: 800; color: var(--color-primary);">
-                <span id="res-score">0%</span>
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
-                <div style="background: #dcfce7; padding: 15px; border-radius: 12px; color: #14532d;">
-                    ✅ To'g'ri: <strong id="res-correct">0</strong>
-                </div>
-                <div style="background: #fee2e2; padding: 15px; border-radius: 12px; color: #7f1d1d;">
-                    ❌ Xato: <strong id="res-wrong">0</strong>
-                </div>
-            </div>
-
-            <p id="res-msg" style="margin-bottom: 25px; font-weight: 600; line-height: 1.5;">...</p>
-
-            <button class="btn btn-primary" onclick="App.navigate('select_type')">Qayta Urinish</button>
-            <button class="btn btn-outline mt-20" onclick="App.navigate('home')">Bosh Sahifa</button>
-        </section>
-
-        <!-- 6. ADVICE PAGE -->
-        <section id="page-advice" class="card hidden">
-            <h2 style="color: var(--color-primary); margin-bottom: 20px;">Maslahatlar Va Tavsiyalar</h2>
-            <ul style="padding-left: 20px; line-height: 1.8; color: var(--color-text);">
-                <li style="margin-bottom: 10px;"><strong>Mutashabihlar:</strong> O'xshash oyatlarning kalit so'zlarini (masalan, 'Robbik' yoki 'Alloh') yozib oling. Bu test aynan shu nozik joylarni kuchaytiradi.</li>
-                <li style="margin-bottom: 10px;"><strong>Qaytariq:</strong> Bir Juzni yangi Juzga o'tishdan oldin 3-4 marta to'liq qaytaring.</li>
-                <li style="margin-bottom: 10px;"><strong>Tafakkur:</strong> Yodlayotgan oyatingizning ma'nosiga chuqur e'tibor bering. Ma'no o'rinni eslab qolishga yordam beradi.</li>
-                <li style="margin-bottom: 10px;"><strong>Qiyin Daraja:</strong> 'Qiyin' darajadagi testlarni har kuni 5 minut bo'lsa ham topshiring. Bu sizni diqqatni jamlashga majbur qiladi.</li>
-            </ul>
-            <button class="btn btn-outline mt-20" onclick="App.navigate('home')">Tushunarli</button>
-        </section>
-
+    <div class="loader-overlay" id="loader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text" id="loaderText">Yuklanmoqda...</div>
     </div>
 
-    <footer>
-        © Muhammad Daler tomonidan ishlab chiqarilgan <br>
-        <span style="opacity: 0.6; font-size: 0.7rem;">Ultra Smart Quran Test v5.0 (Final Architecture)</span>
-    </footer>
+    <div class="app">
+        <header class="header">
+            <div class="logo" onclick="App.go('home')">
+                <div class="logo-icon">📖</div>
+                <div class="logo-text">Qur'on<b>IQ</b></div>
+            </div>
+            <div class="header-actions">
+                <select class="select-lang" id="langSelect" onchange="App.setLanguage(this.value)">
+                    <option value="uz">O'zbek</option>
+                    <option value="ar">العربية</option>
+                    <option value="ru">Русский</option>
+                    <option value="en">English</option>
+                </select>
+                <button class="btn-theme" id="themeBtn" onclick="App.toggleTheme()">🌙</button>
+            </div>
+        </header>
 
-    <!-- 
-     * -----------------------------------------------------------
-     * 7. LOGIKA VA MA'LUMOTLAR BAZASI (JAVASCRIPT)
-     * -----------------------------------------------------------
-    -->
-    <script>
-        // QUR'ON MA'LUMOTLAR BAZASI (NAMUNA)
-        // Savollar "High-IQ" talabiga mos, mutashabihlar va aniq o'rinlar ustida qurilgan.
-        const QUESTION_DB = [
-            // --- OYATNI DAVOM ETTIRISH (CONTINUATION) ---
-            
-            // 1. QIYIN (Mutashabih/So'z tartibi)
-            { juz: 2, level: 'hard', type: 'continuation', surah: "Al-Baqara", q: "Al-Baqara surasi 217-oyat: 'Fitna qatlidan ham kattaroqdir' deyilgan. Ushbu oyatni davom ettiring:", a: "وَلَا يَزَالُونَ يُقَٰتِلُونَكُمۡ حَتَّىٰ يَرُدُّوكُمۡ عَن دِينِكُمۡ إِنِ ٱسۡتَطَٰعُوۚاْ وَمَن يَرۡتَدِدۡ مِنكُمۡ عَن دِينِهِۦ فَيَمُتۡ وَهُوَ كَافِرٌ", opts: ["فَأُو۟لَٰٓئِكَ حَبِطَتۡ أَعۡمَٰلُهُمۡ فِي ٱلدُّنۡيَا وَٱلۡءَاخِرَةِ", "أُو۟لَٰٓئِكَ أَصۡحَٰبُ ٱلنَّارِ هُمۡ فِيهَا خَٰلِدُونَ", "وَمَن يَبْتَغِ غَيْرَ الْإِسْلَامِ دِينًا فَلَن يُقْبَلَ مِنْهُ"], c: 0 },
-            { juz: 3, level: 'hard', type: 'continuation', surah: "Ali 'Imron", q: "Ali 'Imron surasidagi ushbu oyat qanday tugaydi?", a: "رَبَّنَآ إِنَّنَا سَمِعۡنَا مُنَادِيٗا يُنَادِي لِلۡإِيمَٰنِ أَنۡ ءَامِنُواْ بِرَبِّكُمۡ فَـَٔامَنَّا", opts: ["رَبَّنَا فَٱغۡفِرۡ لَنَا ذُنُوبَنَا وَكَفِّرۡ عَنَّا سَيِّـَٔاتِنَا", "رَبَّنَا لَا تُزِغۡ قُلُوبَنَا بَعۡدَ إِذۡ هَدَيۡتَنَا", "إِنَّ ٱللَّهَ لَا يُخۡلِفُ ٱلۡمِيعَادَ"], c: 0 },
-            
-            // 2. O'RTA (Ma'no va davomiylik)
-            { juz: 18, level: 'medium', type: 'continuation', surah: "Al-Kahf", q: "Al-Kahf surasi: 'Meni zikr qilishdan g'ofil qolgan kishiga itoat etma...'", a: "وَلَا تُطِعۡ مَنۡ أَغۡفَلۡنَا قَلۡبَهُۥ عَن ذِكۡرِنَا", opts: ["وَٱتَّبَعَ هَوَىٰهُ وَكَانَ أَمۡرُهُۥ فُرُطٗا", "وَأَطِعۡ مَنۡ أَنَابَ إِلَيَّ", "وَقُلِ ٱلۡحَقُّ مِن رَّبِّكُمۡ"], c: 0 },
-            { juz: 29, level: 'medium', type: 'continuation', surah: "Al-Mulk", q: "Al-Mulk surasi 2-oyatni to'ldiring:", a: "ٱلَّذِي خَلَقَ ٱلۡمَوۡتَ وَٱلۡحَيَوٰةَ لِيَبۡلُوَكُمۡ", opts: ["أَيُّكُمۡ أَحۡسَنُ عَمَلٗا", "أَيُّهُمْ أَصْدَقُ إِيمَانًا", "أَيُّهُمْ أَشَدُّ عِبَادَةً"], c: 0 },
-            
-            // 3. OSON (Kichik suralar)
-            { juz: 30, level: 'easy', type: 'continuation', surah: "Al-A'la", q: "Al-A'la surasi 3-oyat:", a: "وَٱلَّذِي قَدَّرَ", opts: ["فَهَدَىٰ", "فَسَوَّىٰ", "فَجَعَلَهُۥ غُثَآءً أَحۡوَىٰ"], c: 0 },
-            { juz: 30, level: 'easy', type: 'continuation', surah: "Al-Fajr", q: "Al-Fajr surasidagi 'Robbing kelganda' oyatini davom ettiring:", a: "وَجَآءَ رَبُّكَ", opts: ["وَٱلۡمَلَكُ صَفّٗا صَفّٗا", "ثُمَّ يُعِيدُكُمۡ", "فَسَوَّىٰكَ فَعَدَلَكَ"], c: 0 },
+        <main id="pageHome" class="page active">
+            <div class="card">
+                <div class="hero">
+                    <div class="hero-icon">📖</div>
+                    <h1 class="hero-title" id="heroTitle">Xush kelibsiz!</h1>
+                    <p class="hero-subtitle" id="heroSubtitle">Qur'on hifzini mustahkamlash va bilimingizni sinash uchun mukammal platforma</p>
+                    <div class="score-box">
+                        <div class="score-label" id="scoreLabel">Eng yuqori natija</div>
+                        <div class="score-value" id="highScore">0%</div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="App.go('textSettings')">
+                        <span class="btn-icon">📝</span>
+                        <span id="btnText">Matnli test</span>
+                    </button>
+                    <button class="btn btn-gold" onclick="App.go('audioSettings')">
+                        <span class="btn-icon">🎧</span>
+                        <span id="btnAudio">Audio test</span>
+                    </button>
+                    <button class="btn btn-outline" onclick="App.go('advice')">
+                        <span class="btn-icon">💡</span>
+                        <span id="btnAdvice">Maslahatlar</span>
+                    </button>
+                </div>
+            </div>
+        </main>
 
+        <section id="pageTextSettings" class="page">
+            <div class="card">
+                <h2 class="section-title"><span>📝</span> <span id="textSettingsTitle">Matnli test</span></h2>
 
-            // --- QUR'ONDAN SURANI TOPISH (SURAH_ID) ---
-            
-            // 4. QIYIN (Mashhur oyat, mutashabih sura nomlari)
-            { juz: 27, level: 'hard', type: 'surah_id', q: "Quyidagi oyat qaysi suraga tegishli? (Jinn va Insonlarga murojaat):", a: "فَبِأَيِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ", opts: ["Ar-Rahmon", "Al-Qamar", "Al-Jinn"], c: 0, ans_uz: "Ar-Rahmon surasi" },
-            { juz: 28, level: 'hard', type: 'surah_id', q: "Bu oyat Al-Qur'onning qaysi surasidan?", a: "سَلَٰمٌ هِيَ حَتَّىٰ مَطۡلَعِ ٱلۡفَجۡرِ", opts: ["Al-Qadr", "Al-Fajr", "Al-Muzammil"], c: 0, ans_uz: "Al-Qadr surasi" },
-            
-            // 5. O'RTA (Suraning asosiy g'oyasini aks ettiruvchi oyat)
-            { juz: 2, level: 'medium', type: 'surah_id', q: "Qaysi surada 'Dinida majburlash yo'q' oyati kelgan?", a: "لَآ إِكۡرَاهَ فِي ٱلدِّينِۖ", opts: ["Al-Baqara", "Al-Kafirun", "Yunus"], c: 0, ans_uz: "Al-Baqara surasi" },
-            { juz: 24, level: 'medium', type: 'surah_id', q: "Bu oyat qaysi surada kelgan?", a: "ٱللَّهُ نُورُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِ", opts: ["An-Nur", "Al-Hadid", "Yasin"], c: 0, ans_uz: "An-Nur surasi" },
-            
-            // 6. OSON (Kichik va mashhur suralar)
-            { juz: 30, level: 'easy', type: 'surah_id', q: "Bu oyat qaysi suraning oxirgi oyati?", a: "وَلَمۡ يَكُن لَّهُۥ كُفُوًا أَحَدُۢ", opts: ["Al-Ixlos", "Al-Masad", "Al-Falaq"], c: 0, ans_uz: "Al-Ixlos surasi" },
-            { juz: 30, level: 'easy', type: 'surah_id', q: "Bu oyat qaysi suraga tegishli?", a: "مَٰلِكِ يَوۡمِ ٱلدِّينِ", opts: ["Al-Fatiha", "An-Nas", "Al-Mulk"], c: 0, ans_uz: "Al-Fatiha surasi" },
-        ];
+                <div class="setting-group">
+                    <div class="setting-label" id="labelType">Test turi</div>
+                    <div class="type-grid">
+                        <div class="type-card active" data-type="continue" onclick="App.setTextType('continue')">
+                            <div class="type-icon">➡️</div>
+                            <div class="type-name" id="typeContinue">Oyat davomi</div>
+                            <div class="type-desc" id="typeContinueDesc">Keyingi oyatni toping</div>
+                        </div>
+                        <div class="type-card" data-type="surah" onclick="App.setTextType('surah')">
+                            <div class="type-icon">🔍</div>
+                            <div class="type-name" id="typeSurah">Surani toping</div>
+                            <div class="type-desc" id="typeSurahDesc">Qaysi suradan</div>
+                        </div>
+                    </div>
+                </div>
 
-        // Qur'oniy Hikmatlar (Motivation)
-        const HIKMATLAR = [
-            "Qur'on o'qilgan xonadon — nurga to'lgan xonadondir. Bu nur qalbni ham yoritadi.",
-            "Ilm oling, zero ilm saodat kalitidir. Qur'on ilmi esa eng ulug'idir.",
-            "Sabr qiling, albatta Alloh sabrlilar bilan birgadir. Hifzdagi qiyinchiliklar o'tkinchidir.",
-            "Hifzni saqlash – uni yodlashdan qiyinroqdir. Doimiy takror – bu jumboqning yechimi.",
-            "Gunohlar hifzni unuttiradi. Istig'forni ko'paytiring, toki hifzingiz mustahkam bo'lsin.",
-            "Haqiqiy g'olib – qiyinchiliklarga qaramay, har kuni Qur'onini takrorlaydigan kishidir.",
-            "Qur'on bilan turgan qalbni hech narsa sindira olmaydi."
-        ];
+                <div class="setting-group">
+                    <div class="setting-label" id="labelDiff">Qiyinchilik darajasi</div>
+                    <div class="pills">
+                        <button class="pill" data-d="easy" onclick="App.setDiff('easy')" id="diffEasy">Oson</button>
+                        <button class="pill active" data-d="medium" onclick="App.setDiff('medium')" id="diffMedium">O'rta</button>
+                        <button class="pill" data-d="hard" onclick="App.setDiff('hard')" id="diffHard">Qiyin</button>
+                    </div>
+                </div>
 
-        // --- GLOBAL APP CONTROLLER ---
-        window.App = {
-            state: {
-                difficulty: 'medium',   // Oson, O'rta, Qiyin
-                testType: null,         // 'surah_id' yoki 'continuation'
-                juzFilter: null,        // 1-30 yoki 'full'
-                
-                questions: [],
-                currentIndex: 0,
-                score: 0,
-                total: 10,              // Har bir test uchun 10 savol
-                isAnswered: false,
-                highScore: parseInt(localStorage.getItem('quran_highscore') || 0)
-            },
+                <div class="setting-group">
+                    <div class="setting-label" id="labelSource">Manba</div>
+                    <button class="btn btn-primary" onclick="App.startQuiz('text')">
+                        <span>📚</span>
+                        <span id="btnFullQuran">30-juzdan boshlash</span>
+                    </button>
+                    <div class="divider" id="dividerOr">yoki juz tanlang</div>
+                    <div class="juz-grid" id="juzGrid"></div>
+                </div>
 
-            // Ilovani ishga tushirish
-            init: function() {
-                this.renderJuzGrid();
-                document.getElementById('display-highscore').innerText = this.state.highScore + "%";
-                
-                // Theme check
-                if(localStorage.getItem('theme') === 'dark') {
-                    document.body.setAttribute('data-theme', 'dark');
-                }
-                this.setDifficulty('medium'); // Defaultni o'rnatish
-            },
+                <button class="btn btn-ghost mt-16" onclick="App.go('home')">
+                    <span>←</span>
+                    <span id="btnBack">Ortga</span>
+                </button>
+            </div>
+        </section>
 
-            // --- NAVIGATSIYA ---
-            navigate: function(screenId) {
-                document.querySelectorAll('section').forEach(el => {
-                    el.classList.add('hidden');
-                    el.classList.remove('active');
-                });
-                
-                const target = document.getElementById('page-' + screenId);
-                target.classList.remove('hidden');
-                
-                setTimeout(() => target.classList.add('active'), 10);
-                window.scrollTo(0,0);
-            },
+        <section id="pageAudioSettings" class="page">
+            <div class="card">
+                <h2 class="section-title"><span>🎧</span> <span id="audioSettingsTitle">Audio test</span></h2>
 
-            // --- SOZLAMALARNI YIG'ISH ---
-            setDifficulty: function(level) {
-                this.state.difficulty = level;
-                // UI yangilash
-                const levelMap = { 'easy': 'OSON', 'medium': 'O\'RTA', 'hard': 'QIYIN' };
-                document.getElementById('current-level-display').innerText = levelMap[level];
+                <div class="setting-group">
+                    <div class="setting-label" id="labelSheikh">Qori tanlang</div>
+                    <div class="sheikh-grid" id="sheikhGrid"></div>
+                </div>
 
-                ['easy', 'medium', 'hard'].forEach(l => {
-                    const btn = document.getElementById('diff-' + l);
-                    if (l === level) {
-                        btn.classList.add('active-level');
-                        btn.classList.remove('btn-outline');
-                    } else {
-                        btn.classList.remove('active-level');
-                        btn.classList.add('btn-outline');
-                    }
-                });
-            },
+                <div class="setting-group">
+                    <div class="setting-label" id="labelAudioType">Test turi</div>
+                    <div class="type-grid">
+                        <div class="type-card active" data-atype="surah" onclick="App.setAudioType('surah')">
+                            <div class="type-icon">🔍</div>
+                            <div class="type-name" id="audioTypeSurah">Surani toping</div>
+                            <div class="type-desc" id="audioTypeSurahDesc">Eshitib aniqlang</div>
+                        </div>
+                        <div class="type-card" data-atype="continue" onclick="App.setAudioType('continue')">
+                            <div class="type-icon">➡️</div>
+                            <div class="type-name" id="audioTypeContinue">Oyat davomi</div>
+                            <div class="type-desc" id="audioTypeContinueDesc">Keyingisini toping</div>
+                        </div>
+                    </div>
+                </div>
 
-            setTestType: function(type) {
-                this.state.testType = type;
-                this.navigate('selection');
-            },
+                <button class="btn btn-gold mt-20" onclick="App.startQuiz('audio')">
+                    <span>🎵</span>
+                    <span id="btnStartAudio">Boshlash</span>
+                </button>
 
-            toggleTheme: function() {
-                const body = document.body;
-                const isDark = body.getAttribute('data-theme') === 'dark';
-                const newTheme = isDark ? 'light' : 'dark';
-                body.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-            },
+                <button class="btn btn-ghost mt-16" onclick="App.go('home')">
+                    <span>←</span>
+                    <span id="btnBack2">Ortga</span>
+                </button>
+            </div>
+        </section>
 
-            // --- JUZ UI GENERATOR ---
-            renderJuzGrid: function() {
-                const container = document.getElementById('juz-container');
-                container.innerHTML = '';
-                for (let i = 1; i <= 30; i++) {
-                    const btn = document.createElement('div');
-                    btn.className = 'juz-box';
-                    btn.innerText = 'Juz ' + i;
-                    btn.onclick = () => this.prepareQuestions(i);
-                    container.appendChild(btn);
-                }
-            },
+        <section id="pageQuiz" class="page">
+            <div class="card">
+                <div class="quiz-top">
+                    <span class="quiz-counter" id="quizCounter">1 / 10</span>
+                    <span class="quiz-badge" id="quizBadge">TEST</span>
+                </div>
 
-            // --- TEST MANTIQI (LOGIC) ---
-            prepareQuestions: function(filter) {
-                this.state.juzFilter = filter;
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                </div>
 
-                let pool = QUESTION_DB.filter(q => 
-                    (filter === 'full' || q.juz === filter) && 
-                    q.level === this.state.difficulty &&
-                    q.type === this.state.testType
-                );
+                <div class="question">
+                    <p class="question-text" id="questionText">Savol...</p>
+                </div>
 
-                // Agar tanlangan darajada savol yetmasa, savolni umumiy pooldan olamiz.
-                // Bu holatda savollar sifati yuqori bo'lgani uchun, agar tanlangan daraja kam bo'lsa, aralash savollarni qo'shamiz.
-                if (pool.length < this.state.total) {
-                    const backupPool = QUESTION_DB.filter(q => 
-                        (filter === 'full' || q.juz === filter) && 
-                        q.type === this.state.testType &&
-                        q.level !== this.state.difficulty
-                    );
-                    
-                    // Mavjud savollarni aralashtirib, kerakli miqdorda olamiz
-                    pool = pool.concat(backupPool).sort(() => 0.5 - Math.random());
-                }
-
-                this.state.questions = pool.slice(0, this.state.total);
-                
-                if (this.state.questions.length === 0) {
-                    alert("Afsuski, tanlangan sohada savollar hozircha yetarli emas. Iltimos, boshqa Juz yoki Darajani tanlang.");
-                    this.navigate('selection');
-                    return;
-                }
-
-                this.state.currentIndex = 0;
-                this.state.score = 0;
-                
-                this.navigate('quiz');
-                this.renderQuestion();
-            },
-
-            renderQuestion: function() {
-                const q = this.state.questions[this.state.currentIndex];
-                this.state.isAnswered = false;
-
-                // UI Update
-                document.getElementById('quiz-counter').innerText = `${this.state.currentIndex + 1} / ${this.state.total}`;
-                
-                // Progress Bar
-                const progress = ((this.state.currentIndex) / this.state.total) * 100;
-                document.getElementById('quiz-progress').style.width = `${progress}%`;
-
-                // Header info
-                const juzTxt = this.state.juzFilter === 'full' ? 'BUTUN QUR\'ON' : `JUZ ${this.state.juzFilter}`;
-                const levelMap = { 'easy': 'OSON', 'medium': 'O\'RTA', 'hard': 'QIYIN' };
-                const typeMap = { 'surah_id': 'SURANI TOPISH', 'continuation': 'DAVOM ETTIRISH' };
-                document.getElementById('quiz-mode-label').innerText = `${juzTxt} • ${typeMap[q.type]} • ${levelMap[q.level]}`;
-
-                // Content
-                document.getElementById('question-text').innerText = q.q;
-                // Ayah faqat continuation bo'lsa ko'rsatiladi
-                document.getElementById('ayah-box').innerText = q.a;
-                document.getElementById('ayah-box').style.display = (q.type === 'continuation' || q.type === 'surah_id') ? 'block' : 'none';
-
-                // Reset Panels
-                document.getElementById('hikmat-panel').style.display = 'none';
-                document.getElementById('btn-next').classList.add('hidden');
-
-                // Options Render
-                const optsContainer = document.getElementById('options-box');
-                optsContainer.innerHTML = '';
-
-                // Create array of answers with index tracking
-                let answers = q.opts.map((txt, idx) => ({ text: txt, isCorrect: idx === q.c }));
-                // Shuffle answers
-                answers.sort(() => 0.5 - Math.random());
-
-                answers.forEach(ans => {
-                    const btn = document.createElement('div');
-                    btn.className = 'option-item';
-                    
-                    // Arabcha yoki o'zbekcha javob ekanligini aniqlash (Surah ID uchun o'zbekcha)
-                    if (q.type === 'surah_id') {
-                        btn.classList.add('uzbek-answer');
-                        btn.style.direction = 'ltr';
-                        btn.style.fontFamily = 'var(--font-uz)';
-                        btn.style.fontSize = '1.1rem';
-                        btn.style.textAlign = 'center';
-                        btn.innerText = ans.text;
-                    } else {
-                        btn.innerText = ans.text;
-                        btn.style.fontFamily = 'var(--font-ar)';
-                        btn.style.fontSize = '1.4rem';
-                        btn.style.textAlign = 'right';
-                    }
-                    
-                    btn.onclick = (e) => this.checkAnswer(e.target, ans.isCorrect, answers);
-                    optsContainer.appendChild(btn);
-                });
-            },
-
-            checkAnswer: function(el, isCorrect, allAnswers) {
-                if (this.state.isAnswered) return;
-                this.state.isAnswered = true;
-
-                // Variantlarni bloklash
-                document.querySelectorAll('.option-item').forEach(opt => opt.style.pointerEvents = 'none');
-
-                if (isCorrect) {
-                    el.classList.add('correct');
-                    this.state.score++;
-                } else {
-                    el.classList.add('wrong');
-                    // To'g'risini ko'rsatish
-                    document.querySelectorAll('.option-item').forEach(opt => {
-                        const correctTxt = allAnswers.find(a => a.isCorrect).text;
-                        if (opt.innerText === correctTxt) {
-                            opt.classList.add('correct');
-                        }
-                    });
-                }
-
-                // Hikmat Ko'rsatish
-                const randomHikmat = HIKMATLAR[Math.floor(Math.random() * HIKMATLAR.length)];
-                document.getElementById('hikmat-content').innerText = randomHikmat;
-                document.getElementById('hikmat-panel').style.display = 'block';
-
-                // Keyingi tugmasi
-                const btnNext = document.getElementById('btn-next');
-                btnNext.classList.remove('hidden');
-                btnNext.innerText = (this.state.currentIndex === this.state.total - 1) ? "NATIJANI KO'RISH" : "KEYINGI SAVOL →";
-                
-                // Progress update
-                document.getElementById('quiz-progress').style.width = `${((this.state.currentIndex + 1) / this.state.total) * 100}%`;
-            },
-
-            nextQuestion: function() {
-                if (this.state.currentIndex < this.state.total - 1) {
-                    this.state.currentIndex++;
-                    this.renderQuestion();
-                } else {
-                    this.finishQuiz();
-                }
-            },
-
-            finishQuiz: function() {
-                const score = this.state.score;
-                const total = this.state.total;
-                const percent = Math.round((score / total) * 100);
-
-                // Save High Score
-                if (percent > this.state.highScore) {
-                    this.state.highScore = percent;
-                    localStorage.setItem('quran_highscore', percent);
-                    document.getElementById('display-highscore').innerText = percent + "%";
-                }
-
-                // Result Screen Content
-                document.getElementById('res-score').innerText = percent + "%";
-                document.getElementById('res-correct').innerText = score;
-                document.getElementById('res-wrong').innerText = total - score;
-
-                // Message Logic
-                let msg = "";
-                if (percent === 100) msg = "MashaAlloh! Hifzingiz mukammal! Bu natijani saqlang va doimiy takrorlang.";
-                else if (percent >= 80) msg = "Barakalla! Juda kuchli natija. Kichik xatolaringiz mutashabihlar o'rnida bo'lsa, ularni qayta yozib chiqing.";
-                else if (percent >= 50) msg = "Yaxshi. Lekin bu test sizning o'rinlarda adashayotganingizni ko'rsatdi. O'rta Juzlardan takrorlashni kuchaytiring.";
-                else msg = "G'ayrat qiling! Asosiy e'tiborni qiyin va mutashabih joylarga qarating. Alloh madadkor bo'lsin.";
-                
-                document.getElementById('res-msg').innerText = msg;
-                this.navigate('result');
-            }
-        };
-
-        // Ilova yuklanganda ishga tushirish
-        window.onload = function() {
-            App.init();
-        };
-
-    </script>
-</body>
-</html>
-
+                <div class="ayah-box hidden" id="ayahBox">
+                    <div class="ayah-text" id="ayahText"></div>
+                    <div class="ayah-ref" id="ayahRef"></div>
+                </div>
