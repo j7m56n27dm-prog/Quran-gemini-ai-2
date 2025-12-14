@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Qur'oniy Zukkolik | Professional Hifz Tizimi</title>
+    <meta name="description" content="Jiddiy o'rganuvchilar uchun Oliy darajadagi Qur'on test platformasi.">
+    <meta name="author" content="Muhammad Daler">
+
+    <!-- FONTS: 'Outfit' (Zamonaviy O'zbekcha) va 'Amiri' (Qur'oniy Arabcha) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* * -----------------------------------------------------------
+         * 1. DIZAYN TIZIMI (DESIGN SYSTEM) - ISLAMIC MINIMAL
+         * -----------------------------------------------------------
+         */
+        :root {
+            /* Ranglar Palitrasi */
+            --color-primary: #064e3b;       /* To'q Zumrad (Emerald 900) */
+            --color-primary-light: #10b981; /* Yorqin Zumrad */
+            --color-gold: #d97706;          /* Oltin (Amber 600) */
+            --color-gold-light: #fcd34d;    /* Ochiq Oltin */
+            --color-bg: #f8fafc;            /* Ochiq Fon */
+            --color-surface: #ffffff;       /* Kartalar foni */
+            --color-text: #1e293b;          /* Asosiy Matn */
+            --color-text-muted: #64748b;    /* Yordamchi Matn */
+            --color-error: #ef4444;
+            --color-success: #059669;
+
+            /* O'lchamlar va Radius */
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+
+            /* Shriftlar */
+            --font-uz: 'Outfit', sans-serif;
+            --font-ar: 'Amiri', serif;
+        }
+
+        /* Dark Mode */
+        [data-theme="dark"] {
+            --color-bg: #0f172a;
+            --color-surface: #1e293b;
+            --color-text: #f1f5f9;
+            --color-text-muted: #94a3b8;
+            --color-primary: #34d399;
+            --color-primary-light: #6ee7b7;
+        }
+
+        /* -----------------------------------------------------------
+         * 2. RESET & GLOBAL STYLES
+         * -----------------------------------------------------------
+         */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: var(--font-uz);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Container */
+        .app-shell {
+            width: 100%;
+            max-width: 650px; /* Kengroq ekranlar uchun */
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* -----------------------------------------------------------
+         * 3. UI KOMPONENTLARI
+         * -----------------------------------------------------------
+         */
+        
+        /* Tugmalar */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 15px;
+        }
+        
+        .btn:active { transform: scale(0.98); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-primary), #047857);
+            color: white;
+            box-shadow: 0 4px 15px rgba(6, 78, 59, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-text-muted);
+            color: var(--color-text);
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, var(--color-gold), #b45309);
+            color: white;
+        }
+
+        /* Kartalar va Panellar */
+        .card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 30px 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        /* Navigatsiya Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 25px;
+        }
+
+        /* Arabic Text Display */
+        .ayah-display {
+            font-family: var(--font-ar);
+            font-size: 2rem;
+            line-height: 2.4;
+            text-align: center;
+            color: var(--color-text);
+            margin: 25px 0;
+            direction: rtl;
+            padding: 20px;
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Options List */
+        .options-list { display: flex; flex-direction: column; gap: 12px; }
+        
+        .option-item {
+            background: var(--color-surface);
+            padding: 18px;
+            border-radius: var(--radius-md);
+            border: 2px solid var(--color-text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            text-align: right;
+            direction: rtl; /* Faqat arabcha javoblar uchun */
+        }
+
+        /* O'zbekcha javoblar uchun alohida stil */
+        .option-item.uzbek-answer {
+             text-align: left;
+             direction: ltr;
+             font-family: var(--font-uz);
+             font-size: 1.1rem;
+        }
+        
+        .option-item:hover { border-color: var(--color-primary); }
+        .option-item.correct { background: #dcfce7; border-color: #16a34a; color: #14532d; }
+        .option-item.wrong { background: #fee2e2; border-color: #dc2626; color: #7f1d1d; }
+
+        /* Hikmat Box */
+        .hikmat-container {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(217, 119, 6, 0.1);
+            border-left: 4px solid var(--color-gold);
+            border-radius: var(--radius-sm);
+            display: none;
+        }
+
+        /* Juz Grid */
+        .juz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        .juz-box {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-bg);
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid transparent;
+        }
+        .juz-box:hover { border-color: var(--color-primary); color: var(--color-primary); }
+        .juz-box.active { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .mt-20 { margin-top: 20px; }
+        
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* Difficulty Selector */
+        .difficulty-selector button { flex: 1; margin-top: 0; }
+        .difficulty-selector { display: flex; gap: 10px; margin-top: 10px; margin-bottom: 20px; }
+
+        .active-level {
+            background: var(--color-gold) !important;
+            color: white !important;
+            border-color: var(--color-gold) !important;
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <div class="app-shell">
+        
+        <!-- HEADER -->
+        <header>
+            <div class="brand" style="font-weight: 800; font-size: 1.4rem; color: var(--color-primary);">
+                <span>۞</span> QUR'ONIY ZUKKOLIK
+            </div>
+            <button class="btn-outline" style="width: auto; padding: 8px 12px; border-radius: 50%;" onclick="App.toggleTheme()">
+                🌙
+            </button>
+        </header>
+
+        <!-- 1. HOME PAGE -->
+        <section id="page-home" class="card active">
+            <div class="text-center">
+                <h1 style="font-size: 2rem; color: var(--color-primary); margin-bottom: 10px;">Assalomu Alaykum!</h1>
+                <p style="color: var(--color-text-muted); margin-bottom: 25px;">
+                    Ushbu platforma Qur'on hifzingizni mutashabihlar va aniq o'rinlar bo'yicha yuqori IQ darajasida sinovdan o'tkazish uchun yaratilgan.
+                </p>
+                
+                <div style="background: var(--color-bg); padding: 15px; border-radius: var(--radius-md); margin-bottom: 25px;">
+                    <span style="font-size: 0.9rem; text-transform: uppercase; color: var(--color-text-muted);">Eng Yuqori Natija</span>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: var(--color-gold);" id="display-highscore">0%</div>
+                </div>
+
+                <button class="btn btn-primary" onclick="App.navigate('select_type')">
+                    IMTIHONNI BOSHLASH
+                </button>
+                <button class="btn btn-outline mt-20" onclick="App.navigate('advice')">
+                    Maslahatlar Va Tavsiyalar
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. TEST TURI TANLASH -->
+        <section id="page-select_type" class="card hidden">
+            <h2 class="text-center" style="color: var(--color-primary); margin-bottom: 20px;">1. Imtihon Turini Tanlang</h2>
+            
+            <button class="btn btn-gold" onclick="App.setTestType('surah_id', 'surah_id')">
+                QUR'ONDAN SURANI TOPISH
+                <span style="font-size: 0.8rem; opacity: 0.8; margin-top: 5px;">(IQ Test: Oyatni o'qib, qaysi sura ekanligini aniqlash)</span>
+            </button>
+            
+            <button class="btn btn-primary" onclick="App.setTestType('continuation', 'continuation')">
+                OYATNI DAVOM ETTIRISH
+                <span style="font-size: 0.8rem; opacity: 0.8; margin-top: 5px;">(Mutashabih va o'rinlarga e'tibor berish)</span>
+            </button>
+
+            <button class="btn btn-outline mt-20" onclick="App.navigate('home')">← Ortga Qaytish</button>
+        </section>
+
+        <!-- 3. SOHA VA DARAJA TANLASH -->
+        <section id="page-selection" class="card hidden">
+            <h2 class="text-center" style="color: var(--color-primary);">2. Soha va Darajani Tanlash</h2>
+            
+            <div class="mt-20">
+                <label style="font-weight: 600; font-size: 0.9rem;">Daraja: <span id="current-level-display" style="color: var(--color-gold);">O'rta</span></label>
+                <div class="difficulty-selector">
+                    <button class="btn btn-outline" id="diff-easy" onclick="App.setDifficulty('easy')">OSON</button>
+                    <button class="btn btn-outline active-level" id="diff-medium" onclick="App.setDifficulty('medium')">O'RTA</button>
+                    <button class="btn btn-outline" id="diff-hard" onclick="App.setDifficulty('hard')">QIYIN</button>
+                </div>
+            </div>
+
+            <div class="mt-20">
+                <label style="font-weight: 600; font-size: 0.9rem;">Soha Tanlovi:</label>
+                <button class="btn btn-gold" onclick="App.prepareQuestions('full')">BUTUN QUR'ON (Aralash)</button>
+                
+                <p style="text-align: center; margin: 15px 0; font-size: 0.8rem; opacity: 0.7;">— YOKI JUZNI TANLANG —</p>
+                
+                <div class="juz-grid" id="juz-container">
+                    <!-- JS fills this -->
+                </div>
+            </div>
+
+            <button class="btn btn-outline mt-20" onclick="App.navigate('select_type')">← Avvalgi Qadam</button>
+        </section>
+
+        <!-- 4. QUIZ PAGE (CORE) -->
+        <section id="page-quiz" class="card hidden">
+            <!-- Progress Bar -->
+            <div style="height: 6px; background: var(--color-bg); border-radius: 10px; overflow: hidden; margin-bottom: 15px;">
+                <div id="quiz-progress" style="height: 100%; width: 0%; background: var(--color-primary); transition: width 0.3s;"></div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--color-text-muted);">
+                <span id="quiz-counter">1 / 10</span>
+                <span id="quiz-mode-label">JUZ 30 • QIYIN</span>
+            </div>
+
+            <h3 id="question-text" class="text-center mt-20" style="font-weight: 600; font-size: 1.1rem;">Savol matni yuklanmoqda...</h3>
+            
+            <div id="ayah-box" class="ayah-display">
+                <!-- Arabic Ayah -->
+            </div>
+
+            <div id="options-box" class="options-list">
+                <!-- Options -->
+            </div>
+
+            <!-- Hikmat (Feedback) -->
+            <div id="hikmat-panel" class="hikmat-container">
+                <span class="hikmat-title" style="color: var(--color-gold); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 5px;">🌟 Qur'oniy Hikmat</span>
+                <p id="hikmat-content" style="font-style: italic; font-weight: 500; line-height: 1.6;"></p>
+            </div>
+
+            <div class="mt-20" style="display: flex; gap: 10px;">
+                <button class="btn btn-outline" style="flex: 1; border-color: var(--color-error); color: var(--color-error); margin-top: 0;" onclick="App.navigate('home')">Chiqish</button>
+                <button id="btn-next" class="btn btn-primary hidden" style="flex: 2; margin-top: 0;" onclick="App.nextQuestion()">Keyingi Savol →</button>
+            </div>
+        </section>
+
+        <!-- 5. RESULTS PAGE -->
+        <section id="page-result" class="card hidden text-center">
+            <h2 style="color: var(--color-primary);">Natijalar Tahlili</h2>
+            
+            <div style="width: 150px; height: 150px; border-radius: 50%; border: 8px solid var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 30px auto; font-size: 3rem; font-weight: 800; color: var(--color-primary);">
+                <span id="res-score">0%</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px;">
+                <div style="background: #dcfce7; padding: 15px; border-radius: 12px; color: #14532d;">
+                    ✅ To'g'ri: <strong id="res-correct">0</strong>
+                </div>
+                <div style="background: #fee2e2; padding: 15px; border-radius: 12px; color: #7f1d1d;">
+                    ❌ Xato: <strong id="res-wrong">0</strong>
+                </div>
+            </div>
+
+            <p id="res-msg" style="margin-bottom: 25px; font-weight: 600; line-height: 1.5;">...</p>
+
+            <button class="btn btn-primary" onclick="App.navigate('select_type')">Qayta Urinish</button>
+            <button class="btn btn-outline mt-20" onclick="App.navigate('home')">Bosh Sahifa</button>
+        </section>
+
+        <!-- 6. ADVICE PAGE -->
+        <section id="page-advice" class="card hidden">
+            <h2 style="color: var(--color-primary); margin-bottom: 20px;">Maslahatlar Va Tavsiyalar</h2>
+            <ul style="padding-left: 20px; line-height: 1.8; color: var(--color-text);">
+                <li style="margin-bottom: 10px;"><strong>Mutashabihlar:</strong> O'xshash oyatlarning kalit so'zlarini (masalan, 'Robbik' yoki 'Alloh') yozib oling. Bu test aynan shu nozik joylarni kuchaytiradi.</li>
+                <li style="margin-bottom: 10px;"><strong>Qaytariq:</strong> Bir Juzni yangi Juzga o'tishdan oldin 3-4 marta to'liq qaytaring.</li>
+                <li style="margin-bottom: 10px;"><strong>Tafakkur:</strong> Yodlayotgan oyatingizning ma'nosiga chuqur e'tibor bering. Ma'no o'rinni eslab qolishga yordam beradi.</li>
+                <li style="margin-bottom: 10px;"><strong>Qiyin Daraja:</strong> 'Qiyin' darajadagi testlarni har kuni 5 minut bo'lsa ham topshiring. Bu sizni diqqatni jamlashga majbur qiladi.</li>
+            </ul>
+            <button class="btn btn-outline mt-20" onclick="App.navigate('home')">Tushunarli</button>
+        </section>
+
+    </div>
+
+    <footer>
+        © Muhammad Daler tomonidan ishlab chiqarilgan <br>
+        <span style="opacity: 0.6; font-size: 0.7rem;">Ultra Smart Quran Test v5.0 (Final Architecture)</span>
+    </footer>
+
+    <!-- 
+     * -----------------------------------------------------------
+     * 7. LOGIKA VA MA'LUMOTLAR BAZASI (JAVASCRIPT)
+     * -----------------------------------------------------------
+    -->
+    <script>
+        // QUR'ON MA'LUMOTLAR BAZASI (NAMUNA)
+        // Savollar "High-IQ" talabiga mos, mutashabihlar va aniq o'rinlar ustida qurilgan.
+        const QUESTION_DB = [
+            // --- OYATNI DAVOM ETTIRISH (CONTINUATION) ---
+            
+            // 1. QIYIN (Mutashabih/So'z tartibi)
+            { juz: 2, level: 'hard', type: 'continuation', surah: "Al-Baqara", q: "Al-Baqara surasi 217-oyat: 'Fitna qatlidan ham kattaroqdir' deyilgan. Ushbu oyatni davom ettiring:", a: "وَلَا يَزَالُونَ يُقَٰتِلُونَكُمۡ حَتَّىٰ يَرُدُّوكُمۡ عَن دِينِكُمۡ إِنِ ٱسۡتَطَٰعُوۚاْ وَمَن يَرۡتَدِدۡ مِنكُمۡ عَن دِينِهِۦ فَيَمُتۡ وَهُوَ كَافِرٌ", opts: ["فَأُو۟لَٰٓئِكَ حَبِطَتۡ أَعۡمَٰلُهُمۡ فِي ٱلدُّنۡيَا وَٱلۡءَاخِرَةِ", "أُو۟لَٰٓئِكَ أَصۡحَٰبُ ٱلنَّارِ هُمۡ فِيهَا خَٰلِدُونَ", "وَمَن يَبْتَغِ غَيْرَ الْإِسْلَامِ دِينًا فَلَن يُقْبَلَ مِنْهُ"], c: 0 },
+            { juz: 3, level: 'hard', type: 'continuation', surah: "Ali 'Imron", q: "Ali 'Imron surasidagi ushbu oyat qanday tugaydi?", a: "رَبَّنَآ إِنَّنَا سَمِعۡنَا مُنَادِيٗا يُنَادِي لِلۡإِيمَٰنِ أَنۡ ءَامِنُواْ بِرَبِّكُمۡ فَـَٔامَنَّا", opts: ["رَبَّنَا فَٱغۡفِرۡ لَنَا ذُنُوبَنَا وَكَفِّرۡ عَنَّا سَيِّـَٔاتِنَا", "رَبَّنَا لَا تُزِغۡ قُلُوبَنَا بَعۡدَ إِذۡ هَدَيۡتَنَا", "إِنَّ ٱللَّهَ لَا يُخۡلِفُ ٱلۡمِيعَادَ"], c: 0 },
+            
+            // 2. O'RTA (Ma'no va davomiylik)
+            { juz: 18, level: 'medium', type: 'continuation', surah: "Al-Kahf", q: "Al-Kahf surasi: 'Meni zikr qilishdan g'ofil qolgan kishiga itoat etma...'", a: "وَلَا تُطِعۡ مَنۡ أَغۡفَلۡنَا قَلۡبَهُۥ عَن ذِكۡرِنَا", opts: ["وَٱتَّبَعَ هَوَىٰهُ وَكَانَ أَمۡرُهُۥ فُرُطٗا", "وَأَطِعۡ مَنۡ أَنَابَ إِلَيَّ", "وَقُلِ ٱلۡحَقُّ مِن رَّبِّكُمۡ"], c: 0 },
+            { juz: 29, level: 'medium', type: 'continuation', surah: "Al-Mulk", q: "Al-Mulk surasi 2-oyatni to'ldiring:", a: "ٱلَّذِي خَلَقَ ٱلۡمَوۡتَ وَٱلۡحَيَوٰةَ لِيَبۡلُوَكُمۡ", opts: ["أَيُّكُمۡ أَحۡسَنُ عَمَلٗا", "أَيُّهُمْ أَصْدَقُ إِيمَانًا", "أَيُّهُمْ أَشَدُّ عِبَادَةً"], c: 0 },
+            
+            // 3. OSON (Kichik suralar)
+            { juz: 30, level: 'easy', type: 'continuation', surah: "Al-A'la", q: "Al-A'la surasi 3-oyat:", a: "وَٱلَّذِي قَدَّرَ", opts: ["فَهَدَىٰ", "فَسَوَّىٰ", "فَجَعَلَهُۥ غُثَآءً أَحۡوَىٰ"], c: 0 },
+            { juz: 30, level: 'easy', type: 'continuation', surah: "Al-Fajr", q: "Al-Fajr surasidagi 'Robbing kelganda' oyatini davom ettiring:", a: "وَجَآءَ رَبُّكَ", opts: ["وَٱلۡمَلَكُ صَفّٗا صَفّٗا", "ثُمَّ يُعِيدُكُمۡ", "فَسَوَّىٰكَ فَعَدَلَكَ"], c: 0 },
+
+
+            // --- QUR'ONDAN SURANI TOPISH (SURAH_ID) ---
+            
+            // 4. QIYIN (Mashhur oyat, mutashabih sura nomlari)
+            { juz: 27, level: 'hard', type: 'surah_id', q: "Quyidagi oyat qaysi suraga tegishli? (Jinn va Insonlarga murojaat):", a: "فَبِأَيِّ ءَالَآءِ رَبِّكُمَا تُكَذِّبَانِ", opts: ["Ar-Rahmon", "Al-Qamar", "Al-Jinn"], c: 0, ans_uz: "Ar-Rahmon surasi" },
+            { juz: 28, level: 'hard', type: 'surah_id', q: "Bu oyat Al-Qur'onning qaysi surasidan?", a: "سَلَٰمٌ هِيَ حَتَّىٰ مَطۡلَعِ ٱلۡفَجۡرِ", opts: ["Al-Qadr", "Al-Fajr", "Al-Muzammil"], c: 0, ans_uz: "Al-Qadr surasi" },
+            
+            // 5. O'RTA (Suraning asosiy g'oyasini aks ettiruvchi oyat)
+            { juz: 2, level: 'medium', type: 'surah_id', q: "Qaysi surada 'Dinida majburlash yo'q' oyati kelgan?", a: "لَآ إِكۡرَاهَ فِي ٱلدِّينِۖ", opts: ["Al-Baqara", "Al-Kafirun", "Yunus"], c: 0, ans_uz: "Al-Baqara surasi" },
+            { juz: 24, level: 'medium', type: 'surah_id', q: "Bu oyat qaysi surada kelgan?", a: "ٱللَّهُ نُورُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِ", opts: ["An-Nur", "Al-Hadid", "Yasin"], c: 0, ans_uz: "An-Nur surasi" },
+            
+            // 6. OSON (Kichik va mashhur suralar)
+            { juz: 30, level: 'easy', type: 'surah_id', q: "Bu oyat qaysi suraning oxirgi oyati?", a: "وَلَمۡ يَكُن لَّهُۥ كُفُوًا أَحَدُۢ", opts: ["Al-Ixlos", "Al-Masad", "Al-Falaq"], c: 0, ans_uz: "Al-Ixlos surasi" },
+            { juz: 30, level: 'easy', type: 'surah_id', q: "Bu oyat qaysi suraga tegishli?", a: "مَٰلِكِ يَوۡمِ ٱلدِّينِ", opts: ["Al-Fatiha", "An-Nas", "Al-Mulk"], c: 0, ans_uz: "Al-Fatiha surasi" },
+        ];
+
+        // Qur'oniy Hikmatlar (Motivation)
+        const HIKMATLAR = [
+            "Qur'on o'qilgan xonadon — nurga to'lgan xonadondir. Bu nur qalbni ham yoritadi.",
+            "Ilm oling, zero ilm saodat kalitidir. Qur'on ilmi esa eng ulug'idir.",
+            "Sabr qiling, albatta Alloh sabrlilar bilan birgadir. Hifzdagi qiyinchiliklar o'tkinchidir.",
+            "Hifzni saqlash – uni yodlashdan qiyinroqdir. Doimiy takror – bu jumboqning yechimi.",
+            "Gunohlar hifzni unuttiradi. Istig'forni ko'paytiring, toki hifzingiz mustahkam bo'lsin.",
+            "Haqiqiy g'olib – qiyinchiliklarga qaramay, har kuni Qur'onini takrorlaydigan kishidir.",
+            "Qur'on bilan turgan qalbni hech narsa sindira olmaydi."
+        ];
+
+        // --- GLOBAL APP CONTROLLER ---
+        window.App = {
+            state: {
+                difficulty: 'medium',   // Oson, O'rta, Qiyin
+                testType: null,         // 'surah_id' yoki 'continuation'
+                juzFilter: null,        // 1-30 yoki 'full'
+                
+                questions: [],
+                currentIndex: 0,
+                score: 0,
+                total: 10,              // Har bir test uchun 10 savol
+                isAnswered: false,
+                highScore: parseInt(localStorage.getItem('quran_highscore') || 0)
+            },
+
+            // Ilovani ishga tushirish
+            init: function() {
+                this.renderJuzGrid();
+                document.getElementById('display-highscore').innerText = this.state.highScore + "%";
+                
+                // Theme check
+                if(localStorage.getItem('theme') === 'dark') {
+                    document.body.setAttribute('data-theme', 'dark');
+                }
+                this.setDifficulty('medium'); // Defaultni o'rnatish
+            },
+
+            // --- NAVIGATSIYA ---
+            navigate: function(screenId) {
+                document.querySelectorAll('section').forEach(el => {
+                    el.classList.add('hidden');
+                    el.classList.remove('active');
+                });
+                
+                const target = document.getElementById('page-' + screenId);
+                target.classList.remove('hidden');
+                
+                setTimeout(() => target.classList.add('active'), 10);
+                window.scrollTo(0,0);
+            },
+
+            // --- SOZLAMALARNI YIG'ISH ---
+            setDifficulty: function(level) {
+                this.state.difficulty = level;
+                // UI yangilash
+                const levelMap = { 'easy': 'OSON', 'medium': 'O\'RTA', 'hard': 'QIYIN' };
+                document.getElementById('current-level-display').innerText = levelMap[level];
+
+                ['easy', 'medium', 'hard'].forEach(l => {
+                    const btn = document.getElementById('diff-' + l);
+                    if (l === level) {
+                        btn.classList.add('active-level');
+                        btn.classList.remove('btn-outline');
+                    } else {
+                        btn.classList.remove('active-level');
+                        btn.classList.add('btn-outline');
+                    }
+                });
+            },
+
+            setTestType: function(type) {
+                this.state.testType = type;
+                this.navigate('selection');
+            },
+
+            toggleTheme: function() {
+                const body = document.body;
+                const isDark = body.getAttribute('data-theme') === 'dark';
+                const newTheme = isDark ? 'light' : 'dark';
+                body.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+            },
+
+            // --- JUZ UI GENERATOR ---
+            renderJuzGrid: function() {
+                const container = document.getElementById('juz-container');
+                container.innerHTML = '';
+                for (let i = 1; i <= 30; i++) {
+                    const btn = document.createElement('div');
+                    btn.className = 'juz-box';
+                    btn.innerText = 'Juz ' + i;
+                    btn.onclick = () => this.prepareQuestions(i);
+                    container.appendChild(btn);
+                }
+            },
+
+            // --- TEST MANTIQI (LOGIC) ---
+            prepareQuestions: function(filter) {
+                this.state.juzFilter = filter;
+
+                let pool = QUESTION_DB.filter(q => 
+                    (filter === 'full' || q.juz === filter) && 
+                    q.level === this.state.difficulty &&
+                    q.type === this.state.testType
+                );
+
+                // Agar tanlangan darajada savol yetmasa, savolni umumiy pooldan olamiz.
+                // Bu holatda savollar sifati yuqori bo'lgani uchun, agar tanlangan daraja kam bo'lsa, aralash savollarni qo'shamiz.
+                if (pool.length < this.state.total) {
+                    const backupPool = QUESTION_DB.filter(q => 
+                        (filter === 'full' || q.juz === filter) && 
+                        q.type === this.state.testType &&
+                        q.level !== this.state.difficulty
+                    );
+                    
+                    // Mavjud savollarni aralashtirib, kerakli miqdorda olamiz
+                    pool = pool.concat(backupPool).sort(() => 0.5 - Math.random());
+                }
+
+                this.state.questions = pool.slice(0, this.state.total);
+                
+                if (this.state.questions.length === 0) {
+                    alert("Afsuski, tanlangan sohada savollar hozircha yetarli emas. Iltimos, boshqa Juz yoki Darajani tanlang.");
+                    this.navigate('selection');
+                    return;
+                }
+
+                this.state.currentIndex = 0;
+                this.state.score = 0;
+                
+                this.navigate('quiz');
+                this.renderQuestion();
+            },
+
+            renderQuestion: function() {
+                const q = this.state.questions[this.state.currentIndex];
+                this.state.isAnswered = false;
+
+                // UI Update
+                document.getElementById('quiz-counter').innerText = `${this.state.currentIndex + 1} / ${this.state.total}`;
+                
+                // Progress Bar
+                const progress = ((this.state.currentIndex) / this.state.total) * 100;
+                document.getElementById('quiz-progress').style.width = `${progress}%`;
+
+                // Header info
+                const juzTxt = this.state.juzFilter === 'full' ? 'BUTUN QUR\'ON' : `JUZ ${this.state.juzFilter}`;
+                const levelMap = { 'easy': 'OSON', 'medium': 'O\'RTA', 'hard': 'QIYIN' };
+                const typeMap = { 'surah_id': 'SURANI TOPISH', 'continuation': 'DAVOM ETTIRISH' };
+                document.getElementById('quiz-mode-label').innerText = `${juzTxt} • ${typeMap[q.type]} • ${levelMap[q.level]}`;
+
+                // Content
+                document.getElementById('question-text').innerText = q.q;
+                // Ayah faqat continuation bo'lsa ko'rsatiladi
+                document.getElementById('ayah-box').innerText = q.a;
+                document.getElementById('ayah-box').style.display = (q.type === 'continuation' || q.type === 'surah_id') ? 'block' : 'none';
+
+                // Reset Panels
+                document.getElementById('hikmat-panel').style.display = 'none';
+                document.getElementById('btn-next').classList.add('hidden');
+
+                // Options Render
+                const optsContainer = document.getElementById('options-box');
+                optsContainer.innerHTML = '';
+
+                // Create array of answers with index tracking
+                let answers = q.opts.map((txt, idx) => ({ text: txt, isCorrect: idx === q.c }));
+                // Shuffle answers
+                answers.sort(() => 0.5 - Math.random());
+
+                answers.forEach(ans => {
+                    const btn = document.createElement('div');
+                    btn.className = 'option-item';
+                    
+                    // Arabcha yoki o'zbekcha javob ekanligini aniqlash (Surah ID uchun o'zbekcha)
+                    if (q.type === 'surah_id') {
+                        btn.classList.add('uzbek-answer');
+                        btn.style.direction = 'ltr';
+                        btn.style.fontFamily = 'var(--font-uz)';
+                        btn.style.fontSize = '1.1rem';
+                        btn.style.textAlign = 'center';
+                        btn.innerText = ans.text;
+                    } else {
+                        btn.innerText = ans.text;
+                        btn.style.fontFamily = 'var(--font-ar)';
+                        btn.style.fontSize = '1.4rem';
+                        btn.style.textAlign = 'right';
+                    }
+                    
+                    btn.onclick = (e) => this.checkAnswer(e.target, ans.isCorrect, answers);
+                    optsContainer.appendChild(btn);
+                });
+            },
+
+            checkAnswer: function(el, isCorrect, allAnswers) {
+                if (this.state.isAnswered) return;
+                this.state.isAnswered = true;
+
+                // Variantlarni bloklash
+                document.querySelectorAll('.option-item').forEach(opt => opt.style.pointerEvents = 'none');
+
+                if (isCorrect) {
+                    el.classList.add('correct');
+                    this.state.score++;
+                } else {
+                    el.classList.add('wrong');
+                    // To'g'risini ko'rsatish
+                    document.querySelectorAll('.option-item').forEach(opt => {
+                        const correctTxt = allAnswers.find(a => a.isCorrect).text;
+                        if (opt.innerText === correctTxt) {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+
+                // Hikmat Ko'rsatish
+                const randomHikmat = HIKMATLAR[Math.floor(Math.random() * HIKMATLAR.length)];
+                document.getElementById('hikmat-content').innerText = randomHikmat;
+                document.getElementById('hikmat-panel').style.display = 'block';
+
+                // Keyingi tugmasi
+                const btnNext = document.getElementById('btn-next');
+                btnNext.classList.remove('hidden');
+                btnNext.innerText = (this.state.currentIndex === this.state.total - 1) ? "NATIJANI KO'RISH" : "KEYINGI SAVOL →";
+                
+                // Progress update
+                document.getElementById('quiz-progress').style.width = `${((this.state.currentIndex + 1) / this.state.total) * 100}%`;
+            },
+
+            nextQuestion: function() {
+                if (this.state.currentIndex < this.state.total - 1) {
+                    this.state.currentIndex++;
+                    this.renderQuestion();
+                } else {
+                    this.finishQuiz();
+                }
+            },
+
+            finishQuiz: function() {
+                const score = this.state.score;
+                const total = this.state.total;
+                const percent = Math.round((score / total) * 100);
+
+                // Save High Score
+                if (percent > this.state.highScore) {
+                    this.state.highScore = percent;
+                    localStorage.setItem('quran_highscore', percent);
+                    document.getElementById('display-highscore').innerText = percent + "%";
+                }
+
+                // Result Screen Content
+                document.getElementById('res-score').innerText = percent + "%";
+                document.getElementById('res-correct').innerText = score;
+                document.getElementById('res-wrong').innerText = total - score;
+
+                // Message Logic
+                let msg = "";
+                if (percent === 100) msg = "MashaAlloh! Hifzingiz mukammal! Bu natijani saqlang va doimiy takrorlang.";
+                else if (percent >= 80) msg = "Barakalla! Juda kuchli natija. Kichik xatolaringiz mutashabihlar o'rnida bo'lsa, ularni qayta yozib chiqing.";
+                else if (percent >= 50) msg = "Yaxshi. Lekin bu test sizning o'rinlarda adashayotganingizni ko'rsatdi. O'rta Juzlardan takrorlashni kuchaytiring.";
+                else msg = "G'ayrat qiling! Asosiy e'tiborni qiyin va mutashabih joylarga qarating. Alloh madadkor bo'lsin.";
+                
+                document.getElementById('res-msg').innerText = msg;
+                this.navigate('result');
+            }
+        };
+
+        // Ilova yuklanganda ishga tushirish
+        window.onload = function() {
+            App.init();
+        };
+
+    </script>
+</body>
+</html>
+
